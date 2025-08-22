@@ -1,12 +1,12 @@
 object scrWriteRegistry: TscrWriteRegistry
   Left = 8
   Height = 368
-  Top = 25
+  Top = 34
   Width = 354
   HelpType = htKeyword
   HelpKeyword = 'writeregistry'
   BorderStyle = bsDialog
-  Caption = 'Write Registry (Windows Only)'
+  Caption = 'Write Registry (Windows and Wine Only)'
   ClientHeight = 368
   ClientWidth = 354
   Color = clBtnFace
@@ -15,7 +15,7 @@ object scrWriteRegistry: TscrWriteRegistry
   Font.Name = 'Tahoma'
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Label1: TLabel
     Left = 16
     Height = 13
@@ -122,14 +122,14 @@ object scrWriteRegistry: TscrWriteRegistry
   end
   object Key: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 80
     Width = 321
     TabOrder = 2
   end
   object Value: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 128
     Width = 321
     TabOrder = 3
@@ -148,14 +148,14 @@ object scrWriteRegistry: TscrWriteRegistry
       'HKEY_USERS'
       'HKEY_USER_DEFAULT'
     )
-    OnChange = RootChange
     Style = csDropDownList
     TabOrder = 0
     Text = 'HKEY_CLASSES_ROOT'
+    OnChange = RootChange
   end
   object Data: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 176
     Width = 321
     TabOrder = 4
@@ -218,7 +218,7 @@ object scrWriteRegistry: TscrWriteRegistry
   end
   object Target: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 296
     Width = 321
     TabOrder = 12

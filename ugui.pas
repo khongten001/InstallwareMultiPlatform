@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -177,7 +179,7 @@ uses
   mscrDeleteRegistry, mscrFindAllRegistry, mscrGetOSorSP, mscrGetSystemSettings,
   mscrReadRegistry, mscrWriteRegistry, mUpdatePack, mscrCompress7Zip, mscrExtract7Zip,
   mscrSetOwner, mscrSetGroup, mscrGetNativeSettings, mscrReturnFromInclude,
-  mscrRunProgramAs, mscrRunScript, FDMain, mscrCheckProcess;
+  mscrRunProgramAs, mscrRunScript, FDMain, mscrCheckProcess, mscrSetWineMode;
 
 type
 
@@ -191,9 +193,12 @@ type
     AddFiles1: TMenuItem;
     AddNewFolder1: TMenuItem;
     AddVer: TBitBtn;
+    ApplicationRuntimesPage: TPage;
+    ArpOptions: TBitBtn;
     Bevel15: TBevel;
     Bevel16: TBevel;
     Bevel18: TBevel;
+    BitBtn16: TBitBtn;
     BitBtn5: TBitBtn;
     BitBtn6: TBitBtn;
     BitBtn7: TBitBtn;
@@ -292,6 +297,7 @@ type
     Image12: TImage;
     Image13: TImage;
     Image15: TImage;
+    Image19: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
@@ -320,6 +326,7 @@ type
     Label14: TLabel;
     Label15: TLabel;
     Label16: TLabel;
+    Label17: TLabel;
     Label18: TLabel;
     Label185: TLabel;
     Label187: TLabel;
@@ -364,6 +371,7 @@ type
     Label64: TLabel;
     Label7: TLabel;
     Label72: TLabel;
+    Label74: TLabel;
     Label76: TLabel;
     Label78: TLabel;
     Label8: TLabel;
@@ -381,6 +389,10 @@ type
     MediumMinus: TImage;
     MediumPlus: TImage;
     Console: TCheckBox;
+    MenuItem71: TMenuItem;
+    Separator1: TMenuItem;
+    NewRuntime: TButton;
+    Runtimes: TCheckListBox;
     SelectAllEx: TMenuItem;
     NavPanelEx: TPanel;
     OpenDialogText: TOpenDialog;
@@ -505,6 +517,7 @@ type
     ToolButton15: TToolButton;
     ToolButton16: TToolButton;
     ToolButton17: TToolButton;
+    ToolButton18: TToolButton;
     ToolButton19: TToolButton;
     ToolButton2: TToolButton;
     ToolButton21: TToolButton;
@@ -655,6 +668,7 @@ type
     procedure ActionsEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure ActionsExDblClick(Sender: TObject);
     procedure ActionsExStartDrag(Sender: TObject; var DragObject: TDragObject);
+    procedure ArpOptionsClick(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
@@ -679,9 +693,13 @@ type
     procedure Label16MouseEnter(Sender: TObject);
     procedure Label16MouseLeave(Sender: TObject);
     procedure MenuItem70Click(Sender: TObject);
+    procedure MenuItem71Click(Sender: TObject);
     procedure MonitorURLChange(Sender: TObject);
     procedure ParticularsChange(Sender: TObject);
     procedure ParticularsDropDown(Sender: TObject);
+    procedure RuntimesClick(Sender: TObject);
+    procedure RuntimesClickCheck(Sender: TObject);
+    procedure RuntimesDblClick(Sender: TObject);
     procedure ScriptKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ScriptKeyPress(Sender: TObject; var Key: char);
     procedure ScriptSelectionChange(Sender: TObject; User: boolean);
@@ -907,6 +925,7 @@ type
     procedure SpoolTimerTimer(Sender: TObject);
     procedure TabSetGetImageIndex(Sender: TObject; TabIndex: Integer;
       var ImageIndex: Integer);
+    procedure ToolButton18Click(Sender: TObject);
     procedure UpdatesClick(Sender: TObject);
     procedure VersionsClick(Sender: TObject);
     procedure VersionsKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -993,8 +1012,17 @@ type
     procedure wodbcClick(Sender: TObject);
   private
   public
+    function LoadNamedRuntimeUnit(Runtime: String; CheckUnit: Boolean): Boolean;
+    function AddNamedRuntime(Runtime: String): Boolean;
+    function FindWebMediaBlockNameIndex(xName: String): Integer;
+    function GetNextEndStatement(Start: Integer): Integer;
+    function GetPreReqTopInsertionIndex(First: Boolean; NeedsWanted: Boolean = false): Integer;
+    function FindIncludeFileIndex(FileName: String): Integer;
+    procedure GetAllDetailsForRuntime(Runtime: String; var Check, Setup, Family: String; var Checks, Setups: TStrings);
+    procedure GetCheckAndSetupNameForRuntime(Runtime: String; var Check, Setup: String);
     function SweepUpdateShortcut: Integer;
     function SetUpdateShortcut(bEnabled: Boolean): Boolean;
+    function GetSetupGlobalInsertionIndex: Integer;
     function GetTopOfScriptInsertionIndex: Integer;
     function GetUpdateInsertionIndex(CodeGen: Boolean; DirectDeploy: Boolean = false): Integer;
     function GetUpdateServer: String;
@@ -1148,6 +1176,8 @@ type
     function IsTextInCommandAtLine(aText: String; Line: Integer;
       CheckDisplayText: Boolean; CaseSensitive: Boolean = false): Boolean;
     
+    procedure EmitInsertCommand(Command: String; Parameters: String; var Index: Integer);
+    
     function RenderInsertScriptEx(Command: String;
       ItemClass, Params: TStrings; SmartPosition: Integer; Visibility: Boolean;
       ForceGUIDForRedoIntegrity: String = ''): String;
@@ -1161,12 +1191,13 @@ type
     procedure SetDirtyAll(Dirty: Boolean);
     procedure SetDirtyMIA(Dirty: Boolean; sScriptFile: String; OverrideTFSHandling: Boolean = false);
     procedure SetDirtyMPR(Dirty: Boolean);
-    function LoadProject(FileName: String; Import: Boolean = false): Boolean;
+    function LoadProject(FileName: String; Import: Boolean = false; Cloak: Boolean = false): Boolean;
     procedure PushStatusStack(StatusText: String);
     function PopStatusStack: String;
     procedure RenderScript;
     procedure RenderLine(SmartPosition: Integer; ReCache: Boolean);
     function RenderFunction(Kind, Guid: String): String;
+    function EditMatchingCommand(Kind: TStrings; Period: Integer; Match, Value: String; MatchPosition, ValuePosition: Integer): Boolean;
     function RemoveStackItem(Stack: TList; var Kind, Elements: String; IgnoreContext: Boolean = false): Boolean;
     procedure ClearStack(Stack: TList);
     procedure FreeSavedContexts;
@@ -1277,7 +1308,7 @@ var
   GetINI, GetTemp, IsNative, xReadBinary, LocalFiles, EditINI, Plat, xRename, xWriteBinary,
   HaltCompile, FileBag, DeleteReg, FindAllReg, ExactVer, GetSystemSettings, ReadReg,
   WriteReg, Compress7Zip, Extract7Zip, Own, Grp, GetNativeSettings, ReturnInclude,
-  RunProgramAs, xRunScript, CheckProcess
+  RunProgramAs, xRunScript, CheckProcess, Wine
   : THashedStringList;
   
   MRUF: TStringList;
@@ -1285,6 +1316,7 @@ var
   PlugError: String;
   
   CategoriesSelectedItemCaption, CategoriesSelectedItemCaptionLocalizable: String;
+  ReEntrant: Boolean = false;
   
   AllowFileRehash: Boolean = True;
   
@@ -1974,6 +2006,13 @@ begin
       Font.Style := fontModifySystem.Style;
     end
     else
+    if AnsiPos('set wine bottle' 
+      , s) = 1 then
+    begin
+      Font.Color := fontModifySystem.Color;
+      Font.Style := fontModifySystem.Style;
+    end
+    else
     if AnsiPos('reboot' 
       , s) = 1 then
     begin
@@ -2430,21 +2469,22 @@ begin
     case Node.AbsoluteIndex of
       1: CategoriesSelectedItemCaption := 'Project Properties';
       2: CategoriesSelectedItemCaption := 'Setup Icon';
-      4: CategoriesSelectedItemCaption := 'Features';
-      5: CategoriesSelectedItemCaption := 'Files';
-      6: CategoriesSelectedItemCaption := 'File Associations';
-      7: CategoriesSelectedItemCaption := 'INI Files';
-      9: CategoriesSelectedItemCaption := 'Dialogs';
-      10: CategoriesSelectedItemCaption := 'EULA and ReadMe';
-      11: CategoriesSelectedItemCaption := 'Shortcuts';
-      13: CategoriesSelectedItemCaption := 'Access Control';
-      14: CategoriesSelectedItemCaption := 'Run Programs';
-      15: CategoriesSelectedItemCaption := 'Local Files';
-      17: CategoriesSelectedItemCaption := 'Build Settings';
-      18: CategoriesSelectedItemCaption := 'Web Media Blocks';
-      20: CategoriesSelectedItemCaption := 'Update Packs';
-      21: CategoriesSelectedItemCaption := 'Versions';
-      22: CategoriesSelectedItemCaption := 'Script Analytics';
+      3: CategoriesSelectedItemCaption := 'Application Runtimes';
+      5: CategoriesSelectedItemCaption := 'Features';
+      6: CategoriesSelectedItemCaption := 'Files';
+      7: CategoriesSelectedItemCaption := 'File Associations';
+      8: CategoriesSelectedItemCaption := 'INI Files';
+      10: CategoriesSelectedItemCaption := 'Dialogs';
+      11: CategoriesSelectedItemCaption := 'EULA and ReadMe';
+      12: CategoriesSelectedItemCaption := 'Shortcuts';
+      14: CategoriesSelectedItemCaption := 'Access Control';
+      15: CategoriesSelectedItemCaption := 'Run Programs';
+      16: CategoriesSelectedItemCaption := 'Local Files';
+      18: CategoriesSelectedItemCaption := 'Build Settings';
+      19: CategoriesSelectedItemCaption := 'Web Media Blocks';
+      21: CategoriesSelectedItemCaption := 'Update Packs';
+      22: CategoriesSelectedItemCaption := 'Versions';
+      23: CategoriesSelectedItemCaption := 'Script Analytics';
     end;
   end;
   
@@ -2488,8 +2528,6 @@ end;
 
 procedure Tui.WebBlocksKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    WebBlocksDblClick(Self);
 end;
 
 procedure Tui.WebBlocksKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -2501,6 +2539,8 @@ begin
   if Key = 46 then
     if SkipSel.Enabled then
       SkipSelClick(Self);
+  if Key = 13 then
+    WebBlocksDblClick(Self);
 end;
 
 procedure Tui.WebBlocksMouseUp(Sender: TObject; Button: TMouseButton;
@@ -2621,6 +2661,267 @@ begin
   end;
 end;
 
+function Tui.LoadNamedRuntimeUnit(Runtime: String; CheckUnit: Boolean): Boolean;
+var
+  Check, Setup, Family: String;
+  l, lX: TStrings;
+  i, j, k: Integer;
+  sX: String;
+begin
+  try
+    Result := false;
+    ReEntrant := True;
+    GetAllDetailsForRuntime(Runtime, Check, Setup, Family, l, lX);
+    l.Free;
+    lX.Free;
+    l := TStringList.Create;
+    l.CommaText := Family;
+    k := CurrentUnit.TabIndex;
+    if CheckUnit then
+      if CurrentUnit.Tabs.IndexOf(Check) <> -1 then
+      begin
+        CurrentUnit.TabIndex := CurrentUnit.Tabs.IndexOf(Check);
+        CurrentUnitChange(Self);
+        Result := True;
+      end;
+    if not CheckUnit then
+      if CurrentUnit.Tabs.IndexOf(Setup) <> -1 then
+      begin
+        CurrentUnit.TabIndex := CurrentUnit.Tabs.IndexOf(Setup);
+        CurrentUnitChange(Self);
+        Result := True;
+      end;
+    l.Free;
+  finally
+    ReEntrant := false;
+  end;
+end;
+
+function Tui.AddNamedRuntime(Runtime: String): Boolean;
+var
+  RunCheck, RunSetup, Family: String;
+  xRunCheck, xRunSetup: String;
+  LastRunCheck, LastRunSetup: Integer;
+  Checks, Setups: TStrings;
+  LastIndex: Integer;
+  l: TStringList;
+  t: TextFile;
+  i, j, k: Integer;
+  v, bX: Boolean;
+  s: String;
+begin
+  Result := false;
+  
+  GetAllDetailsForRuntime(Runtime, RunCheck, RunSetup, Family, Checks, Setups);
+  
+  l := TStringList.Create;
+  Setups.Add(Runtime);
+  LastRunCheck := -1;
+  LastRunSetup := -1;
+  Result := false;
+  for i := 1 to Setups.Count do
+  begin
+    
+    GetCheckAndSetupNameForRuntime(Setups[i -1], xRunCheck, xRunSetup);
+    v := false;
+    for j := 1 to IncludeFiles.Count do
+      if CompareText(ExtractFileName(IncludeFiles[j -1]),
+        xRunCheck + '.miax') = 0 then 
+        Break
+      else
+        if j = IncludeFiles.Count then
+          v := True;
+    if (IncludeFiles.Count = 0) or v then
+    begin
+      Result := True; 
+      
+      if not FileExists(PROJDIR + xRunCheck + '.miax') then 
+        FileCopyFile(PChar(EXEDIR + 'runtimes' + PathDelim + xRunCheck + '.miax'), 
+          PChar(PROJDIR + xRunCheck + '.miax'), false); 
+      IncludeFiles.Add(PROJDIR + xRunCheck + '.miax'); 
+    end;
+    v := false;
+    for j := 1 to IncludeFiles.Count do
+      if CompareText(ExtractFileName(IncludeFiles[j -1]),
+        xRunSetup + '.miax') = 0 then 
+        Break
+      else
+        if j = IncludeFiles.Count then
+          v := True;
+    if (IncludeFiles.Count = 0) or v then
+    begin
+      Result := True; 
+      
+      if not FileExists(PROJDIR + xRunSetup + '.miax') then 
+        FileCopyFile(PChar(EXEDIR + 'runtimes' + PathDelim + xRunSetup + '.miax'), 
+          PChar(PROJDIR + xRunSetup + '.miax'), false); 
+      IncludeFiles.Add(PROJDIR + xRunSetup + '.miax'); 
+    end;
+    
+    l.Clear;
+    j := FindIncludeFileIndex(xRunCheck);
+    if j = -1 then 
+    begin
+      j := GetPreReqTopInsertionIndex(True) +1;
+      if LastRunCheck >= j then
+        j := LastRunCheck +1;
+      v := GetLineVisibilityState(j, false);
+      l.Add(xRunCheck);
+      RenderInsertScriptEx('Include Script', xInclude, l, j, v); 
+    end;
+    if j > LastRunCheck then 
+      LastRunCheck := j;
+    
+    l.Clear;
+    j := FindIncludeFileIndex(xRunSetup);
+    if j <> -1 then j := j +1;
+    if j = -1 then
+    begin
+      j := GetPreReqTopInsertionIndex(false) +1;
+      if LastRunSetup >= j then
+        j := LastRunSetup +1;
+      v := GetLineVisibilityState(j, false);
+      l.Add(xRunSetup);
+      RenderInsertScriptEx('Include Script', xInclude, l, j, v); 
+      
+      l.Clear;
+      l.Add(Setups[i -1]);
+      l.Add(ProjectStruct.arUpdates + Setups[i -1] + '.7zip'); 
+      l.Add('FALSE'); 
+      RenderInsertScriptEx('Web Media Block', MediaBlock, l, j, v); 
+      j := FindIncludeFileIndex(xRunSetup) +1;
+    end;
+    if j > LastRunSetup then 
+      LastRunSetup := j;
+  end;
+  l.Free;
+  
+  RehashIndents;
+  Checks.Free;
+  Setups.Free;
+end;
+
+function Tui.FindWebMediaBlockNameIndex(xName: String): Integer;
+var
+  i: Integer;
+begin
+  Result := -1;
+  for i := 1 to MediaBlock.Count do
+    if i mod 4 = 0 then
+      if CompareText(MediaBlock[i -3], xName) = 0 then
+      begin
+        Result := GetScriptSmartPosition(MediaBlock[i -4]);
+        Break;
+      end;
+end;
+
+function Tui.GetNextEndStatement(Start: Integer): Integer;
+var
+  i, j: Integer;
+begin
+  j := 0;
+  for i := Start to ScriptTypes.Count do
+    if ScriptTypes[i -1] = 'If' then 
+      j := j +1
+    else
+      if ScriptTypes[i -1] = 'End' then 
+      begin
+        j := j -1;
+        if j = 0 then
+        begin
+          Result := i -1;
+          Exit;
+        end;
+      end;
+  Result := -1; 
+end;
+
+function Tui.GetPreReqTopInsertionIndex(First: Boolean; NeedsWanted: Boolean = false): Integer;
+var
+  i: Integer;
+begin
+  Result := -1;
+  
+  for i := 1 to ScriptTypes.Count do
+    if ScriptTypes[i -1] = 'If' then 
+      if ((xIf[xIf.IndexOf(ScriptReferences[i -1]) + 1] = 'RECOMMENDEDUPGRADE') and (not NeedsWanted)) or
+        (NeedsWanted and (xIf[xIf.IndexOf(ScriptReferences[i -1]) + 1] = 'NEEDSUPGRADE')) then
+        if xIf[xIf.IndexOf(ScriptReferences[i -1]) + 2] = '0' then
+          if xIf[xIf.IndexOf(ScriptReferences[i -1]) + 3] = 'TRUE' then 
+            if xIf[xIf.IndexOf(ScriptReferences[i -1]) + 4] = 'FALSE' then 
+              if First then
+              begin
+                Result := i -1;
+                Break;
+              end
+              else
+                First := True;
+  if Result = -1 then Exit;
+  
+  Result := GetNextEndStatement(Result +1);
+end;
+
+function Tui.FindIncludeFileIndex(FileName: String): Integer;
+var
+  i: Integer;
+begin
+  Result := -1;
+  for i := 1 to xInclude.Count do
+    if i mod 2 = 0 then
+      if CompareText(xInclude[i -1], FileName) = 0 then
+      begin
+        Result := GetScriptSmartPosition(xInclude[i -2]);
+        Break;
+      end;
+end;
+
+procedure Tui.GetAllDetailsForRuntime(Runtime: String; var Check, Setup,
+  Family: String; var Checks, Setups: TStrings);
+var
+  t: TextFile;
+  s: String;
+  BOM: Char;
+begin
+  Check := '';
+  Setup := '';
+  Checks := TStringList.Create;
+  Setups := TStringList.Create;
+  AssignFile(t, EXEDIR + 'runtimes' + PathDelim + Runtime + '.rtmx',cp_utf8); 
+  Reset(t);
+  if not eof(t) then
+  begin
+    read(t, BOM);
+    if ansicomparetext(BOM, #$FEFF) <> 0 then
+    begin
+      closefile(t);
+      reset(t);
+    end;
+  end;
+  repeat
+    ReadLn(t, s);
+    if s <> '$' then Setups.Add(s);
+  until (s = '$');
+  repeat
+    ReadLn(t, s);
+    if s <> '$' then Checks.Add(s);
+  until (s = '$');
+  ReadLn(t, Check);
+  ReadLn(t, Setup);
+  ReadLn(t, Family);
+  CloseFile(t);
+end;
+
+procedure Tui.GetCheckAndSetupNameForRuntime(Runtime: String; var Check,
+  Setup: String);
+var
+  l, lX: TStrings;
+  s: String;
+begin
+  GetAllDetailsForRuntime(Runtime, Check, Setup, s, l, lX);
+  l.Free;
+  lX.Free;
+end;
+
 function Tui.SweepUpdateShortcut: Integer;
 var
   i: Integer;
@@ -2682,6 +2983,32 @@ begin
       RenderDeleteScriptEx(SweepUpdateShortcut, True);
   RehashIndents;
   Result := True;
+end;
+
+function Tui.GetSetupGlobalInsertionIndex: Integer;
+var
+  i: Integer;
+begin
+  Result := 0;
+  
+  for i := 1 to Region.Count do
+    if i mod 3 = 1 then
+      if StrToBool(Region[i -1 + 1]) then
+        if (CompareText(Region[i -1 +2], 'Define Setup Globals') = 0) or 
+          (CompareText(Region[i -1 +2], 'Setup Globals') = 0) then 
+        begin
+          Result := ScriptReferences.IndexOf(Region[i -1]) +1;
+          Break;
+        end;
+  
+  for i := 1 to ScriptTypes.Count do
+    if ScriptTypes[i -1] = 'Get Folder Location' then
+    begin
+      if i -1 < Result then
+        Result := i -1;
+      Break;
+    end;
+  
 end;
 
 function Tui.GetTopOfScriptInsertionIndex: Integer;
@@ -7378,6 +7705,12 @@ begin
     Index := 3;
   end
   else
+  if Kind = 'Set Wine Bottle' then 
+  begin
+    List := Wine;
+    Index := 3;
+  end
+  else
   if Kind = 'Rename File/Folder' then
   begin
     List := xRename;
@@ -8936,6 +9269,20 @@ begin
       Plat[Plat.IndexOf(Guid) +1] := BoolToStr(scrSet64BitMode.Win32.Checked);
       Plat[Plat.IndexOf(Guid) +2] := BoolToStr(scrSet64BitMode.ia64.Checked);
       Plat[Plat.IndexOf(Guid) +3] := BoolToStr(scrSet64BitMode.x64.Checked);
+    end;
+  end
+  else
+  if Kind = 'Set Wine Bottle' then 
+  begin
+    scrSetWineMode.Off.Checked := StrToBool(Wine[Wine.IndexOf(Guid) +1]);
+    scrSetWineMode.Standard.Checked := StrToBool(Wine[Wine.IndexOf(Guid) +2]);
+    scrSetWineMode.Custom.Checked := StrToBool(Wine[Wine.IndexOf(Guid) +3]);
+    if scrSetWineMode.ShowModal = mrOk then
+    begin
+      Result := True;
+      Wine[Wine.IndexOf(Guid) +1] := BoolToStr(scrSetWineMode.Off.Checked);
+      Wine[Wine.IndexOf(Guid) +2] := BoolToStr(scrSetWineMode.Standard.Checked);
+      Wine[Wine.IndexOf(Guid) +3] := BoolToStr(scrSetWineMode.Custom.Checked);
     end;
   end
   else
@@ -10556,6 +10903,21 @@ begin
     end;
   end
   else
+  if Kind = 'Set Wine Bottle' then 
+  begin
+    scrSetWineMode.Off.Checked := True;
+    scrSetWineMode.Standard.Checked := false;
+    scrSetWineMode.Custom.Checked := false;
+    if scrSetWineMode.ShowModal = mrOk then
+    begin
+      Result := MyCreateGuid;
+      Wine.Add(Result);
+      Wine.Add(BoolToStr(scrSetWineMode.Off.Checked));
+      Wine.Add(BoolToStr(scrSetWineMode.Standard.Checked));
+      Wine.Add(BoolToStr(scrSetWineMode.Custom.Checked));
+    end;
+  end
+  else
   if Kind = 'Rename File/Folder' then
   begin
     scrRename.Path.Text := '';
@@ -11463,10 +11825,23 @@ end;
 
 procedure Tui.ProcessVariableBoxForSetVar(Box: TComboBox);
 var
+  b: Boolean;
   i: Integer;
+  l: TStringList;
 begin
+  b := Box.Sorted; 
+  Box.Sorted := false; 
+  l := TStringList.Create;
   for i := 1 to Box.Items.Count do
-    Box.Items[i -1] := StripExpandedSetVar(Box.Items[i -1]);
+  begin
+    l.Add(StripExpandedSetVar(Box.Items[i -1]));
+    
+  end;
+  Box.Items.Clear;
+  Box.Sorted := b;
+  for i := 1 to Box.Items.Count do
+    Box.Items.Add(l[i -1]);
+  l.Free;
 end;
 
 function Tui.IsTextInCommandAtLine(aText: String; Line: Integer;
@@ -11503,6 +11878,25 @@ begin
       Exit;
     end;
   end;
+end;
+
+procedure Tui.EmitInsertCommand(Command: String; Parameters: String;
+  var Index: Integer);
+var
+  i: Integer;
+  v: Boolean;
+  l, lX: TStringList;
+begin
+  v := GetLineVisibilityState(Index, false);
+  l := TStringList.Create;
+  l.CommaText := Parameters;
+  if l.Count = 0 then FreeAndNil(l);
+  lX := nil; 
+  GetFunctionOffsets(Command, lX, i);
+  RenderInsertScriptEx(Command, lX, l, Index, v); 
+  if Assigned(l) then
+    l.Free;
+  Index := Index +1; 
 end;
 
 function Tui.RenderInsertScriptEx(Command: String; ItemClass, Params: TStrings;
@@ -11585,6 +11979,26 @@ begin
     VisualNotebook.HelpKeyword := StringReplace(VisualNotebook.HelpKeyword,
       'visualPrograms,DirectDeploy', 'visualadd-removeprograms', [rfReplaceAll, rfIgnoreCase]);
     
+    if CategoriesSelectedItemCaption = 'Application Runtimes' then
+    begin
+      Runtimes.Items.BeginUpdate;
+      Runtimes.Items.Clear;
+      l := FindAllFilesEx(EXEDIR + 'runtimes' + PathDelim + '*.rtmx', false); 
+      for i := 1 to l.Count do
+        
+        begin
+          Runtimes.Items.Add(ExtractFileNameOnly(l[i -1]));
+          GetCheckAndSetupNameForRuntime(ExtractFileNameOnly(l[i -1]),
+            RunCheck, RunSetup);
+          Runtimes.Checked[Runtimes.Count -1] :=
+            (FindIncludeFileIndex(RunCheck) <> -1) and
+            (FindIncludeFileIndex(RunSetup) <> -1);
+        end;
+      l.Free;
+      Runtimes.Items.EndUpdate;
+      ARPOptions.Enabled := false;
+      
+    end;
     if CategoriesSelectedItemCaption = 'Web Media Blocks' then
     begin
       WebBlocks.Items.BeginUpdate;
@@ -12060,6 +12474,10 @@ begin
       
       VisualNotebook.PageIndex := VisualNotebook.Pages.IndexOf('WeblocksPage')
     else
+    if CategoriesSelectedItemCaption = 'Application Runtimes' then
+      
+      VisualNotebook.PageIndex := VisualNotebook.Pages.IndexOf('ApplicationRuntimesPage')
+    else
     if CategoriesSelectedItemCaption = 'Script Analytics' then
       
       VisualNotebook.PageIndex := VisualNotebook.Pages.IndexOf('ScriptAnalyticsPage')
@@ -12311,411 +12729,458 @@ begin
     DirtyBuffer.Add(CurrentProjectName);
 end;
 
-function Tui.LoadProject(FileName: String; Import: Boolean = false): Boolean;
+function Tui.LoadProject(FileName: String; Import: Boolean = false; Cloak: Boolean = false): Boolean;
 var
   s, sX, sY, sZ, sI, sIm, sIf, sIe: String;
   l, lX: TStringList;
   t: TextFile;
-  i, iX, iY: Integer;
+  i, iX, iY, j: Integer;
   hDef: TCursor;
   BOM: Char;
 begin
-  if Import then
-  begin
-    sY := '.mpr';
-    sZ := '.fld';
-  end
-  else
-  begin
-    sY := '.mprx';
-    sZ := '.fldx';
-  end;
-  if AnsiCompareText(ExtractFileExt(FileName), sY) <> 0 then
-  begin
-    Result := false;
-    Exit;
-  end;
-  Result := True;
-  hDef := Screen.Cursor;
-  Screen.Cursor := crHourGlass;
-  if Import then
-    PushStatusStack('Importing project ' + FileName)
-  else
-    PushStatusStack('Loading project ' + FileName);
   try
-    
-    AssignFile(t, FileName,cp_utf8);
-    Reset(t);
-    if not eof(t) then
-    begin
-      read(t, BOM);
-      if ansicomparetext(BOM, #$FEFF) <> 0 then
-      begin
-        closefile(t);
-        reset(t);
-      end;
-    end;
-    ReadLn(t, s);
-    CloseFile(t);
-    if ExtractFilePath(s) = '' then
-      s := AssertDir(ExtractFilePath(FileName)) + s;
-    s := AbsolutizePath(s, ExtractFilePath(FileName));
-    if not MyFileExists(s) then
-    begin
-      Screen.Cursor := hDef;
-      Application.MessageBox(PChar(SScriptForProjectMissing + MyLineEnding + s + MyLineEnding + MyLineEnding +
-        SClosingProjectNow),
-        PChar(SProjectLoadError), mb_Ok + mb_IconStop);
-      CreateNewProject;
-      Exit;
-    end;
-    
-    ClearProjectStructs;
-    CurrentProjectName := FileName;
-    PROJDIR := AssertDir(ExtractFilePath(CurrentProjectName));
-    
-    AssignFile(t, CurrentProjectName,cp_utf8);
-    Reset(t);
-    if not eof(t) then
-    begin
-      read(t, BOM);
-      if ansicomparetext(BOM, #$FEFF) <> 0 then
-      begin
-        closefile(t);
-        reset(t);
-      end;
-    end;
-    ReadLn(t, s);
-    s := AbsolutizePath(s, ExtractFilepath(FileName));
-    ScriptFile := s;
-    ReadLn(t, s);
-    while s <> '$' do
-    begin
-      DialogFiles.Add(s);
-      ReadLn(t, s);
-    end;
-    ReadLn(t, s);
-    while s <> '$' do
-    begin
-      SupportFiles.Add(s);
-      ReadLn(t, s);
-    end;
-    ReadLn(t, s);
-    while s <> '$' do
-    begin
-      Breakpoints.Add(s);
-      ReadLn(t, s);
-    end;
-    ReadLn(t, s);
-    while s <> '$' do
-    begin
-      VarWatches.Add(s);
-      ReadLn(t, s);
-    end;
-    
-    ReadLn(t, ProjectStruct.BuildLayout);
-    ReadLn(t, ProjectStruct.CompressProfile);
-    ReadLn(t, s);
-    ProjectStruct.BuildInFolder := StrToBool(s);
-    ReadLn(t, ProjectStruct.BuildCustomFolder);
-    ReadLn(t, ProjectStruct.Manufacturer);
-    ReadLn(t, ProjectStruct.Name);
-    ReadLn(t, ProjectStruct.Code);
-    ReadLn(t, ProjectStruct.UpgradeCode);
-    ReadLn(t, ProjectStruct.Version);
-    ReadLn(t, ProjectStruct.Language);
-    ReadLn(t, ProjectStruct.Title);
-    ReadLn(t, ProjectStruct.Subject);
-    ReadLn(t, ProjectStruct.Author);
-    ReadLn(t, ProjectStruct.Comments);
-    ReadLn(t, ProjectStruct.Revision);
-    ReadLn(t, ProjectStruct.arPublisher);
-    ReadLn(t, ProjectStruct.arContact);
-    ReadLn(t, ProjectStruct.arHelp);
-    ReadLn(t, ProjectStruct.arUpdates);
-    ReadLn(t, ProjectStruct.arComments);
-    ReadLn(t, s);
-    ProjectStruct.BuildDebug := StrToBool(s);
-    ReadLn(t, ProjectStruct.OutputFile);
-    ReadLn(t, s);
-    ProjectStruct.AutoIncrement := StrToBool(s);
-    if not EOF(t) then
-    begin
-      ReadLn(t, s);
-      ProjectStruct.aSign := StrToBool(s);
-      ReadLn(t, ProjectStruct.aCertificate);
-      ReadLn(t, ProjectStruct.aKey);
-      ReadLn(t, ProjectStruct.aTimeStamp);
-      ReadLn(t, ProjectStruct.aInfo);
-    end
-    else
-    begin
-      
-      ProjectStruct.aSign := false;
-      ProjectStruct.aCertificate := '';
-      ProjectStruct.aKey := '';
-      ProjectStruct.aTimeStamp := 'http://time.certum.pl';
-      ProjectStruct.aInfo := '';
-    end;
-    if not EOF(t) then
-      ReadLn(t, ProjectStruct.Conditionals)
-    else
-      ProjectStruct.Conditionals := '';
     if Import then
     begin
-      if not EOF(t) then
+      sY := '.mpr';
+      sZ := '.fld';
+    end
+    else
+    begin
+      sY := '.mprx';
+      sZ := '.fldx';
+    end;
+    if AnsiCompareText(ExtractFileExt(FileName), sY) <> 0 then
+    begin
+      Result := false;
+      Exit;
+    end;
+    Result := True;
+    hDef := Screen.Cursor;
+    Screen.Cursor := crHourGlass;
+    if Import then
+      PushStatusStack('Importing project ' + FileName)
+    else
+      PushStatusStack('Loading project ' + FileName);
+    try
+      
+      AssignFile(t, FileName,cp_utf8);
+      Reset(t);
+      if not eof(t) then
       begin
-        ReadLn(t, s);
-        while s <> '$' do
+        read(t, BOM);
+        if ansicomparetext(BOM, #$FEFF) <> 0 then
         begin
-          
-          ReadLn(t, s);
+          closefile(t);
+          reset(t);
         end;
       end;
-      if not EOF(t) then
+      ReadLn(t, s);
+      CloseFile(t);
+      if ExtractFilePath(s) = '' then
+        s := AssertDir(ExtractFilePath(FileName)) + s;
+      s := AbsolutizePath(s, ExtractFilePath(FileName));
+      if not MyFileExists(s) then
       begin
-        ReadLn(t, s);
-        while s <> '$' do
+        Screen.Cursor := hDef;
+        if not Cloak then 
+          Application.MessageBox(PChar(SScriptForProjectMissing + MyLineEnding + s + MyLineEnding + MyLineEnding +
+            SClosingProjectNow),
+            PChar(SProjectLoadError), mb_Ok + mb_IconStop);
+        CreateNewProject;
+        Exit;
+      end;
+      
+      ClearProjectStructs;
+      CurrentProjectName := FileName;
+      PROJDIR := AssertDir(ExtractFilePath(CurrentProjectName));
+      
+      AssignFile(t, CurrentProjectName,cp_utf8);
+      Reset(t);
+      if not eof(t) then
+      begin
+        read(t, BOM);
+        if ansicomparetext(BOM, #$FEFF) <> 0 then
         begin
-          
-          ReadLn(t, s);
+          closefile(t);
+          reset(t);
         end;
-      end
-      else;
-    end;
-    if not EOF(t) then
-    begin
-      ReadLn(t, ProjectStruct.pDisplay);
-      ReadLn(t, ProjectStruct.pDescription);
-      ReadLn(t, ProjectStruct.pClass);
+      end;
       ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pWhole);
-      ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pMissing);
-      ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pLarge);
-      ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pRemove);
-      ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pCreate);
-      ReadLn(t, s);
-      TryStrToBool(s, ProjectStruct.pDebug);
-    end
-    else
-    begin
-      ProjectStruct.pDisplay := '';
-      ProjectStruct.pDescription := '';
-      ProjectStruct.pClass := 'Service Pack'; 
-      ProjectStruct.pWhole := false;
-      ProjectStruct.pLarge := false;
-      ProjectStruct.pMissing := false;
-      ProjectStruct.pRemove := True;
-      ProjectStruct.pCreate := True;
-      ProjectStruct.pDebug := false;
-    end;
-    if not EOF(t) then
-    begin
-      ReadLn(t, s);
-      ProjectStruct.MultiLang := StrToBool(s);
-    end
-      else ProjectStruct.MultiLang := false;
-    if not EOF(t) then
-    begin
-      ReadLn(t, s);
-      ProjectStruct.PassEnabled := StrToBool(s);
-      ReadLn(t, ProjectStruct.Password);
-    end
-    else
-    begin
-      ProjectStruct.PassEnabled := false;
-      ProjectStruct.Password := '';
-    end;
-    if not EOF(t) then
-    begin
+      s := AbsolutizePath(s, ExtractFilepath(FileName));
+      ScriptFile := s;
       ReadLn(t, s);
       while s <> '$' do
       begin
-        if Import then
-          StringReplace(s, '\', '/', [rfReplaceAll, rfIgnoreCase]); 
-        s := AbsolutizePath(s, ExtractFilePath(FileName));
-        
-        if ExtractFilePath(s) = '' then
-        begin
-          
-          if MyFileExists(AssertDir(ExtractFilePath(FileName)) + s) then
-            s := AssertDir(ExtractFilePath(FileName)) + s
-          else
-            
-            if MyFileExists(EXEDIR + 'runtimes' + PathDelim + s) then 
-              s := EXEDIR + 'runtimes' + PathDelim + s; 
-        end
-        
-        else
-          if not MyFileExists(s) then
-          begin
-            
-            if MyFileExists(AssertDir(ExtractFilePath(FileName)) + ExtractFileName(s)) then
-              s := AssertDir(ExtractFilePath(FileName)) + ExtractFileName(s)
-            else
-              
-              if MyFileExists(EXEDIR + 'runtimes' + PathDelim + ExtractFileName(s)) then 
-                s := EXEDIR + 'runtimes' + PathDelim + ExtractFileName(s); 
-          end;
-        IncludeFiles.Add(s);
+        DialogFiles.Add(s);
         ReadLn(t, s);
       end;
-    end
-    else
-      IncludeFiles.Clear;
-    if not EOF(t) then
-    begin
       ReadLn(t, s);
-      ProjectStruct.AutoHash := StrToBool(s);
-    end
-    else
-      ProjectStruct.AutoHash := false;
-    if not EOF(t) then
-      ReadLn(t, ProjectStruct.CodeSignPassword)
-    else
-      ProjectStruct.CodeSignPassword := '';
-    if not EOF(t) then
-    begin
-      ReadLn(t, s);
-      ProjectStruct.cFiles := StrToBool(s);
-      ReadLn(t, s);
-      ProjectStruct.cRegistry := StrToBool(s);
-      ReadLn(t, s);
-      ProjectStruct.cFeatures := StrToBool(s);
-      ReadLn(t, s);
-      ProjectStruct.cHashes := StrToBool(s);
-    end
-    else
-    begin
-      ProjectStruct.cFiles := false;
-      ProjectStruct.cRegistry := false;
-      ProjectStruct.cFeatures := True;
-      ProjectStruct.cHashes := false;
-    end;
-    CloseFile(t);
-    if not Import then
-      AddToMRUF(FileName);
-    
-    SetDirtyMia(false, '', True);
-    
-    if MyFileExists(AssertDir(ExtractFilePath(CurrentProjectName)) +
-      ExtractFileNameOnly(CurrentProjectName) + sZ) then 
-        RenameFile(AssertDir(ExtractFilePath(CurrentProjectName)) +
-          ExtractFileNameOnly(CurrentProjectName) + sZ, 
-          ScriptFile + sZ); 
-    if not LoadScriptEx(ScriptFile, Import) then Exit;
-    AdjustUIProjectChanged;
-    if not Import then
-    begin
-      OpenProject.FileName := FileName;
-      SaveProject.FileName := FileName;
-    end
-    else
-      OpenProjectEx.FileName := FileName;
-    if Import then
-    begin
-      
-      GetSpecialFolder($5, sI);
-      sI := AssertDir(sI) + 'InstallAware Multi Platform Imports' + PathDelim +
-        ExtractFileNameOnly(FileName);
-      iX := 0;
-      while DirectoryExists(sI) do
+      while s <> '$' do
       begin
-        iX := iX +1;
-        GetSpecialFolder($5, sI);
-        sI := AssertDir(sI) + 'InstallAware Multi Platform Imports' + PathDelim +
-          ExtractFileNameOnly(FileName) + ' (' + IntToStr(iX) + ')';
+        SupportFiles.Add(s);
+        ReadLn(t, s);
       end;
-      sI := AssertDir(sI);
-      ForceDirectories(sI);
+      ReadLn(t, s);
+      while s <> '$' do
+      begin
+        Breakpoints.Add(s);
+        ReadLn(t, s);
+      end;
+      ReadLn(t, s);
+      while s <> '$' do
+      begin
+        VarWatches.Add(s);
+        ReadLn(t, s);
+      end;
       
-      GetNamedScriptNameAndFile('', sIm, sIf);
-      sIf := sI + ExtractFileNameOnly(sIf) + '.miax';
-      
-      if AllContextBuffers.IndexOf(sIm) <> -1 then
-        SaveNamedScript(sIm, sIf, '') 
+      ReadLn(t, ProjectStruct.BuildLayout);
+      ReadLn(t, ProjectStruct.CompressProfile);
+      ReadLn(t, s);
+      ProjectStruct.BuildInFolder := StrToBool(s);
+      ReadLn(t, ProjectStruct.BuildCustomFolder);
+      ReadLn(t, ProjectStruct.Manufacturer);
+      ReadLn(t, ProjectStruct.Name);
+      ReadLn(t, ProjectStruct.Code);
+      ReadLn(t, ProjectStruct.UpgradeCode);
+      ReadLn(t, ProjectStruct.Version);
+      ReadLn(t, ProjectStruct.Language);
+      ReadLn(t, ProjectStruct.Title);
+      ReadLn(t, ProjectStruct.Subject);
+      ReadLn(t, ProjectStruct.Author);
+      ReadLn(t, ProjectStruct.Comments);
+      ReadLn(t, ProjectStruct.Revision);
+      ReadLn(t, ProjectStruct.arPublisher);
+      ReadLn(t, ProjectStruct.arContact);
+      ReadLn(t, ProjectStruct.arHelp);
+      ReadLn(t, ProjectStruct.arUpdates);
+      ReadLn(t, ProjectStruct.arComments);
+      ReadLn(t, s);
+      ProjectStruct.BuildDebug := StrToBool(s);
+      ReadLn(t, ProjectStruct.OutputFile);
+      ReadLn(t, s);
+      ProjectStruct.AutoIncrement := StrToBool(s);
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        ProjectStruct.aSign := StrToBool(s);
+        ReadLn(t, ProjectStruct.aCertificate);
+        ReadLn(t, ProjectStruct.aKey);
+        ReadLn(t, ProjectStruct.aTimeStamp);
+        ReadLn(t, ProjectStruct.aInfo);
+      end
       else
-        if AllContextBuffers.IndexOf('') <> -1 then
-          SaveNamedScript('', sIf, '') 
-        else
-        begin
-          SaveContext(''); 
-          SaveNamedScript('', sIf, '') 
-        end;
-      
-      for i := 2 to CurrentUnit.Tabs.Count do
       begin
-        CurrentUnit.TabIndex := i; 
-        sIe := CurrentUnitChangeEx(True);
-        if sIe <> '' then 
-        begin
-          
-          Application.MessageBox(PChar(
-            'InstallAware project:' + LineEnding + FileName
-            + LineEnding + LineEnding + 'Import failed due to one (or more) missing Include Script(s):'
-            + LineEnding + sIe + LineEnding + LineEnding +
-            'Click OK to create a blank project instead.'), 'Unsuccessful InstallAware Import', mb_Ok
-            + mb_IconExclamation);
-          
-          MenuItem43Click(Self); 
-          Exit;
-        end;
         
-        if not MyFileExists(sI + CurrentUnit.Tabs[IncludeFiles.IndexOf(LastActiveContext) +2] + '.miax') then
-        begin
-          
-          GetNamedScriptNameAndFile(CurrentUnit.Tabs[IncludeFiles.IndexOf(LastActiveContext) +2], sIm, sIf);
-          sIf := sI + ExtractFileNameOnly(sIf) + '.miax';
-          
-          SaveNamedScript(sIm, sIf, ''); 
-        end;
+        ProjectStruct.aSign := false;
+        ProjectStruct.aCertificate := '';
+        ProjectStruct.aKey := '';
+        ProjectStruct.aTimeStamp := 'http://time.certum.pl';
+        ProjectStruct.aInfo := '';
       end;
-      
-      lX := TStringList.Create;
-      for iY := DialogFiles.Count downto 1 do
-        if AnsiCompareText(ExtractFileExt(DialogFiles[iY -1]), '.miaf') <> 0 then
+      if not EOF(t) then
+        ReadLn(t, ProjectStruct.Conditionals)
+      else
+        ProjectStruct.Conditionals := '';
+      if Import then
+      begin
+        if not EOF(t) then
         begin
-          if Dfm2Txt(AssertDir(ExtractFilePath(FileName)) + DialogFiles[iY -1],
-            sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm') then
+          ReadLn(t, s);
+          while s <> '$' do
           begin
             
-            lX.Add(ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm');
-            lX.Add(ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm.miaf');
+            ReadLn(t, s);
           end;
-           
-          ScrubNewLfm(sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm');
-          FileCopyFile(AssertDir(ExtractFilePath(FileName)) + DialogFiles[iY -1] + '.miaf',
-            sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm.miaf', false);
         end;
-      DialogFiles.Text := lX.Text;
-      lX.Free;
+        if not EOF(t) then
+        begin
+          ReadLn(t, s);
+          while s <> '$' do
+          begin
+            
+            ReadLn(t, s);
+          end;
+        end
+        else;
+      end;
+      if not EOF(t) then
+      begin
+        ReadLn(t, ProjectStruct.pDisplay);
+        ReadLn(t, ProjectStruct.pDescription);
+        ReadLn(t, ProjectStruct.pClass);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pWhole);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pMissing);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pLarge);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pRemove);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pCreate);
+        ReadLn(t, s);
+        TryStrToBool(s, ProjectStruct.pDebug);
+      end
+      else
+      begin
+        ProjectStruct.pDisplay := '';
+        ProjectStruct.pDescription := '';
+        ProjectStruct.pClass := 'Service Pack'; 
+        ProjectStruct.pWhole := false;
+        ProjectStruct.pLarge := false;
+        ProjectStruct.pMissing := false;
+        ProjectStruct.pRemove := True;
+        ProjectStruct.pCreate := True;
+        ProjectStruct.pDebug := false;
+      end;
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        ProjectStruct.MultiLang := StrToBool(s);
+      end
+        else ProjectStruct.MultiLang := false;
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        ProjectStruct.PassEnabled := StrToBool(s);
+        ReadLn(t, ProjectStruct.Password);
+      end
+      else
+      begin
+        ProjectStruct.PassEnabled := false;
+        ProjectStruct.Password := '';
+      end;
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        while s <> '$' do
+        begin
+          if Import then
+            StringReplace(s, '\', '/', [rfReplaceAll, rfIgnoreCase]); 
+          s := AbsolutizePath(s, ExtractFilePath(FileName));
+          
+          if ExtractFilePath(s) = '' then
+          begin
+            
+            if MyFileExists(AssertDir(ExtractFilePath(FileName)) + s) then
+              s := AssertDir(ExtractFilePath(FileName)) + s
+            else
+              
+              if MyFileExists(EXEDIR + 'runtimes' + PathDelim + s) then 
+                s := EXEDIR + 'runtimes' + PathDelim + s; 
+          end
+          
+          else
+            if not MyFileExists(s) then
+            begin
+              
+              if MyFileExists(AssertDir(ExtractFilePath(FileName)) + ExtractFileName(s)) then
+                s := AssertDir(ExtractFilePath(FileName)) + ExtractFileName(s)
+              else
+                
+                if MyFileExists(EXEDIR + 'runtimes' + PathDelim + ExtractFileName(s)) then 
+                  s := EXEDIR + 'runtimes' + PathDelim + ExtractFileName(s); 
+            end;
+          IncludeFiles.Add(s);
+          ReadLn(t, s);
+        end;
+      end
+      else
+        IncludeFiles.Clear;
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        ProjectStruct.AutoHash := StrToBool(s);
+      end
+      else
+        ProjectStruct.AutoHash := false;
+      if not EOF(t) then
+        ReadLn(t, ProjectStruct.CodeSignPassword)
+      else
+        ProjectStruct.CodeSignPassword := '';
+      if not EOF(t) then
+      begin
+        ReadLn(t, s);
+        ProjectStruct.cFiles := StrToBool(s);
+        ReadLn(t, s);
+        ProjectStruct.cRegistry := StrToBool(s);
+        ReadLn(t, s);
+        ProjectStruct.cFeatures := StrToBool(s);
+        ReadLn(t, s);
+        ProjectStruct.cHashes := StrToBool(s);
+      end
+      else
+      begin
+        ProjectStruct.cFiles := false;
+        ProjectStruct.cRegistry := false;
+        ProjectStruct.cFeatures := True;
+        ProjectStruct.cHashes := false;
+      end;
+      CloseFile(t);
+      if not Import then
+        AddToMRUF(FileName);
       
-      for iY := 1 to SupportFiles.Count do
-        FileCopyFile(AssertDir(ExtractFilePath(FileName)) + SupportFiles[iY -1],
-          sI + SupportFiles[iY -1], false);
+      SetDirtyMia(false, '', True);
       
-      SaveProjectDirect(sI + ExtractFileNameOnly(CurrentProjectName) + '.mprx',
-        AssertDir(ExtractFilePath(FileName)), True);
-      Application.MessageBox(PChar('Congratulations!' + LineEnding + LineEnding +
-        'InstallAware project:' + LineEnding + FileName
-        + LineEnding + LineEnding + 'Has been successfully imported as:' + LineEnding + sI
-        + ExtractFileNameOnly(CurrentProjectName) + '.mprx' + LineEnding + LineEnding +
-        'Click OK to finish loading your newly imported project.'), 'Successful InstallAware Import', mb_Ok
-        + mb_IconInformation);
-      LoadProject(sI + ExtractFileNameOnly(FileName) + '.mprx', false);
+      if MyFileExists(AssertDir(ExtractFilePath(CurrentProjectName)) +
+        ExtractFileNameOnly(CurrentProjectName) + sZ) then 
+          RenameFile(AssertDir(ExtractFilePath(CurrentProjectName)) +
+            ExtractFileNameOnly(CurrentProjectName) + sZ, 
+            ScriptFile + sZ); 
+      if not LoadScriptEx(ScriptFile, Import) then Exit;
+      AdjustUIProjectChanged;
+      if not Import then
+      begin
+        OpenProject.FileName := FileName;
+        SaveProject.FileName := FileName;
+      end
+      else
+        OpenProjectEx.FileName := FileName;
+      if Import then
+      begin
+        
+        if ((ui.GetPreReqTopInsertionIndex(True) = -1) or
+          (ui.GetPreReqTopInsertionIndex(false) = -1)) and
+          ((ui.GetPreReqTopInsertionIndex(True, True) <> -1) or
+          (ui.GetPreReqTopInsertionIndex(false, True) <> -1)) then
+        begin
+          j := GetPreReqTopInsertionIndex(True, True) +1;
+          EmitInsertCommand('If', '"RECOMMENDEDUPGRADE","0","TRUE","FALSE"', j); 
+          EmitInsertCommand('Set Variable', '"PREREQ","TRUE"', j); 
+          EmitInsertCommand('Set Variable', '"PRELIST","$PRELIST$$NEWLINE$Previous Version Removal"', j); 
+          EmitInsertCommand('End', '', j); 
+          j := GetPreReqTopInsertionIndex(false, True) +1;
+          EmitInsertCommand('If', '"RECOMMENDEDUPGRADE","0","TRUE","FALSE"', j); 
+          EmitInsertCommand('Comment', '"Bind to external setup log"', j); 
+          EmitInsertCommand('Set Variable', '"NATIVE_LOGGING","$NATIVE_OLDLOG$"', j); 
+          EmitInsertCommand('Apply Changes', '"progress","NATIVE_UNINSTALL","FALSE","TRUE"', j); 
+          EmitInsertCommand('If', '"NATIVE_UNINSTALL","0","REBOOT","FALSE"', j); 
+          EmitInsertCommand('MessageBox', STITLESetup + 
+            SYourComputerNeedsToBeRestartedBe + SAndClickOKToRestartYourComputerS +
+            '"2","2","REBOOTNOW"', j); 
+          EmitInsertCommand('If', '"REBOOTNOW","0","OK","FALSE"', j); 
+          EmitInsertCommand('Reboot and Resume', '', j); 
+          EmitInsertCommand('Else', '', j); 
+          EmitInsertCommand('Terminate Install', '', j); 
+          EmitInsertCommand('End', '', j); 
+          EmitInsertCommand('Else', '', j); 
+          EmitInsertCommand('If', '"NATIVE_UNINSTALL","0","COMPLETE","TRUE"', j); 
+          EmitInsertCommand('MessageBox', STITLESetup + 
+            SUnableToUninstallOldVersionOfTIT +
+            '"2","1",""', j); 
+          EmitInsertCommand('If', '"NATIVE_UNINSTALL","0","OK","FALSE"', j); 
+          EmitInsertCommand('Terminate Install', '', j); 
+          EmitInsertCommand('End', '', j); 
+          EmitInsertCommand('End', '', j); 
+          EmitInsertCommand('End', '', j); 
+          EmitInsertCommand('Comment', '"Bind to internal setup log"', j); 
+          EmitInsertCommand('Set Variable', '"NATIVE_LOGGING",""', j); 
+          EmitInsertCommand('End', '', j); 
+        end;
+        
+        GetSpecialFolder($5, sI);
+        sI := AssertDir(sI) + 'InstallAware Multi Platform Imports' + PathDelim +
+          ExtractFileNameOnly(FileName);
+        iX := 0;
+        while DirectoryExists(sI) do
+        begin
+          iX := iX +1;
+          GetSpecialFolder($5, sI);
+          sI := AssertDir(sI) + 'InstallAware Multi Platform Imports' + PathDelim +
+            ExtractFileNameOnly(FileName) + ' (' + IntToStr(iX) + ')';
+        end;
+        sI := AssertDir(sI);
+        ForceDirectories(sI);
+        
+        GetNamedScriptNameAndFile('', sIm, sIf);
+        sIf := sI + ExtractFileNameOnly(sIf) + '.miax';
+        
+        if AllContextBuffers.IndexOf(sIm) <> -1 then
+          SaveNamedScript(sIm, sIf, '') 
+        else
+          if AllContextBuffers.IndexOf('') <> -1 then
+            SaveNamedScript('', sIf, '') 
+          else
+          begin
+            SaveContext(''); 
+            SaveNamedScript('', sIf, '') 
+          end;
+        
+        for i := 2 to CurrentUnit.Tabs.Count do
+        begin
+          CurrentUnit.TabIndex := i; 
+          sIe := CurrentUnitChangeEx(True);
+          if sIe <> '' then 
+          begin
+            
+            if not Cloak then 
+              Application.MessageBox(PChar(
+                'InstallAware project:' + LineEnding + FileName
+                + LineEnding + LineEnding + 'Import failed due to one (or more) missing Include Script(s):'
+                + LineEnding + sIe + LineEnding + LineEnding +
+                'Click OK to create a blank project instead.'), 'Unsuccessful InstallAware Import', mb_Ok
+                + mb_IconExclamation);
+            
+            MenuItem43Click(Self); 
+            Exit;
+          end;
+          
+          if not MyFileExists(sI + CurrentUnit.Tabs[IncludeFiles.IndexOf(LastActiveContext) +2] + '.miax') then
+          begin
+            
+            GetNamedScriptNameAndFile(CurrentUnit.Tabs[IncludeFiles.IndexOf(LastActiveContext) +2], sIm, sIf);
+            sIf := sI + ExtractFileNameOnly(sIf) + '.miax';
+            
+            SaveNamedScript(sIm, sIf, ''); 
+          end;
+        end;
+        
+        lX := TStringList.Create;
+        for iY := DialogFiles.Count downto 1 do
+          if AnsiCompareText(ExtractFileExt(DialogFiles[iY -1]), '.miaf') <> 0 then
+          begin
+            if Dfm2Txt(AssertDir(ExtractFilePath(FileName)) + DialogFiles[iY -1],
+              sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm') then
+            begin
+              
+              lX.Add(ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm');
+              lX.Add(ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm.miaf');
+            end;
+             
+            ScrubNewLfm(sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm');
+            FileCopyFile(AssertDir(ExtractFilePath(FileName)) + DialogFiles[iY -1] + '.miaf',
+              sI + ExtractFileNameOnly(DialogFiles[iY -1]) + '.lfm.miaf', false);
+          end;
+        DialogFiles.Text := lX.Text;
+        lX.Free;
+        
+        for iY := 1 to SupportFiles.Count do
+          FileCopyFile(AssertDir(ExtractFilePath(FileName)) + SupportFiles[iY -1],
+            sI + SupportFiles[iY -1], false);
+        
+        SaveProjectDirect(sI + ExtractFileNameOnly(CurrentProjectName) + '.mprx',
+          AssertDir(ExtractFilePath(FileName)), True);
+        if not Cloak then
+          Application.MessageBox(PChar('Congratulations!' + LineEnding + LineEnding +
+            'InstallAware project:' + LineEnding + FileName
+            + LineEnding + LineEnding + 'Has been successfully imported as:' + LineEnding + sI
+            + ExtractFileNameOnly(CurrentProjectName) + '.mprx' + LineEnding + LineEnding +
+            'Click OK to finish loading your newly imported project.'), 'Successful InstallAware Import', mb_Ok
+            + mb_IconInformation);
+        LoadProject(sI + ExtractFileNameOnly(FileName) + '.mprx', false);
+      end;
+      {$IFDEF WINDOWS}
+      if LastActiveContext = '' then
+        LastActiveContext := ScriptFile;
+      
+      {$ENDIF}
+    finally
+      Screen.Cursor := hDef;
+      PopStatusStack;
     end;
-    {$IFDEF WINDOWS}
-    if LastActiveContext = '' then
-      LastActiveContext := ScriptFile;
+  except
+    Result := false;
     
-    {$ENDIF}
-  finally
-    Screen.Cursor := hDef;
-    PopStatusStack;
   end;
 end;
 
@@ -13580,6 +14045,18 @@ begin
     Result := StringReplace(Result, '&', '', [rfReplaceAll, rfIgnoreCase]);
   end
   else
+  if Kind = 'Set Wine Bottle' then 
+  begin
+    Result := 'Set Wine Bottle Mode to '; 
+    if StrToBool(Wine[Wine.IndexOf(Guid) +1]) then
+      Result := Result + scrSetWineMode.Off.Caption;
+    if StrToBool(Wine[Wine.IndexOf(Guid) +2]) then
+      Result := Result + scrSetWineMode.Standard.Caption;
+    if StrToBool(Wine[Wine.IndexOf(Guid) +3]) then
+      Result := Result + scrSetWineMode.Custom.Caption;
+    Result := StringReplace(Result, '&', '', [rfReplaceAll, rfIgnoreCase]);
+  end
+  else
   if Kind = 'Edit INI File' then 
     Result := 'Edit INI File ' + EditIni[EditIni.IndexOf(Guid) +1] + '\' + 
       EditIni[EditIni.IndexOf(Guid) +2] + ', [' +
@@ -13813,6 +14290,25 @@ begin
   if Kind = 'Wizard Loop' then 
     Result := 'wizard loop'; 
     
+end;
+
+function Tui.EditMatchingCommand(Kind: TStrings;
+  Period: Integer; Match, Value: String; MatchPosition,
+  ValuePosition: Integer): Boolean;
+var
+  i: Integer;
+begin
+  Result := false;
+  
+  for i := 1 to Kind.Count do
+    if i mod Period = 1 then
+      if AnsiCompareText(Kind[i -1 + MatchPosition], Match) = 0 then
+        begin
+          Kind[i -1 + ValuePosition] := Value;
+          
+          Result := True;
+          Exit;
+        end;
 end;
 
 function Tui.RemoveStackItem(Stack: TList; var Kind, Elements: String;
@@ -14612,6 +15108,12 @@ begin
           l := Plat;
         end
         else
+        if CacheS = 'Set Wine Bottle' then 
+        begin
+          i := 3;
+          l := Wine;
+        end
+        else
         if CacheS = 'Rename File/Folder' then
         begin
           l := xRename;
@@ -14801,6 +15303,18 @@ begin
           Comments.Add(ScriptReferences[i -1]);
           Comments.Add(ScriptTypes[i -1] + ' (plug-in) command unsupported in this version of InstallAware Multi Platform');
           ScriptTypes[i -1] := 'Comment';
+        end;
+      
+      for i := 1 to SetVariable.Count do
+        if i mod 3 = 1 then
+        begin
+          
+          if (AnsiCompareText(SetVariable[i], 'TARGETDIR') = 0) or
+            (AnsiCompareText(SetVariable[i], 'SHORTCUTFOLDER') = 0) then
+          begin
+            SetVariable[i +1] := StringReplace(SetVariable[i +1], '\\', '/', [rfReplaceAll, rfIgnoreCase]);
+            SetVariable[i +1] := StringReplace(SetVariable[i +1], '\', '/', [rfReplaceAll, rfIgnoreCase]);
+          end;
         end;
     end;
     
@@ -15706,6 +16220,7 @@ begin
   LocalFiles := THashedStringList.Create;
   EditINI := THashedStringList.Create;
   Plat := THashedStringList.Create;
+  Wine := THashedStringList.Create;
   xRename := THashedStringList.Create;
   xWriteBinary := THashedStringList.Create;
   HaltCompile := THashedStringList.Create;
@@ -15827,6 +16342,7 @@ begin
   GlobalLists.Add(LocalFiles);
   GlobalLists.Add(EditINI);
   GlobalLists.Add(Plat);
+  GlobalLists.Add(Wine);
   GlobalLists.Add(xRename);
   GlobalLists.Add(xWriteBinary);
   GlobalLists.Add(HaltCompile);
@@ -16283,8 +16799,6 @@ end;
 
 procedure Tui.INIKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    INIDblClick(Self);
 end;
 
 procedure Tui.INIKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -16295,6 +16809,8 @@ begin
   if Key = 46 then
     if DeleteINI.Enabled then
       DeleteINIClick(Self);
+  if Key = 13 then
+    INIDblClick(Self);
 end;
 
 procedure Tui.INIMouseUp(Sender: TObject; Button: TMouseButton;
@@ -16350,8 +16866,6 @@ end;
 
 procedure Tui.LocalKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    LocalDblClick(Self);
 end;
 
 procedure Tui.LocalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -16362,6 +16876,8 @@ begin
   if Key = 46 then
     if DeleteLocal.Enabled then
       DeleteLocalClick(Self);
+  if Key = 13 then
+    LocalDblClick(Self);
 end;
 
 procedure Tui.LocalMouseUp(Sender: TObject; Button: TMouseButton;
@@ -16924,8 +17440,6 @@ end;
 
 procedure Tui.PacksKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    PacksDblClick(Self);
 end;
 
 procedure Tui.PacksKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -16936,6 +17450,8 @@ begin
   if Key = 46 then
     if DeletePack.Enabled then
       DeletePackClick(Self);
+  if Key = 13 then
+    PacksDblClick(Self);
 end;
 
 procedure Tui.PacksMouseUp(Sender: TObject; Button: TMouseButton;
@@ -17439,8 +17955,6 @@ end;
 
 procedure Tui.RunKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    RunDblClick(Self);
 end;
 
 procedure Tui.RunKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -17451,6 +17965,8 @@ begin
   if Key = 46 then
     if RunDelete.Enabled then
       RunDeleteClick(Self);
+  if Key = 13 then
+    RunDblClick(Self);
 end;
 
 procedure Tui.RunMouseUp(Sender: TObject; Button: TMouseButton;
@@ -17622,8 +18138,6 @@ end;
 
 procedure Tui.ShortcutsKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    ShortcutsDblClick(Self);
 end;
 
 procedure Tui.ShortcutsKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -17635,6 +18149,8 @@ begin
   if Key = 46 then
     if DeleteShortcut.Enabled then
       DeleteShortcutClick(Self);
+  if Key = 13 then
+    ShortcutsDblClick(Self);
 end;
 
 procedure Tui.ShortcutsMouseUp(Sender: TObject; Button: TMouseButton;
@@ -17723,6 +18239,12 @@ procedure Tui.TabSetGetImageIndex(Sender: TObject; TabIndex: Integer;
   var ImageIndex: Integer);
 begin
   ImageIndex := TabIndex;
+end;
+
+procedure Tui.ToolButton18Click(Sender: TObject);
+begin
+  
+  NewProject.CreateWineProject;
 end;
 
 procedure Tui.UpdatesClick(Sender: TObject);
@@ -18737,6 +19259,120 @@ begin
   Particulars.Font.Color := clWindowText;
 end;
 
+procedure Tui.RuntimesClick(Sender: TObject);
+var
+  Check, Setup, Family: String;
+  l, lX: TStrings;
+begin
+  if ReEntrant then Exit;
+  if Runtimes.ItemIndex = -1 then Exit;
+  GetAllDetailsForRuntime(Runtimes.Items[Runtimes.ItemIndex],
+    Check, Setup, Family, l, lX);
+  l.Free;
+  lX.Free;
+  ARPOptions.Enabled := (Family <> '') and (Runtimes.Checked[Runtimes.ItemIndex] = True);
+end;
+
+procedure Tui.RuntimesClickCheck(Sender: TObject);
+var
+  RunCheck, RunSetup, Family: String;
+  xRunCheck, xRunSetup: String;
+  LastRunCheck, LastRunSetup: Integer;
+  Checks, Setups: TStrings;
+  LastIndex: Integer;
+  l: TStringList;
+  t: TextFile;
+  i, j, k: Integer;
+  b, v, bX: Boolean;
+  s, sX: String;
+begin
+  if ReEntrant then Exit;
+  
+    if Runtimes.ItemIndex = -1 then
+    
+    begin
+      
+      CategoriesButtonClicked(Self);
+      Exit;
+    end;
+  try
+    ReEntrant := True;
+    
+    begin
+      k := Runtimes.ItemIndex;
+      bX := Runtimes.Checked[Runtimes.ItemIndex];
+      sX := Runtimes.Items[Runtimes.ItemIndex];
+    end;
+    if bX then
+    begin
+      if (GetPreReqTopInsertionIndex(True) = -1) or
+        (GetPreReqTopInsertionIndex(false) = -1) then
+      begin
+        Application.MessageBox(PChar(SSomeNecessaryScriptCommandsWereN
+          + #13 + SApplicationRuntimesForThisScript
+          + #13#13 + SToAvoidSeeingThisMessageCreateNe_3),
+          PChar(Application.Title), mb_Ok + mb_IconStop);
+        
+          Runtimes.Checked[Runtimes.ItemIndex] := false
+        ;
+        Exit;
+      end;
+      
+      b := AddNamedRuntime(sX);
+      CategoriesButtonClicked(Self); 
+      
+        Runtimes.ItemIndex := k;
+      if b then
+      begin
+        SetDirtyMPR(True);
+        Project.SetInclude(IncludeFiles);
+      end;
+    end
+    else
+    begin
+      
+      GetCheckAndSetupNameForRuntime(sX, RunCheck, RunSetup);
+      
+      if FindIncludeFileIndex(RunCheck) = -1 then
+      begin
+        ReEntrant := false;
+        
+        CategoriesButtonClicked(Self);
+        Exit;
+      end;
+      
+      RenderDeleteScriptEx(FindIncludeFileIndex(RunCheck), True);
+      
+      RenderDeleteScriptEx(FindIncludeFileIndex(RunSetup), True);
+      
+      i := FindWebMediaBlockNameIndex(sX);
+      if i <> -1 then
+        RenderDeleteScriptEx(i, True);
+      
+      Project.Tree.ClearSelection(false);
+      SaveJ := MAXINT;
+      for i := Project.Tree.Items[0].Items[5 -2].Count downto 1 do
+        if (CompareText(RunCheck, Project.Tree.Items[0].Items[5 -2].Items[i -1].Text) = 0) or
+          (CompareText(RunSetup, Project.Tree.Items[0].Items[5 -2].Items[i -1].Text) = 0) then
+        begin
+          Project.Tree.Items[0].Items[5 -2].Items[i -1].Selected := True;
+          Project.RemoveIncludeClick(Self);
+        end;
+      SaveJ := 0;
+      
+      RehashIndents;
+    end;
+  finally
+    ReEntrant := false;
+  end;
+end;
+
+procedure Tui.RuntimesDblClick(Sender: TObject);
+begin
+  if ReEntrant then Exit;
+  ArpOptionsClick(Self);
+end;
+
 procedure Tui.ScriptKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   {$IFDEF DARWIN}
@@ -18873,6 +19509,68 @@ begin
     end;
   DragAcceptEx := false;
   
+end;
+
+procedure Tui.ArpOptionsClick(Sender: TObject);
+var
+  Check, Setup, Family: String;
+  l, lX: TStrings;
+  i, j, k: Integer;
+  s, sX: String;
+begin
+  try
+    ReEntrant := True;
+    
+      if (not Options.Enabled) or (Runtimes.ItemIndex = -1) then Exit;
+     s := Runtimes.Items[Runtimes.ItemIndex];
+    GetAllDetailsForRuntime(s, Check, Setup, Family, l, lX);
+    l.Free;
+    lX.Free;
+    l := TStringList.Create;
+    l.CommaText := Family;
+    k := CurrentUnit.TabIndex;
+    
+    if CurrentUnit.Tabs.IndexOf(Check) <> -1 then
+    begin
+      CurrentUnit.TabIndex := CurrentUnit.Tabs.IndexOf(Check);
+      CurrentUnitChange(Self);
+      for j := 1 to l.Count do
+      begin
+        sX := l[j -1];
+        for i := 1 to Script.Items.Count do
+          if AnsiPos(sX, Script.Items[i -1]) = 1 then
+          begin
+            RenderUpdateScript(i -1, false);
+            Break; 
+          end;
+      end;
+    end;
+    
+    if CurrentUnit.Tabs.IndexOf(Setup) <> -1 then
+    begin
+      CurrentUnit.TabIndex := CurrentUnit.Tabs.IndexOf(Setup);
+      CurrentUnitChange(Self);
+      for j := 1 to l.Count do
+      begin
+        sX := l[j -1];
+        for i := 1 to Script.Items.Count do
+          if AnsiPos(sX, Script.Items[i -1]) = 1 then
+          begin
+            RenderUpdateScript(i -1, false);
+            Break; 
+          end;
+      end;
+    end;
+    l.Free;
+    CurrentUnit.TabIndex := k;
+    CurrentUnitChange(Self);
+    {$IFDEF EXPEX}
+    CurrentUnit.TabIndex := 1;
+    CurrentUnitChange(Self);
+    {$ENDIF}
+  finally
+    ReEntrant := false;
+  end;
 end;
 
 procedure Tui.BitBtn6Click(Sender: TObject);
@@ -19186,6 +19884,11 @@ begin
   end;
 end;
 
+procedure Tui.MenuItem71Click(Sender: TObject);
+begin
+  ToolButton18Click(Self);
+end;
+
 procedure Tui.AccessChange(Sender: TObject; Item: TListItem; Change: TItemChange
   );
 begin
@@ -19201,8 +19904,6 @@ end;
 
 procedure Tui.AccessKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    AccessDblClick(Self);
 end;
 
 procedure Tui.AccessKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -19213,6 +19914,8 @@ begin
   if Key = 46 then
     if DeleteAccess.Enabled then
       DeleteAccessClick(Self);
+  if Key = 13 then
+    AccessDblClick(Self);
 end;
 
 procedure Tui.AccessMouseUp(Sender: TObject; Button: TMouseButton;
@@ -19372,8 +20075,6 @@ end;
 
 procedure Tui.AssocsKeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then
-    AssocsDblClick(Self);
 end;
 
 procedure Tui.AssocsKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -19385,6 +20086,8 @@ begin
   if Key = 46 then
     if DeleteAssocs.Enabled then
       DeleteAssocsClick(Self);
+  if Key = 13 then
+    AssocsDblClick(Self);
 end;
 
 procedure Tui.AssocsMouseUp(Sender: TObject; Button: TMouseButton;
@@ -20589,10 +21292,6 @@ end;
 
 procedure Tui.FilesKeyPress(Sender: TObject; var Key: char);
 begin
-  FilesPopupExPopup(Self);
-  if Key = #13 then 
-    if EditFiles1.Enabled then
-      EditFiles1Click(Self);
 end;
 
 procedure Tui.FilesKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -20604,6 +21303,10 @@ begin
   if Key = 46 then
     if DeleteFiles1.Enabled then
       DeleteFiles1Click(Self);
+  
+  if Key = 13 then 
+    if EditFiles1.Enabled then
+      EditFiles1Click(Self);
 end;
 
 procedure Tui.FilesFeaturesChange(Sender: TObject);
@@ -20790,10 +21493,6 @@ end;
 
 procedure Tui.FoldersKeyPress(Sender: TObject; var Key: char);
 begin
-  FilesPopupExTreePopup(Self);
-  if Key = #13 then
-    if MenuItem50.Enabled then
-      MenuItem50Click(Self);
 end;
 
 procedure Tui.FoldersKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -20819,6 +21518,10 @@ begin
         RemoveSubfolder1Click(Self);
   end;
   if Key = 113 then
+    if MenuItem50.Enabled then
+      MenuItem50Click(Self);
+  
+  if Key = 13 then
     if MenuItem50.Enabled then
       MenuItem50Click(Self);
 end;

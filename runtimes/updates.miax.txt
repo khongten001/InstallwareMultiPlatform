@@ -1,0 +1,221 @@
+Comment: Script to Check for, Download, and Install Updates
+ 
+Set Variable UPDATE_SCHEDULING to FALSE
+ 
+if Variable CMDLINE not Contains /update
+  GoTo Label: End of Updates
+end
+ 
+Set Variable UPDATE_DOWNLOAD to TRUE
+Set Variable UPDATE_AUTO to FALSE
+Set Variable UPDATE_LOG to TRUE
+ 
+[DEFINE REGION: Download and Install Updates]
+label: Check for Updates
+Set Variable UPDATE_GET_INI to 
+Download File #UPDATE_SERVER# to $SUPPORTDIR$/updates.ini, get result into variable UPDATE_GET_INI
+ 
+Comment: Check Internet connectivity
+if Variable UPDATE_GET_INI not Equals SUCCESS
+  MessageBox: $TITLE$ Update, Unable to contact update server for $TITLE$.$NEWLINE$$NEWLINE$Please check your Internet connection and try again.
+  Terminate Installation
+end
+Comment: Check update availability
+Get INI $SUPPORTDIR$/updates.ini, [Update Packs for Versions] $VERSION$ Value into Variable UPDATE_AVAILABLE
+if Variable UPDATE_AVAILABLE Equals 
+  MessageBox: $TITLE$ Update, No updates are available for $TITLE$ at this time.$NEWLINE$$NEWLINE$Please check back again later.
+  Terminate Installation
+end
+ 
+if Variable UPDATE_LOG Equals TRUE
+  Comment: Remove previously installed updates from list of available updates
+  label: Remove Previously Installed
+  Set Variable UPDATE_PREVIOUSLY_INSTALLED to 
+  Read from Text File $EXEDIR$/installedupdates.dat into Variable UPDATE_PREVIOUSLY_INSTALLED (get EOF into UPDATE_EOF)
+  if Variable UPDATE_PREVIOUSLY_INSTALLED not Equals 
+    Replace $UPDATE_PREVIOUSLY_INSTALLED$$NEWLINE$ with  in variable UPDATE_AVAILABLE
+    Replace $NEWLINE$$UPDATE_PREVIOUSLY_INSTALLED$ with  in variable UPDATE_AVAILABLE
+    Replace $UPDATE_PREVIOUSLY_INSTALLED$ with  in variable UPDATE_AVAILABLE
+  end
+  if Variable UPDATE_EOF Equals FALSE
+    GoTo Label: Remove Previously Installed
+  end
+  Comment: Quit if no new updates are available
+  if Variable UPDATE_AVAILABLE Equals 
+    MessageBox: $TITLE$ Update, No updates are available for $TITLE$ at this time.$NEWLINE$$NEWLINE$Please check back again later.
+    Terminate Installation
+  end
+end
+ 
+Comment: Gather update details
+Set Variable UPDATE_REBOOT to FALSE
+Set Variable UPDATE_DETAIL to 
+Set Variable UPDATE_AVAILABLE_TEMP to $UPDATE_AVAILABLE$
+Set Variable UPDATE_COUNT to 0
+label: Form Description
+Parse String $UPDATE_AVAILABLE_TEMP$ into Variables UPDATE_NAME and UPDATE_AVAILABLE_TEMP (Split at first occurrence of pattern)
+UPDATE_COUNT = $UPDATE_COUNT$ + 1
+Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] Description Value into Variable UPDATE_DETAIL_TEMP
+if Variable UPDATE_DETAIL_TEMP not Equals 
+  if Variable UPDATE_COUNT Equals 1
+    Set Variable UPDATE_DETAIL to $UPDATE_NAME$$NEWLINE$$UPDATE_DETAIL_TEMP$
+  else
+    Set Variable UPDATE_DETAIL to $UPDATE_DETAIL$$NEWLINE$$NEWLINE$$UPDATE_NAME$$NEWLINE$$UPDATE_DETAIL_TEMP$
+  end
+end
+if Variable UPDATE_AVAILABLE_TEMP not Equals 
+  GoTo Label: Form Description
+end
+ 
+Comment: Choose updates to download
+label: Download Prompt
+if Variable UPDATE_DOWNLOAD not Equals TRUE
+  Set Variable UPDATE_SELECTED to $UPDATE_AVAILABLE$
+else
+  Set Variable UPDATE_SELECTED to $UPDATE_AVAILABLE$
+  Display Dialog: update_notify_download, wait for dialog to return (modal)
+end
+if Variable WIZARD Equals CANCEL
+  Terminate Installation
+end
+if Variable UPDATE_SELECTED Equals 
+  MessageBox: $TITLE$ Updates, Please select some updates to download.
+  GoTo Label: Download Prompt
+end
+ 
+Comment: Download selected updates
+Set Variable UPDATE_CURRENT to 0
+Set Variable UPDATE_DOWNLOADED to 0
+Set Variable UPDATE_SELECTED_TEMP to $UPDATE_SELECTED$
+Set Variable UPDATE_DOWNLOAD_PROGRESS to 
+Set Variable UPDATE_DETAIL_INSTALL to 
+label: Download Updates
+UPDATE_CURRENT = $UPDATE_CURRENT$ + 1
+Parse String $UPDATE_SELECTED_TEMP$ into Variables UPDATE_NAME and UPDATE_SELECTED_TEMP (Split at first occurrence of pattern)
+if Variable UPDATE_NAME not Equals 
+  Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] Description Value into Variable UPDATE_DETAIL_INSTALL_TEMP
+  if Variable UPDATE_DETAIL_INSTALL_TEMP not Equals 
+    if Variable UPDATE_CURRENT Equals 1
+      Set Variable UPDATE_DETAIL_INSTALL to $UPDATE_NAME$$NEWLINE$$UPDATE_DETAIL_INSTALL_TEMP$
+    else
+      Set Variable UPDATE_DETAIL_INSTALL to $UPDATE_DETAIL_INSTALL$$NEWLINE$$NEWLINE$$UPDATE_NAME$$NEWLINE$$UPDATE_DETAIL_INSTALL_TEMP$
+    end
+  end
+  Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] URL Value into Variable UPDATE_DOWNLOAD_TEMP
+  if Variable UPDATE_CURRENT Equals 1
+    Set Variable UPDATE_DOWNLOAD_PROGRESS to Downloading $UPDATE_NAME$ for $TITLE$ ($UPDATE_CURRENT$ of $UPDATE_COUNT$)...
+  else
+    Set Variable UPDATE_DOWNLOAD_PROGRESS to $UPDATE_DOWNLOAD_PROGRESS$$UPDATE_DOWNLOAD_RESULT$$NEWLINE$Downloading $UPDATE_NAME$ for $TITLE$ ($UPDATE_CURRENT$ of $UPDATE_COUNT$)...
+  end
+  Display Dialog: update_download, use as progress dialog (non-modal)
+  Set Variable UPDATE_GET_DOWNLOAD to 
+  Download File $UPDATE_DOWNLOAD_TEMP$$DOWNEXTENSION$ to $SUPPORTDIR$/$UPDATE_NAME$$DOWNEXTENSION$, get result into variable UPDATE_GET_DOWNLOAD
+  if Variable UPDATE_GET_DOWNLOAD Equals SUCCESS
+    Set Variable UPDATE_DOWNLOAD_RESULT to done!
+    UPDATE_DOWNLOADED = $UPDATE_DOWNLOADED$ + 1
+  else
+    Set Variable UPDATE_DOWNLOAD_RESULT to failed!
+    Replace $UPDATE_NAME$$NEWLINE$ with  in variable UPDATE_SELECTED
+    Replace $NEWLINE$$UPDATE_NAME$ with  in variable UPDATE_SELECTED
+    Replace $UPDATE_NAME$ with $UPDATE_NAME$ [download was unsuccessful] in variable UPDATE_DETAIL_INSTALL
+  end
+  Hide Dialog
+  if Variable ABORT Equals TRUE
+    Terminate Installation
+  end
+end
+if Variable UPDATE_CURRENT not Equals $UPDATE_COUNT$
+  GoTo Label: Download Updates
+end
+ 
+Comment: Choose updates to install
+label: Install Prompt
+if Variable UPDATE_AUTO Equals TRUE
+  Set Variable UPDATE_SELECTED_INSTALL to $UPDATE_SELECTED$
+else
+  Set Variable UPDATE_SELECTED_INSTALL to $UPDATE_SELECTED$
+  Display Dialog: update_notify_install, wait for dialog to return (modal)
+end
+if Variable WIZARD Equals CANCEL
+  Terminate Installation
+end
+if Variable UPDATE_SELECTED_INSTALL Equals 
+  MessageBox: $TITLE$ Updates, Please select some updates to install.
+  GoTo Label: Download Prompt
+end
+ 
+Comment: Install selected updates
+Set Variable UPDATE_CURRENT to 0
+Set Variable UPDATE_SELECTED_TEMP to $UPDATE_SELECTED_INSTALL$
+Set Variable UPDATE_INSTALL_PROGRESS to 
+label: Install Updates
+UPDATE_CURRENT = $UPDATE_CURRENT$ + 1
+if Variable UPDATE_DOWNLOADED not Equals 0
+  PROGRESS = $UPDATE_CURRENT$ * 100
+  PROGRESS = $PROGRESS$ / $UPDATE_DOWNLOADED$
+end
+Parse String $UPDATE_SELECTED_TEMP$ into Variables UPDATE_NAME and UPDATE_SELECTED_TEMP (Split at first occurrence of pattern)
+if Variable UPDATE_NAME not Equals 
+  Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] URL Value into Variable UPDATE_DOWNLOAD_TEMP
+  Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] Silent Value into Variable UPDATE_SILENT
+  Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] Parameters Value into Variable UPDATE_PARAMETERS
+  if Variable UPDATE_REBOOT Equals FALSE
+    Get INI $SUPPORTDIR$/updates.ini, [$UPDATE_NAME$] Reboot Value into Variable UPDATE_REBOOT_TEMP
+    if Variable UPDATE_REBOOT_TEMP Contains (Ignore Case) Yes
+      Set Variable UPDATE_REBOOT to TRUE
+    end
+  end
+  if Variable UPDATE_CURRENT Equals 1
+    Set Variable UPDATE_INSTALL_PROGRESS to Installing $UPDATE_NAME$ for $TITLE$ ($UPDATE_CURRENT$ of $UPDATE_DOWNLOADED$)...
+  else
+    Set Variable UPDATE_INSTALL_PROGRESS to $UPDATE_INSTALL_PROGRESS$finished!$NEWLINE$Installing $UPDATE_NAME$ for $TITLE$ ($UPDATE_CURRENT$ of $UPDATE_DOWNLOADED$)...
+  end
+  Display Dialog: update_install, use as progress dialog (non-modal)
+  Set Variable UPDATE_GET_DOWNLOAD to 
+  if Variable UPDATE_SILENT not Contains (Ignore Case) No
+    Set Variable SILENTVAR to /s
+  else
+    Set Variable SILENTVAR to 
+  end
+  if Variable PLATFORM Equals MACOS
+    Set Variable DMG to $SUPPORTDIR$/$UPDATE_NAME$$DOWNEXTENSION$
+    Run Program /usr/bin/hdiutil attach "$DMG$" -mountroot "$SUPPORTDIR$/updatedmg" (WAIT)
+    Find All Files in path $SUPPORTDIR$/updatedmg/*, write result into variable DMGPATH
+    Set Variable DMGFILE to $DMGPATH$
+    Replace " with  in variable DMGFILE
+    Find All Files in path $DMGFILE$/*, write result into variable UPDATEFILE
+    Replace " with  in variable UPDATEFILE
+    Run Program $UPDATEFILE$ $UPDATE_PARAMETERS$ $SILENTVAR$ REBOOTCOMPUTER=FALSE RUNAPP=FALSE REBOOTNOW=CANCEL (WAIT)
+  else
+    if Variable PLATFORM Equals LINUX
+      Set Read Execute Permissions on File System Object "$SUPPORTDIR$/$UPDATE_NAME$$DOWNEXTENSION$" for Owner 
+    end
+    Run Program $SUPPORTDIR$/$UPDATE_NAME$$DOWNEXTENSION$ $UPDATE_PARAMETERS$ $SILENTVAR$ REBOOTCOMPUTER=FALSE RUNAPP=FALSE REBOOTNOW=CANCEL (WAIT)
+  end
+  if Variable PLATFORM Equals MACOS
+    Run Program /usr/bin/hdiutil detach $DMGPATH$ (WAIT, get result into variable VAR)
+    Remove Directory (including all its files and subfolders) $SUPPORTDIR$/updatedmg
+  end
+  if Variable UPDATE_LOG Equals TRUE
+    Write into Text File $EXEDIR$/installedupdates.dat from Value $UPDATE_NAME$ (at end of file)
+  end
+  Hide Dialog
+  if Variable ABORT Equals TRUE
+    Terminate Installation
+  end
+end
+if Variable UPDATE_DOWNLOADED Greater Than $UPDATE_CURRENT$
+  GoTo Label: Install Updates
+end
+if Variable UPDATE_REBOOT Equals TRUE
+  Display Dialog: update_reboot, wait for dialog to return (modal)
+  if Variable WIZARD Equals NEXT
+    Reboot Computer
+  end
+end
+ 
+Terminate Installation
+[END REGION]
+ 
+label: End of Updates
+ 

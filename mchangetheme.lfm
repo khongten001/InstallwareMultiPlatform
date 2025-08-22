@@ -1,7 +1,7 @@
 object ChangeTheme: TChangeTheme
   Left = 283
   Height = 336
-  Top = 109
+  Top = 108
   Width = 434
   BorderStyle = bsDialog
   Caption = 'Change Theme'

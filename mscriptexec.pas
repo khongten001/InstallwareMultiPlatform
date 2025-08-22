@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -359,7 +361,6 @@ function CompilerGetStringVar(Variable: String): String;
 function RuntimeSubstituteCompilerVariables(Literal: String): String;
 
 procedure WidenColonDelimParam(Param: String; var Wide1, Wide2: String; Delim: String = '|');
-function IsValidSaveNameEx(FileName: String): Boolean;
 
 function GetUnitName(Pull: String; NoExtract: Boolean = false): String;
 function GetLineNumber(Pull: String): Integer;
@@ -426,6 +427,8 @@ function SniffSafeUserPathEx(GUID: String): String;
 
 {$IFDEF WINDOWS}
 function SafeToDeleteKey(RootKey: HKEY; Name: String; Computer: String = ''): Boolean;
+{$ELSE}
+function SafeToDeleteKey(RootKey, Name: String; Is64Bit: Boolean): Boolean;
 {$ENDIF}
 function SafeToDeleteFolder(Folder: String): Boolean;
 procedure BackupNativeLogs;
@@ -495,10 +498,10 @@ var
 
   SpawnFileCopyEx: String;
   
-  nbClasses, nbDetails, nbWeight, nbBitness: TStringList;
+  nbClasses, nbDetails, nbWeight, nbBitness, nbBottle: TStringList;
   nbPath: String;
   
-  NativeLogElements, NativeLogData, NativeLogWeight, NativeLogBitness: TStringList;
+  NativeLogElements, NativeLogData, NativeLogWeight, NativeLogBitness, NativeLogBottle: TStringList;
   NativeShellChangeNotify: Boolean = false;
   
   thNativeRebootOp: Boolean = false;
@@ -539,7 +542,7 @@ var
   Components, Selections, ComponentHints, ComponentSpaces,
   ComponentDeletes, ComponentHides, ComponentBars: TStringList;
   UninstalledFromMaintenanceState, AnApplyInstallWasCalled: Boolean;
-  x64Mode: String;
+  x64Mode, WineMode: String;
   LastLoopStack: TStringList;
   ForEachStack: TStringList;
   LoggedInstall: String;
@@ -622,7 +625,7 @@ begin
 end;
 {$ENDIF}
 
-function SanitizePostLoadNativeLog(Log1, Log2, Log3, Log4: TStrings): Boolean;
+function SanitizePostLoadNativeLog(Log1, Log2, Log3, Log4, Log5: TStrings): Boolean;
 var
   i: Integer;
 begin
@@ -646,6 +649,12 @@ begin
     if Log4.Count < i then
       i := Log4.Count;
   end;
+  if Log5.Count <> i then
+  begin
+    Result := True;
+    if Log5.Count < i then
+      i := Log5.Count;
+  end;
   if Result then
   begin
     while Log1.Count > i do
@@ -656,17 +665,20 @@ begin
       Log3.Delete(Log3.Count -1);
     while Log4.Count > i do
       Log4.Delete(Log4.Count -1);
+    while Log5.Count > i do
+      Log5.Delete(Log5.Count -1);
   end;
 end;
 
-procedure VerifySanitySavedNativeLog(Log1, Log2, Log3, Log4: String; SecondAttempt: Boolean = false);
+procedure VerifySanitySavedNativeLog(Log1, Log2, Log3, Log4, Log5: String; SecondAttempt: Boolean = false);
 var
-  l1, l2, l3, l4: TStringList;
+  l1, l2, l3, l4, l5: TStringList;
 begin
   l1 := TStringList.Create;
   l2 := TStringList.Create;
   l3 := TStringList.Create;
   l4 := TStringList.Create;
+  l5 := TStringList.Create;
   if MyFileExists(Log1) then
     l1.LoadFromFile(Log1);
   if MyFileExists(Log2) then
@@ -675,19 +687,23 @@ begin
     l3.LoadFromFile(Log3);
   if MyFileExists(Log4) then
     l4.LoadFromFile(Log4);
-  if SanitizePostLoadNativeLog(l1, l2, l3, l4) then
+  if MyFileExists(Log5) then
+    l5.LoadFromFile(Log5);
+  if SanitizePostLoadNativeLog(l1, l2, l3, l4, l5) then
   begin
     l1.SaveToFile(Log1);
     l2.SaveToFile(Log2);
     l3.SaveToFile(Log3);
     l4.SaveToFile(Log4);
+    l5.SaveToFile(Log5);
     if not SecondAttempt then
-      VerifySanitySavedNativeLog(Log1, Log2, Log3, Log4, True);
+      VerifySanitySavedNativeLog(Log1, Log2, Log3, Log4, Log5, True);
   end;
   l1.Free;
   l2.Free;
   l3.Free;
   l4.Free;
+  l5.Free;
 end;
 
 procedure NativeLogAddEntry(Kind, Details: String);
@@ -846,6 +862,7 @@ begin
     NativeLogData.Add(l.CommaText);
     NativeLogWeight.Add(IntToStr(i64));
     NativeLogBitness.Add(x64Mode);
+    NativeLogBottle.Add(WineMode);
   end;
   l.Free;
 end;
@@ -857,6 +874,7 @@ begin
   NativeLogData.Delete(NativeLogData.Count -1);
   NativeLogWeight.Delete(NativeLogWeight.Count -1);
   NativeLogBitness.Delete(NativeLogBitness.Count -1);
+  NativeLogBottle.Delete(NativeLogBottle.Count -1);
 end;
 
 function GetInstallerCacheFolder: String;
@@ -1169,16 +1187,37 @@ end;
 {$IFDEF WINDOWS}
 function SafeToDeleteKey(RootKey: HKEY; Name: String; Computer: String
   ): Boolean;
+{$ELSE}
+function SafeToDeleteKey(RootKey, Name: String; Is64Bit: Boolean): Boolean;
+{$ENDIF}
 var
+  {$IFDEF WINDOWS}
   Keys, ValueList: String;
+  {$ELSE}
+  Keys, Values: TStringList;
+  {$ENDIF}
 begin
+  {$IFDEF WINDOWS}
   RegEnumKeys(RootKey, Name, Keys, Computer);
   RegEnumValues(RootKey, Name, ValueList, Computer);
   Result := (Keys = '') and (ValueList = '');
   if Result then
     Result := not RegDefaultValueExists(RootKey, Name, Computer);
+  {$ELSE}
+  if WineMode <> '' then
+  begin
+    Keys := TStringList.Create;
+    Values := TStringList.Create;
+    IterateWineRegistry(RootKey, Name, '', Is64Bit, Keys, nil);
+    IterateWineRegistry(RootKey, Name, '', Is64Bit, nil, Values);
+    Result := (Keys.Count = 0) and (Values.Count = 0);
+    Keys.Free;
+    Values.Free;
+  end
+  else
+    Result := True;
+  {$ENDIF}
 end;
-{$ENDIF}
 
 function SafeToDeleteFolder(Folder: String): Boolean;
 var
@@ -1202,17 +1241,25 @@ begin
 end;
 
 procedure BackupNativeLogs;
+var
+  i: Integer;
 begin
   nbPath := NativeLogGuessPath;
   nbClasses := TStringList.Create;
   nbDetails := TStringList.Create;
   nbWeight := TStringList.Create;
   nbBitness := TStringList.Create;
+  nbBottle := TStringList.Create;
   nbClasses.LoadFromFile(nbPath + '.native.elements.log', TEncoding.UTF8);
   nbDetails.LoadFromFile(nbPath + '.native.data.log', TEncoding.UTF8);
   nbWeight.LoadFromFile(nbPath + '.native.weight.log', TEncoding.UTF8);
   nbBitness.LoadFromFile(nbPath + '.native.bitness.log', TEncoding.UTF8);
-  SanitizePostLoadNativeLog(nbClasses, nbDetails, nbWeight, nbBitness);
+  if MyFileExists(nbPath + '.native.bottle.log') then
+    nbBottle.LoadFromFile(nbPath + '.native.bottle.log', TEncoding.UTF8)
+  else
+    for i := 1 to nbBitness.Count do 
+      nbBottle.Add('');
+  SanitizePostLoadNativeLog(nbClasses, nbDetails, nbWeight, nbBitness, nbBottle);
 end;
 
 procedure RestoreNativeLogs;
@@ -1222,14 +1269,17 @@ begin
   nbDetails.SaveToFile(nbPath + '.native.data.log', TEncoding.UTF8);
   nbWeight.SaveToFile(nbPath + '.native.weight.log', TEncoding.UTF8);
   nbBitness.SaveToFile(nbPath + '.native.bitness.log', TEncoding.UTF8);
+  nbBottle.SaveToFile(nbPath + '.native.bottle.log', TEncoding.UTF8);
   VerifySanitySavedNativeLog(nbPath + '.native.elements.log',
     nbPath + '.native.data.log',
     nbPath + '.native.weight.log',
-    nbPath + '.native.bitness.log');
+    nbPath + '.native.bitness.log',
+    nbPath + '.native.bottle.log');
   nbClasses.Free;
   nbDetails.Free;
   nbWeight.Free;
   nbBitness.Free;
+  nbBottle.Free;
 end;
 
 function NativeLogIsPresentEx(GUID: String): Boolean;
@@ -1357,6 +1407,9 @@ begin
                 AssignFile(t, Path + '.native.bitness.log',cp_utf8);
                 ReWrite(t);
                 CloseFile(t);
+                AssignFile(t, Path + '.native.bottle.log',cp_utf8);
+                ReWrite(t);
+                CloseFile(t);
               except
                 Result := false;
               end;
@@ -1481,20 +1534,30 @@ begin
     WriteLn(t, NativeLogBitness[i -1]);
   CloseFile(t);
   NativeLogBitness.Clear;
+  AssignFile(t, Path + '.native.bottle.log',cp_utf8);
+  if MyFileExists(Path + '.native.bottle.log') then
+    Append(t)
+  else
+    ReWrite(t);
+  for i := 1 to NativeLogBottle.Count do
+    WriteLn(t, NativeLogBottle[i -1]);
+  CloseFile(t);
+  NativeLogBottle.Clear;
   VerifySanitySavedNativeLog(Path + '.native.elements.log',
     Path + '.native.data.log',
     Path + '.native.weight.log',
-    Path + '.native.bitness.log');
+    Path + '.native.bitness.log',
+    Path + '.native.bottle.log');
 end;
 
 function NativeApplyLogEvents(AllowCancel: Boolean): Integer;
 var
   tif: TINIFile;
   i, j, i1, i2, i3, i4, i2_len, i3_len, i_risk, i5: Integer;
-  Classes, Details, Weight, Bitness: TStringList;
+  Classes, Details, Weight, Bitness, Bottle: TStringList;
   l: TStringList;
   i64, i64X: Int64;
-  x64ModeY, x64ModeX, i64S, s, s1, s2, s3, s4, s5: String;
+  x64ModeY, x64ModeX, WineModeX, i64S, s, s1, s2, s3, s4, s5: String;
   opOK, opCancel, opRetry: Boolean;
   eBuf, c2: Cardinal;
   p:PChar;
@@ -1513,11 +1576,17 @@ begin
   Details := TStringList.Create;
   Weight := TStringList.Create;
   Bitness := TStringList.Create;
+  Bottle := TStringList.Create;
   Classes.LoadFromFile(NativeLogGuessPath + '.native.elements.log', TEncoding.UTF8);
   Details.LoadFromFile(NativeLogGuessPath + '.native.data.log', TEncoding.UTF8);
   Weight.LoadFromFile(NativeLogGuessPath + '.native.weight.log', TEncoding.UTF8);
   Bitness.LoadFromFile(NativeLogGuessPath + '.native.bitness.log', TEncoding.UTF8);
-  SanitizePostLoadNativeLog(Classes, Details, Weight, Bitness);
+  if MyFileExists(NativeLogGuessPath + '.native.bottle.log') then 
+    Bottle.LoadFromFile(NativeLogGuessPath + '.native.bottle.log', TEncoding.UTF8)
+  else
+    for i := 1 to Bitness.Count do 
+      Bottle.Add('');
+  SanitizePostLoadNativeLog(Classes, Details, Weight, Bitness, Bottle);
   for i := 1 to Weight.Count do
     i64 := i64 + StrToInt(Weight[i -1]);
   
@@ -1525,6 +1594,7 @@ begin
   
   try
     x64ModeX := x64Mode;
+    WineModeX := WineMode;
     i64X := NativeTotal;
     {$IFDEF USEVARMANAGER}
     i64S := VarManager['NATIVE_PROGRESS'];
@@ -1541,15 +1611,16 @@ begin
     try
       WriteToLog('        <' + Classes[i -1] + '>');
       x64Mode := Bitness[i -1];
+      WineMode := Bottle[i -1];
       Enter64BitFileSystem(True);
       Enter64BitRegistry;
       l.Clear;
       l.CommaText := Details[i -1];
       i_risk := 0;
       WriteToLog('        < ' + l.CommaText + ' >');
-      {$IFDEF WINDOWS}
       if Classes[i -1] = 'Delete Registry' then
       begin
+        {$IFDEF WINDOWS}
         while (l.Count = 1) do
         begin
           l.CommaText := l[0];
@@ -1611,9 +1682,44 @@ begin
         end;
         if not thSpoolerThread.IncrementProgress(StrToInt(Weight[i -1]), AssertDir(s1) + AssertDir(l[1]) + l[2]) then
           if AllowCancel then Exit; 
+        {$ELSE}
+        if WineMode <> '' then
+        begin
+          while (l.Count = 1) do
+          begin
+            l.CommaText := l[0];
+            i_risk := i_risk +1;
+            if i_risk = 314 then Continue;
+          end;
+          WidenColonDelimParam(l[0], Wide1, Wide2);
+          l[0] := Wide1; 
+          case StrToInt(l[0]) of
+            HKEY_CURRENT_USER: s1 := 'user.reg';
+            HKEY_LOCAL_MACHINE: s1 := 'system.reg';
+          else
+            s1 := '';
+          end;
+          if s1 <> '' then
+          begin
+            s1 := WineMode + s1;
+            DeleteWineRegistry(s1, l[1], l[2], x64Mode <> 'Win32');
+          end;
+          if opCancel then Exit;
+          WriteToLog('          < ' + AssertDir(s1) + AssertDir(l[1]) + l[2] + ' >');
+          for j := 4 to l.Count do 
+          begin
+            if not SafeToDeleteKey(s1, l[j -1], x64Mode <> 'Win32') then 
+              Break;
+            DeleteWineRegistry(s1, l[j -1], '', x64Mode <> 'Win32', True);
+            if opCancel then Exit;
+            WriteToLog('          < ' + AssertDir(s1) + l[j -1] + ' >');
+          end;
+          if not thSpoolerThread.IncrementProgress(StrToInt(Weight[i -1]), AssertDir(s1) + AssertDir(l[1]) + l[2]) then
+            if AllowCancel then Exit; 
+        end;
+        {$ENDIF}
       end
       else
-      {$ENDIF}
       if Classes[i -1] = 'Delete File' then
       begin
         {$IFDEF WINDOWS}
@@ -1854,10 +1960,12 @@ begin
     {$ENDIF}
 
     x64Mode := x64ModeX;
+    WineMode := WineModeX;
     NativeTotal := i64X;
     Classes.Free;
     Details.Free;
     Weight.Free;
+    Bottle.Free;
     l.Free;
     if s <> '' then
     begin
@@ -1866,6 +1974,7 @@ begin
       DeleteFile(PChar(NativeLogGuessPath + '.native.data.log'));
       DeleteFile(PChar(NativeLogGuessPath + '.native.weight.log'));
       DeleteFile(PChar(NativeLogGuessPath + '.native.bitness.log'));
+      DeleteFile(PChar(NativeLogGuessPath + '.native.bottle.log'));
       RemoveDirectory(PChar(s));
     end;
   end;
@@ -2290,10 +2399,10 @@ begin
     dataStack.Add(ElimDoubles(ReadOffset(Derefs, References[i -1], 3))); 
     dataStack.Add(ElimDoubles(ReadOffset(Derefs, References[i -1], 4))); 
     dataStack.Add(ElimDoubles(ReadOffset(Derefs, References[i -1], 5))); 
-    if StrToBool(ReadOffset(Derefs, References[i -1], 6)) then 
+    if MyStrToBool(ReadOffset(Derefs, References[i -1], 6)) then 
       dataStack.Add('STRING')
     else
-      if StrToBool(ReadOffset(Derefs, References[i -1], 7)) then
+      if MyStrToBool(ReadOffset(Derefs, References[i -1], 7)) then
         dataStack.Add('INTEGER')
       else
         dataStack.Add(ReadOffset(Derefs, References[i -1], 7));
@@ -5780,7 +5889,12 @@ begin
       end;
     end;
   end;
-  if TypesI = 'File Bag' then Exit; 
+  if TypesI = 'File Bag' then
+  begin
+    
+    Result := True; 
+    Exit; 
+  end;
   
   if not SpoolNativeAction(TypesI, Derefs, References, i, NativeEngineDelay{$IFDEF DARWIN}, MSIFile{$ENDIF}) then
     Result := false
@@ -5861,6 +5975,7 @@ begin
   
   SpawnFileCopyEx := '';
   x64Mode := 'Win32'; 
+  WineMode := '';
   DeferUnbindName := '';
   DeferUnbindNameForHideDialog := '';
   activeText := '';
@@ -6154,7 +6269,7 @@ begin
     {$ENDIF}
     SureSetVariable('SUPPORTDIR', CachedSupportDir, 'Initialization'); 
     SureSetVariable('MSIFILE', MSIFile, 'Initialization'); 
-    SureSetVariable('IAX_VERSION', '2.1', 'Initialization'); 
+    SureSetVariable('IAX_VERSION', '2.5', 'Initialization'); 
     
     AllowMissHeader := True;
     
@@ -7184,16 +7299,16 @@ begin
         end;
         {$endregion}
       end;
-      {$IFDEF WINDOWS}
       if TypesI = 'Find All Registry' then 
       begin
-      {$region}
+        {$region}
+        WidenColonDelimParam(ReadOffset(Derefs, References[i -1], 1), Wide1, Wide2);
+        s := Wide1;
+        if not IsVarDefined(s) then
+          SureSetVariable(AnsiUpperCase(s), '', TypesI + ' Action'); 
+        {$IFDEF WINDOWS}
         try
           Enter64BitRegistry;
-          WidenColonDelimParam(ReadOffset(Derefs, References[i -1], 1), Wide1, Wide2);
-          s := Wide1;
-          if not IsVarDefined(s) then
-            SureSetVariable(AnsiUpperCase(s), '', TypesI + ' Action'); 
           case StrToInt(ReadOffset(Derefs, References[i -1], 2)) of
             0: i1 := Integer(HKEY_CLASSES_ROOT);
             1: i1 := Integer(HKEY_CURRENT_USER);
@@ -7248,6 +7363,39 @@ begin
         finally
           Leave64BitRegistry;
         end;
+        {$ELSE}
+        if WineMode <> '' then
+        begin
+          case StrToInt(ReadOffset(Derefs, References[i -1], 2)) of
+            0: s2 := '';
+            1: s2 := WineMode + 'user.reg';
+            2: s2 := WineMode + 'system.reg';
+            3: s2 := '';
+            4: s2 := '';
+          end;
+          s1 := '';
+          lfar := TStringList.Create;
+          if StrToBool(ReadOffset(Derefs, References[i -1], 4)) then
+            IterateWineRegistry(s2, ElimDoubles(ReadOffset(Derefs, References[i -1], 3)), '',
+              x64Mode <> 'Win32', lfar, nil)
+          else
+            IterateWineRegistry(s2, ElimDoubles(ReadOffset(Derefs, References[i -1], 3)), '',
+              x64Mode <> 'Win32', nil, lfar);
+          for i2 := 1 to lfar.Count do
+          begin
+            s2 := lfar[i2 -1];
+            if s2 = '' then
+              s2 := '(Default)';
+            if i2 = 1 then
+              s1 := s2
+            else
+              s1 := s1 + '$NEWLINE$' + s2;
+          end;
+          lfar.Free;
+        end
+        else
+          s1 := '';
+        {$ENDIF}
         SetVariable(s, s1, TypesI + ' Action'); 
         Continue;
         {$endregion}
@@ -7270,10 +7418,11 @@ begin
         try
           WidenColonDelimParam(ReadOffset(Derefs, References[i -1], 1),
             Wide1, Wide2);
-          Enter64BitRegistry;
           s := Wide1;
           if not IsVarDefined(s) then
             SureSetVariable(AnsiUpperCase(s), '', TypesI + ' Action'); 
+          {$IFDEF WINDOWS}
+          Enter64BitRegistry;
           case StrToInt(ReadOffset(Derefs, References[i -1], 2)) of
             0: i1 := Integer(HKEY_CLASSES_ROOT);
             1: i1 := Integer(HKEY_CURRENT_USER);
@@ -7377,6 +7526,24 @@ begin
         finally
           Leave64BitRegistry;
         end;
+        {$ELSE}
+          case StrToInt(ReadOffset(Derefs, References[i -1], 2)) of
+            0: s2 := '';
+            1: s2 := WineMode + 'user.reg';
+            2: s2 := WineMode + 'system.reg';
+            3: s2 := '';
+            4: s2 := '';
+          end;
+          s1 := '';
+          try
+            s1 := CheckWineRegistry(s2, ElimDoubles(ReadOffset(Derefs, References[i -1], 3)),
+              ElimDoubles(ReadOffset(Derefs, References[i -1], 4)), x64Mode <> 'Win32');
+          except
+            s1 := 'READ$ERROR'; 
+          end;
+        finally
+        end;
+        {$ENDIF}
         if TypesI = 'Read Registry' then 
         begin
           if s1 = 'READ$ERROR' then s1 := ''; 
@@ -7390,6 +7557,7 @@ begin
         Continue;
         {$endregion}
       end;
+      {$IFDEF WINDOWS}
       if TypesI = 'Get System Settings' then 
       begin
       {$region}
@@ -8410,9 +8578,11 @@ begin
         end;
         {$endregion}
       end;
+      {$ENDIF}
       if TypesI = 'Delete Registry' then 
       begin
       {$region}
+        {$IFDEF WINDOWS}
         try
           Enter64BitRegistry;
           r := TRegistry.Create;
@@ -8461,9 +8631,25 @@ begin
         finally
           Leave64BitRegistry;
         end;
+        {$ELSE}
+        WidenColonDelimParam(ReadOffset(Derefs, References[i -1], 1), Wide1, Wide2);
+        case StrToInt(Wide1) of
+          0: s2 := '';
+          1: s2 := WineMode + 'user.reg';
+          2: s2 := WineMode + 'system.reg';
+          3: s2 := '';
+          4: s2 := '';
+        end;
+        s1 := '';
+        if StrToBool(ReadOffset(Derefs, References[i -1], 4)) then
+          DeleteWineRegistry(s2, ElimDoubles(ReadOffset(Derefs, References[i -1], 2)), '',
+            x64Mode <> 'Win32', True)
+        else
+          DeleteWineRegistry(s2, ElimDoubles(ReadOffset(Derefs, References[i -1], 2)),
+            ElimDoubles(ReadOffset(Derefs, References[i -1], 3)), x64Mode <> 'Win32');
+        {$ENDIF}
         {$endregion}
       end;
-      {$ENDIF}
       if TypesI = 'Reboot Computer' then 
       begin
         {$region}
@@ -8567,6 +8753,28 @@ begin
         if StrToBool(ReadOffset(Derefs, References[i -1], 3))  then 
           x64Mode := 'x64'; 
           {$endregion}
+        Continue;
+      end;
+      if TypesI = 'Set Wine Bottle' then 
+      begin
+        {$region}
+        {$IFNDEF WINDOWS}
+        
+        if StrToBool(ReadOffset(Derefs, References[i -1], 1))  then 
+          WineMode := ''; 
+        if StrToBool(ReadOffset(Derefs, References[i -1], 2))  then 
+          WineMode := '~/.wine/'; 
+        if StrToBool(ReadOffset(Derefs, References[i -1], 3))  then 
+          WineMode := '~/.' + AssertDir(GetVariable('BOTTLE')); 
+        if WineMode <> '' then
+          WineMode := AssertDir(ExpandFileName(WineMode));
+        if not DirectoryExists(WineMode) then
+          if DirectoryExists(GetVariable('BOTTLE')) then
+            
+            WineMode := AssertDir(GetVariable('BOTTLE'));
+        SetVariable('BOTTLE', WineMode, 'Set Wine Bottle'); 
+        {$ENDIF}
+        {$endregion}
       end;
       if TypesI = 'Edit INI File' then 
       begin
@@ -9113,7 +9321,10 @@ begin
             
             9: begin
                  i1 := -1;
-                 s1 := GetBootPath;
+                 if WineMode <> '' then 
+                   s1 := WineMode 
+                 else
+                   s1 := GetBootPath;
                end;
             
             10: begin
@@ -9153,7 +9364,10 @@ begin
             
             22: i1 := $9;
             
-            23: begin
+            23: if WineMode <> '' then
+                  i1 := $1001
+                else
+                begin
                   
                   i1 := -1;
                   {$IFDEF WINDOWS}
@@ -9183,7 +9397,10 @@ begin
             
             24: i1 := $15;
             
-            25: begin
+            25: if WineMode <> '' then
+                  i1 := $1002
+                else
+                begin
                   
                   i1 := -1;
                   {$IFDEF WINDOWS}
@@ -9276,35 +9493,45 @@ begin
                   i1 := $1c;
                 end;
             29: begin 
-                  i1 := -1;
-                  
-                  s1 := ''; 
-                  {$IFDEF DARWIN}
-                  s1 := GetSignificantDir(NSDownloadsDirectory, NSUserDomainMask, 0);
-                  if s1 <> '' then
-                    s1 := IncludeTrailingPathDelimiter(s1);
-                  {$ELSE}
-                  {$IFDEF LINUX}
-                  s1 := '~/Downloads/';
-                  {$ELSE}
-                  if Win32MajorVersion >= 6 then
+                  if WineMode <> '' then
+                    i1 := $1000 
+                  else
                   begin
-                    lpv := nil;
-                    if b then
-                      i1 := SHGetKnownFolderPath(FOLDERID_PublicDownloads, 0, 0, lpv)
-                    else
-                      i1 := SHGetKnownFolderPath(FOLDERID_Downloads, 0, 0, lpv);
-                    if i1 = S_OK then
-                      s1 := lpv;
-                    i1 := -1; 
-                    CoTaskMemFree(lpv);
+                    i1 := -1;
+                    
+                    s1 := ''; 
+                    {$IFDEF DARWIN}
+                    s1 := GetSignificantDir(NSDownloadsDirectory, NSUserDomainMask, 0);
+                    if s1 <> '' then
+                      s1 := IncludeTrailingPathDelimiter(s1);
+                    {$ELSE}
+                    {$IFDEF LINUX}
+                    s1 := '~/Downloads/';
+                    {$ELSE}
+                    if Win32MajorVersion >= 6 then
+                    begin
+                      lpv := nil;
+                      if b then
+                        i1 := SHGetKnownFolderPath(FOLDERID_PublicDownloads, 0, 0, lpv)
+                      else
+                        i1 := SHGetKnownFolderPath(FOLDERID_Downloads, 0, 0, lpv);
+                      if i1 = S_OK then
+                        s1 := lpv;
+                      i1 := -1; 
+                      CoTaskMemFree(lpv);
+                    end;
+                    {$ENDIF}
+                    {$ENDIF}
                   end;
-                  {$ENDIF}
-                  {$ENDIF}
                 end;
           end;
           if i1 <> -1 then
-            GetSpecialFolder(i1, s1);
+          begin
+            if WineMode <> '' then
+              GetSpecialFolderWine(i1, s1, WineMode, x64Mode <> 'Win32')
+            else
+              GetSpecialFolder(i1, s1);
+          end;
           SetVariable(s, AssertDir(s1), TypesI + ' Action');
           Continue;
         finally
@@ -9520,6 +9747,7 @@ begin
                   DeleteFile(PChar(GetVariable('NATIVE_LOGGING') + '.native.data.log'));
                   DeleteFile(PChar(GetVariable('NATIVE_LOGGING') + '.native.weight.log'));
                   DeleteFile(PChar(GetVariable('NATIVE_LOGGING') + '.native.bitness.log'));
+                  DeleteFile(PChar(GetVariable('NATIVE_LOGGING') + '.native.bottle.log'));
                 end;
               
               SureSetVariable('NATIVE_ERROR', ssv1, 'Native Foreign Log Processor');
@@ -11943,24 +12171,6 @@ begin
     
   end;
   {$ENDIF}
-end;
-
-function IsValidSaveNameEx(FileName: String): Boolean;
-begin
-  Result := false;
-  
-  FileName := ExtractFileName(FileName);
-  if AnsiPos('\', FileName) <> 0 then Exit;
-  if AnsiPos('/', FileName) <> 0 then Exit;
-  if AnsiPos(':', FileName) <> 0 then Exit;
-  if AnsiPos('*', FileName) <> 0 then Exit;
-  if AnsiPos('?', FileName) <> 0 then Exit;
-  if AnsiPos('"', FileName) <> 0 then Exit;
-  if AnsiPos('<', FileName) <> 0 then Exit;
-  if AnsiPos('>', FileName) <> 0 then Exit;
-  if AnsiPos('|', FileName) <> 0 then Exit;
-  
-  Result := True;
 end;
 
 function SubstituteCompilerVariables(Text, Variables: String): String;
@@ -14863,7 +15073,7 @@ begin
   
   FreeMem(p);
   
-  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.1');
+  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.5');
   SaveCompilerVariables(Conditionals); 
   
   BackTypes := TStringList.Create;
@@ -16173,7 +16383,81 @@ begin
     Leave64BitRegistry;
   {$ELSE}
   begin
-    WriteToLog('        < Write Registry Skipped >');
+    if WineMode <> '' then
+    begin
+      s1 := dataStack[0]; 
+      s2 := dataStack[1]; 
+      WidenColonDelimParam(s2, Wide1, Wide2);
+      s2 := Wide1; 
+      s3 := dataStack[2]; 
+      s4 := dataStack[3]; 
+      s5 := dataStack[4]; 
+      s6 := dataStack[5]; 
+      case StrToInt(s2) of
+        1: s7 := 'user.reg';
+        2: s7 := 'system.reg';
+      else
+        s7 := '';
+      end;
+      if s7 <> '' then
+      begin
+        s7 := WineMode + s7;
+        if not IncrementProgress(weightWR, AssertDir(s7) + AssertDir(s3) + AssertDir(s4) + s5) then Exit;
+        bW := false;
+        if not StrToBool(s1) then
+        begin
+          sl := TStringList.Create;
+          sl.Add(IntToStr(i1) + '|' + Wide2); 
+          sl.Add(s3); 
+          sl.Add(s4); 
+          NativeLogAddEntry('Write Registry', sl.CommaText);
+          bW := True;
+          sl.Free;
+        end;
+        
+        s5 := StringReplace(s5, WineMode + 'drive_c', 'c:', [rfReplaceAll, rfIgnoreCase]);
+        s5 := StringReplace(s5, '/', '\', [rfReplaceAll, rfIgnoreCase]);
+        
+          if s6 = 'STRING' then
+            WriteWineRegistryString(s7, s3, s4, s5, x64Mode <> 'Win32')
+          else
+          if s6 = 'INTEGER' then
+          begin
+            if TryStrToInt(s5, i3) then
+              WriteWineRegistryInteger(s7, s3, s4, i3, x64Mode <> 'Win32');
+            ;
+          end
+          else
+          if s6 = 'EXPANDSTRING' then
+            WriteWineRegistryExpandString(s7, s3, s4, s5, x64Mode <> 'Win32')
+          else
+          if s6 = 'APPEND' then
+          begin
+            s8 := ReadWineRegistry(s7, s3, s4, x64Mode <> 'Win32');
+            if s8 <> '' then
+              s8 := s8 + '$NEWLINE$';
+            WriteWineRegistryMultiString(s7, s3, s4, s8 +s5, x64Mode <> 'Win32');
+          end
+          else
+          if s6 = 'PREPEND' then
+          begin
+            s8 := ReadWineRegistry(s7, s3, s4, x64Mode <> 'Win32');
+            if s8 <> '' then
+              s8 := '$NEWLINE$' + s8;
+            WriteWineRegistryMultiString(s7, s3, s4, s5 +s8, x64Mode <> 'Win32');
+          end
+          else
+          if s6 = 'BINARY' then
+            WriteWineRegistryBinary(s7, s3, s4, s5, x64Mode <> 'Win32');
+          
+          WriteToLog('        < ' + AssertDir(s7) + AssertDir(s3) + DeAssertDir(s4) + '=' + s5 + ' >');
+        if opCancel then Exit;
+      end
+      else
+        WriteToLog('        < Write Registry Skipped >'); 
+    end
+    else
+      WriteToLog('        < Write Registry Skipped >');
     if opCancel then Exit;
   {$ENDIF}
   end
@@ -17427,6 +17711,7 @@ initialization
   NativeLogData := TStringList.Create;
   NativeLogWeight := TStringList.Create;
   NativeLogBitness := TStringList.Create;
+  NativeLogBottle := TStringList.Create;
 
   {$IFDEF WINDOWS}
   EnableAllPrivileges;
@@ -17455,6 +17740,8 @@ finalization
     FreeAndNil(NativeLogWeight);
   if Assigned(NativeLogBitness) then
     FreeAndNil(NativeLogBitness);
+  if Assigned(NativeLogBottle) then
+    FreeAndNil(NativeLogBottle);
   if Assigned(NativeDelayStack) then
     FreeAndNil(NativeDelayStack);
   if Assigned(dataStack) then

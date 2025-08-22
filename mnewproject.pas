@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -142,7 +144,7 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, StdCtrls, ComCtrls, ImgList, ExtCtrls, FileCtrl, mUtils, mAutomate, madddialog,
-  mquickstart, mquickstartthread;
+  mquickstart, mquickstartthread, mos3;
 
 type
 
@@ -211,8 +213,9 @@ type
     procedure CreateRegProject;
     procedure ConvertIAProject;
     procedure QuickStart;
+    procedure CreateWineProject;
     procedure SaveProjectIntoFolder;
-    procedure CloneTemplateProject(Location: String);
+    procedure CloneTemplateProject(Location: String; OverrideDefaultCreatePath: String = '');
     function AssertURL(URL: String): String;
     procedure CreateTemplateProject;
     procedure CreateUserModeProject;
@@ -250,6 +253,8 @@ begin
     ProjectFolder.Enabled := True;
     Subfolder.Enabled := True;
     
+    if Item.Caption = cProjectOS3 then
+      Hints.Caption := SGeneratesWine;
     if Item.Caption = SCDAutorun then
       Hints.Caption := SGeneratesAScriptForATypicalCDAut;
     if Item.Caption = SLUASetup then
@@ -281,6 +286,8 @@ begin
     if Item.Caption = SOnlineUserAuthentication then
       Hints.Caption := AuthHint;
     if Item.Caption = cPackageAware then 
+      Hints.Caption := hPackageAware;
+    if (Item.Caption = cPackageAware) or (Item.Caption = cProjectOS3) then 
     begin
       Label1.Enabled := false;
       Label2.Enabled := false;
@@ -288,7 +295,6 @@ begin
       ProjectName.Enabled := false;
       ProjectFolder.Enabled := false;
       Subfolder.Enabled := false;
-      Hints.Caption := hPackageAware;
     end;
     if Item.Caption = cAddTemplate then
     begin
@@ -402,6 +408,12 @@ begin
     Application.MessageBox(PChar(SPackageAwareIsAStandAloneUtility),
       Brand, mb_Ok + mb_IconInformation);
     ui.MenuItem44Click(Self);
+    MyClose;
+    Exit;
+  end;
+  if Hints.Caption = SGeneratesWine then
+  begin
+    CreateWineProject;
     MyClose;
     Exit;
   end;
@@ -968,6 +980,14 @@ begin
   end;
 end;
 
+procedure TNewProject.CreateWineProject;
+begin
+  if OS3.ShowModal = mrOk then
+    if OS3.Notebook.ActivePage = 'Page5' then
+      if OS3.BuildNow.Checked then
+        UI.Build1Click(Self);
+end;
+
 procedure TNewProject.SaveProjectIntoFolder;
 begin
   ProjectStruct.Name := ProjectName.Text;
@@ -980,7 +1000,7 @@ begin
   UI.AddToMRUF(CurrentProjectName);
 end;
 
-procedure TNewProject.CloneTemplateProject(Location: String);
+procedure TNewProject.CloneTemplateProject(Location: String; OverrideDefaultCreatePath: String = '');
 var
   src, trg: TextFile;
   s, sX, sY, sZ, sZZ: String;
@@ -989,6 +1009,7 @@ var
   sMPR, sMIA: String;
   BOM: Char;
   hDef: TCursor;
+  ProjectNameText: String;
 begin
   if not DirectoryExists(Location) then
   begin
@@ -999,8 +1020,17 @@ begin
   end;
   hDef := Screen.Cursor;
   Screen.Cursor := crHourGlass;
-  s := AssertDir(ProjectFolder.Text);
-  if Subfolder.Checked then s := s + ProjectName.Text + PathDelim;
+  if OverrideDefaultCreatePath = '' then
+  begin
+    s := AssertDir(ProjectFolder.Text);
+    if Subfolder.Checked then s := s + ProjectName.Text + PathDelim;
+    ProjectNameText := ProjectName.Text;
+  end
+  else
+  begin
+    s := AssertDir(ExtractFilePath(OverrideDefaultCreatePath));
+    ProjectNameText := ExtractFileNameOnly(OverrideDefaultCreatePath);
+  end;
   l := FindAllFilesEx(AssertDir(Location) + '*', false);
   for i := 1 to l.Count do
     FileCopyFile(PChar(l[i -1]), PChar(s + ExtractFileName(l[i -1])), false);
@@ -1012,12 +1042,12 @@ begin
   RenameFile(s + ExtractFileName(DeAssertDir(Location))
     + '.mprx', sMPR); 
   
-  DeleteFile(s + ProjectName.Text + '.miax'); 
-  RenameFile(sMIA, s + ProjectName.Text + '.miax'); 
+  DeleteFile(s + ProjectNameText + '.miax'); 
+  RenameFile(sMIA, s + ProjectNameText + '.miax'); 
   AssignFile(src, sMPR, cp_utf8);
-  AssignFile(trg, s + ProjectName.Text + '.mprx', cp_utf8); 
+  AssignFile(trg, s + ProjectNameText + '.mprx', cp_utf8); 
   sY := s;
-  sX := s + ProjectName.Text + '.mprx'; 
+  sX := s + ProjectNameText + '.mprx'; 
   Reset(src);
   if not eof(src) then
   begin
@@ -1030,16 +1060,16 @@ begin
   end;
   ReWrite(trg);
   ReadLn(src, sZZ);
-  if MyFileExists(sY + ProjectName.Text + '.miax') then
+  if MyFileExists(sY + ProjectNameText + '.miax') then
     
-    WriteLn(trg, ProjectName.Text + '.miax')
+    WriteLn(trg, ProjectNameText + '.miax')
   else
     
     WriteLn(trg, sZZ); 
   while not EOF(src) do
   begin
     ReadLn(src, s);
-    s := StringReplace(s, '$$$', ProjectName.Text, [rfReplaceAll]);
+    s := StringReplace(s, '$$$', ProjectNameText, [rfReplaceAll]);
     if ui.IsValidGuid(s) then 
       s := MyCreateGUID; 
     WriteLn(trg, s);
@@ -1047,9 +1077,9 @@ begin
   CloseFile(src);
   CloseFile(trg);
   Erase(src);
-  if MyFileExists(sY + ProjectName.Text + '.miax') then
+  if MyFileExists(sY + ProjectNameText + '.miax') then
     
-    sZ := sY + ProjectName.Text + '.miax'
+    sZ := sY + ProjectNameText + '.miax'
   else
     
     sZ := sY + sZZ;
@@ -1069,7 +1099,7 @@ begin
   while not EOF(src) do
   begin
     ReadLn(src, s);
-    s := StringReplace(s, '$$$', ProjectName.Text, [rfReplaceAll]);
+    s := StringReplace(s, '$$$', ProjectNameText, [rfReplaceAll]);
     WriteLn(trg, s);
   end;
   CloseFile(src);
@@ -1082,14 +1112,14 @@ begin
     if MyFileExists(sY + ExtractFileName(DeAssertDir(Location)) + '.miax.fldx') then
       RenameFile(sY +
         ExtractFileName(DeAssertDir(Location)) + '.miax.fldx',
-        sY + ProjectName.Text + '.miax.fldx'); 
+        sY + ProjectNameText + '.miax.fldx'); 
   l.Free;
   l := FindAllFilesEx(sY + '*.brkx', false); 
   if l.Count <> 0 then
     if MyFileExists(sY + ExtractFileName(DeAssertDir(Location)) + '.miax.brkx') then
       RenameFile(sY +
         ExtractFileName(DeAssertDir(Location)) + '.miax.brkx',
-        sY + ProjectName.Text + '.miax.brkx'); 
+        sY + ProjectNameText + '.miax.brkx'); 
   l.Free;
   UI.LoadProject(sX);
   Screen.Cursor := hDef;
@@ -1112,6 +1142,9 @@ begin
   l := Wizards.Items.Add;
   l.Caption := cClone;
   l.ImageIndex := 9;
+  l := Wizards.Items.Add;
+  l.Caption := cProjectOS3;
+  l.ImageIndex := 40;
   
   l := Templates.Items.Add;
   l.Caption := cBlank;
@@ -1164,6 +1197,9 @@ begin
   l := All.Items.Add;
   l.Caption := cClone;
   l.ImageIndex := 9;
+  l := All.Items.Add;
+  l.Caption := cProjectOS3;
+  l.ImageIndex := 40;
   l := All.Items.Add;
   l.Caption := cBlank;
   l.ImageIndex := 2;

@@ -1,12 +1,12 @@
 object scrFindAllRegistry: TscrFindAllRegistry
   Left = 0
   Height = 298
-  Top = 25
+  Top = 34
   Width = 357
   HelpType = htKeyword
   HelpKeyword = 'findallregistry'
   BorderStyle = bsDialog
-  Caption = 'Find All Registry (Windows Only)'
+  Caption = 'Find All Registry (Windows and Wine)'
   ClientHeight = 298
   ClientWidth = 357
   Color = clBtnFace
@@ -15,7 +15,7 @@ object scrFindAllRegistry: TscrFindAllRegistry
   Font.Name = 'Tahoma'
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Label1: TLabel
     Left = 16
     Height = 13
@@ -57,7 +57,7 @@ object scrFindAllRegistry: TscrFindAllRegistry
     Height = 20
     Top = 32
     Width = 321
-    ItemHeight = 19
+    ItemHeight = 15
     TabOrder = 0
   end
   object BitBtn1: TBitBtn
@@ -86,7 +86,7 @@ object scrFindAllRegistry: TscrFindAllRegistry
   end
   object Key: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 128
     Width = 321
     TabOrder = 2
@@ -105,10 +105,10 @@ object scrFindAllRegistry: TscrFindAllRegistry
       'HKEY_USERS'
       'HKEY_CURRENT_CONFIG'
     )
-    OnChange = RootChange
     Style = csDropDownList
     TabOrder = 1
     Text = 'HKEY_CLASSES_ROOT'
+    OnChange = RootChange
   end
   object Names: TRadioButton
     Left = 16
@@ -128,7 +128,7 @@ object scrFindAllRegistry: TscrFindAllRegistry
   end
   object Target: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 224
     Width = 321
     TabOrder = 5

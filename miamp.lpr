@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -173,7 +175,7 @@ uses
   mscrreadregistry, mscrwriteregistry, mupdatepack, mscrcompress7zip,
   mscrextract7zip, mscrsetowner, mscrsetgroup, mscrgetnativesettings,
   mscrreturnfrominclude, uLicenseESLR8, mscrrunprogramas, uRunAppAs,
-  mscrrunscript, uRunScript, mscrcheckprocess;
+  mscrrunscript, uRunScript, mscrcheckprocess, mos3, mscrsetwinemode;
 
 {$R *.res}
 
@@ -292,6 +294,8 @@ begin
   Application.CreateForm(TscrRunProgramAs, scrRunProgramAs);
   Application.CreateForm(TscrRunScript, scrRunScript);
   Application.CreateForm(TscrCheckProcess, scrCheckProcess);
+  Application.CreateForm(Tos3, os3);
+  Application.CreateForm(TscrSetWineMode, scrSetWineMode);
   KillAllOldButtons;
   {$IFNDEF LICENSED}
   LicenseESLR8.ShowModal;

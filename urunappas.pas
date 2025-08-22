@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -237,102 +239,108 @@ begin
         end;
       end;
     {$ENDIF}
-    if raxElev and ({$IFNDEF WINDOWS}FpGetEUID <> 0{$ELSE}not IsUserAdmin{$ENDIF}) then
-    begin
-      sl := ParseWhiteSpaceIntoMultipleStrings(raxParams);
-      if raxFolder <> '' then
-      begin
-        GetDir(0, sY);
-        ChDir(raxFolder);
-      end;
-      globElevatorEx(raxCmd, sl, raxWait, raxOut);
-      if raxFolder <> '' then
-        ChDir(sY);
-      sl.Free;
-    end
+    if not MyFileExists(raxCmd) then
+      
+      raxOut := -1
     else
     begin
-      p := TProcess.Create(nil);
-      p.Executable := raxCmd;
-      sl := ParseWhiteSpaceIntoMultipleStrings(raxParams);
-      p.Parameters.Text := sl.Text;
-      sl.Free;
-      p.CurrentDirectory := raxFolder;
-      sl := ParseWhiteSpaceIntoMultipleStrings(raxEnv);
-      for j := 1 to GetEnvironmentVariableCount do
-        sl.Add(GetEnvironmentString(j));
-      p.Environment.Text := sl.Text;
-      
-      sl.Free;
-      {$IFDEF WINDOWS}
-      case raxWindow of
-        
-        0: p.ShowWindow := swoShowDefault;
-        1: p.ShowWindow := swoHIDE;
-        2: p.ShowWindow := swoShowMaximized;
-        3: p.ShowWindow := swoShowMinimized;
-        4: p.ShowWindow := swoshowMinNOActive;
-      end;
-      {$ENDIF}
-      
-      {$IFNDEF NOGUI}
-      p.Options := p.Options + [poNoConsole];
-      p.Options := p.Options - [poNewConsole];
-      {$ENDIF}
-      if raxCap then
+      if raxElev and ({$IFNDEF WINDOWS}FpGetEUID <> 0{$ELSE}not IsUserAdmin{$ENDIF}) then
       begin
-        p.Options := [poUsePipes, poStderrToOutPut];
-        if raxLog <> '' then
-        try
-          AssignFile(tX, raxLog);
-          ReWrite(tX);
-        except;
-          raxLog := '';
-        end;
-      end
-      else
-        raxLog := '';
-      p.Execute;
-      if raxCap then
-      begin
-        sX := '';
-        while p.Running or (p.Output.NumBytesAvailable > 0) do
+        sl := ParseWhiteSpaceIntoMultipleStrings(raxParams);
+        if raxFolder <> '' then
         begin
-          while p.Output.NumBytesAvailable > 0 do
-          begin
-            i := Min(2048, p.Output.NumBytesAvailable); 
-            p.Output.Read(c, i);
-            s := Copy(c, 1, i);
-            if raxLog <> '' then
-              Write(tX, s);
-            SetVariable('PROGRESSTEXT', sX + s, 'Run Program As Progress Loop String');
-            
-            if AnsiPos('%', s) <> 0 then
-            begin
-              Delete(s, 1, AnsiPos('%', s));
-              if AnsiPos(' ', s) <> 0 then
-                Delete(s, AnsiPos(' ', s), Length(s));
-              if TryStrToInt(s, i) then
-                SetVariable('PROGRESS', IntToStr(i), 'Run Program As Progress Loop Integer');
-            end;
-            sX := s;
-            if AnsiPos(LineEnding, sX) <> 0 then
-            repeat
-              Delete(sX, 1, AnsiPos(LineEnding, sX) + Length(LineEnding) -1);
-            until AnsiPos(LineEnding, sX) = 0;
-            Sleep(314);
-          end;
-          Sleep(213);
+          GetDir(0, sY);
+          ChDir(raxFolder);
         end;
-        if raxLog <> '' then
-          CloseFile(tX);
+        globElevatorEx(raxCmd, sl, raxWait, raxOut);
+        if raxFolder <> '' then
+          ChDir(sY);
+        sl.Free;
       end
       else
+      begin
+        p := TProcess.Create(nil);
+        p.Executable := raxCmd;
+        sl := ParseWhiteSpaceIntoMultipleStrings(raxParams);
+        p.Parameters.Text := sl.Text;
+        sl.Free;
+        p.CurrentDirectory := raxFolder;
+        sl := ParseWhiteSpaceIntoMultipleStrings(raxEnv);
+        for j := 1 to GetEnvironmentVariableCount do
+          sl.Add(GetEnvironmentString(j));
+        p.Environment.Text := sl.Text;
+        
+        sl.Free;
+        {$IFDEF WINDOWS}
+        case raxWindow of
+          
+          0: p.ShowWindow := swoShowDefault;
+          1: p.ShowWindow := swoHIDE;
+          2: p.ShowWindow := swoShowMaximized;
+          3: p.ShowWindow := swoShowMinimized;
+          4: p.ShowWindow := swoshowMinNOActive;
+        end;
+        {$ENDIF}
+        
+        {$IFNDEF NOGUI}
+        p.Options := p.Options + [poNoConsole];
+        p.Options := p.Options - [poNewConsole];
+        {$ENDIF}
+        if raxCap then
+        begin
+          p.Options := [poUsePipes, poStderrToOutPut];
+          if raxLog <> '' then
+          try
+            AssignFile(tX, raxLog);
+            ReWrite(tX);
+          except;
+            raxLog := '';
+          end;
+        end
+        else
+          raxLog := '';
+        p.Execute;
+        if raxCap then
+        begin
+          sX := '';
+          while p.Running or (p.Output.NumBytesAvailable > 0) do
+          begin
+            while p.Output.NumBytesAvailable > 0 do
+            begin
+              i := Min(2048, p.Output.NumBytesAvailable); 
+              p.Output.Read(c, i);
+              s := Copy(c, 1, i);
+              if raxLog <> '' then
+                Write(tX, s);
+              SetVariable('PROGRESSTEXT', sX + s, 'Run Program As Progress Loop String');
+              
+              if AnsiPos('%', s) <> 0 then
+              begin
+                Delete(s, 1, AnsiPos('%', s));
+                if AnsiPos(' ', s) <> 0 then
+                  Delete(s, AnsiPos(' ', s), Length(s));
+                if TryStrToInt(s, i) then
+                  SetVariable('PROGRESS', IntToStr(i), 'Run Program As Progress Loop Integer');
+              end;
+              sX := s;
+              if AnsiPos(LineEnding, sX) <> 0 then
+              repeat
+                Delete(sX, 1, AnsiPos(LineEnding, sX) + Length(LineEnding) -1);
+              until AnsiPos(LineEnding, sX) = 0;
+              Sleep(314);
+            end;
+            Sleep(213);
+          end;
+          if raxLog <> '' then
+            CloseFile(tX);
+        end
+        else
+          if raxWait then
+            p.WaitOnExit;
         if raxWait then
-          p.WaitOnExit;
-      if raxWait then
-        raxOut := p.ExitCode;
-      p.Free;
+          raxOut := p.ExitCode;
+        p.Free;
+      end;
     end;
   finally
     Leave64BitFileSystem(True);

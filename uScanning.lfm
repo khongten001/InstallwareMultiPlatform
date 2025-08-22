@@ -1,7 +1,7 @@
 object Scanning: TScanning
-  Left = 269
+  Left = 277
   Height = 302
-  Top = 49
+  Top = 154
   Width = 670
   BorderIcons = []
   BorderStyle = bsSingle
@@ -16,7 +16,7 @@ object Scanning: TScanning
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.4.0.0'
   object Image1: TImage
     Left = 0
     Height = 302
@@ -842,8 +842,8 @@ object Scanning: TScanning
     Width = 75
     Cancel = True
     Caption = 'Cancel'
-    OnClick = CancelClick
     TabOrder = 0
+    OnClick = CancelClick
   end
   object ScanFile: TFileLabel
     Left = 176

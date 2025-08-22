@@ -25,6 +25,8 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
+                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-08-22
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -319,40 +321,6 @@ implementation
 
 uses
   uGui, mproject;
-
-resourcestring
-  
-  SUnableToCreateAccessFolder = 'Unable to create/access folder';
-  SThisFolderAlreadyContainsPreviou = 'This folder already contains previously exported translations for the current project. Would you like to preserve existing translation data?'#13#13;
-  SYesPreserveExistingTranslationsA = 'Yes: Preserve existing translations, adding new items as necessary.'#13;
-  SNoOverwriteAllPreviousTranslatio = 'No: Overwrite all previous translations.'#13;
-  SCancelDoNothing = 'Cancel: Do nothing.';
-  SUnableToAccessFolder = 'Unable to access folder';
-  SFolderDoesNotSeemToContainTransl = 'Folder does not seem to contain translations for current project'#13#13;
-  SExpectedTranslationIndexFileNotF = 'Expected translation index file not found:'#13;
-  SExpectedTranslationMapFileNotFou = 'Expected translation map file not found:'#13;
-  SFolderDoesNotContainAnyLocalizat = 'Folder does not contain any (exported) localizations';
-  SPleaseChooseAtLeastOneLanguageFo = 'Please choose at least one language for localization or import';
-  SProjectAlreadyContainsPreviously = 'Project already contains previously imported translations.'#13'Would you like to discard them and import new translations?';
-  SNext = '&Next >';
-  SFinish = '&Finish';
-  SExportToFolder = 'Export to Folder';
-  SImportFromFolder = 'Import from Folder';
-  SDialog = 'Dialog: ';
-  SUnableToReconcileTranslationsPle = 'Unable to reconcile translations. Please try your export again into a different folder. Be sure to use the correct folder that already contains translations for your project.';
-
-function RightAnsiPos(SubStr, s: string): Integer;
-var
-  i: Integer;
-begin
-  Result := 0;
-  while AnsiPos(SubStr, s) <> 0 do
-  begin
-    i := AnsiPos(SubStr, s);
-    Delete(s, 1, i);
-    if i <> 0 then Result := Result +i;
-  end;
-end;
 
 procedure TDialogLocalize.FormShow(Sender: TObject);
 begin

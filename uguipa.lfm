@@ -15,7 +15,7 @@ object GuiPA: TGuiPA
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.6.0.0'
+  LCLVersion = '3.4.0.0'
   object Image1: TImage
     Left = 0
     Height = 301
@@ -917,7 +917,7 @@ object GuiPA: TGuiPA
       object Label12: TLabel
         Left = 32
         Height = 33
-        Top = 40
+        Top = 56
         Width = 225
         AutoSize = False
         Caption = 'You have successfully completed pre and post system scans.'
@@ -927,7 +927,7 @@ object GuiPA: TGuiPA
       object Label13: TLabel
         Left = 32
         Height = 41
-        Top = 72
+        Top = 88
         Width = 241
         AutoSize = False
         Caption = 'You may create a setup project now, encapsulating the delta of the two scans.'
@@ -940,7 +940,7 @@ object GuiPA: TGuiPA
         Top = 128
         Width = 241
         Caption = 'To re-scan for changes, click here.'
-        TabOrder = 1
+        TabOrder = 2
         OnClick = ReScanChangesClick
       end
       object Label15: TLabel
@@ -959,8 +959,16 @@ object GuiPA: TGuiPA
         Top = 192
         Width = 241
         Caption = 'To re-create your baseline scan, click here.'
-        TabOrder = 2
+        TabOrder = 3
         OnClick = ReBaseLineClick
+      end
+      object Portable: TCheckBox
+        Left = 22
+        Height = 18
+        Top = 35
+        Width = 251
+        Caption = 'Make project &portable (build on other devices)'
+        TabOrder = 1
       end
     end
     object p4: TPage

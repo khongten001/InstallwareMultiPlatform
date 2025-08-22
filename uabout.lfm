@@ -51,8 +51,8 @@ object About: TAbout
     Left = 200
     Height = 16
     Top = 48
-    Width = 111
-    Caption = 'Version 2025 (2.1)'
+    Width = 113
+    Caption = 'Version 2025 (2.5)'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clMedGray
     Font.Height = -13

@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="134">
+    <Units Count="136">
       <Unit0>
         <Filename Value="miamp.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1015,6 +1015,20 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit133>
+      <Unit134>
+        <Filename Value="mos3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="OS3"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit134>
+      <Unit135>
+        <Filename Value="mscrsetwinemode.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="scrSetWineMode"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit135>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
