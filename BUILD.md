@@ -83,7 +83,9 @@ _InstallAware Multi Platform_ is developed in [Lazarus IDE](https://www.lazarus-
 
 Of the third-party IDE packages not included in _Lazarus_, the project only requires the following:
 * `miap.lpk`: The custom script editor and file label controls.
-* `GreatisRuntimeFusion/FormDes/Source/gfstd.lpk`: The form editor.
+* `GreatisRuntimeFusion/FormDes/Source/gfdlib.lpk`: The form editor 
+library.
+* `GreatisRuntimeFusion/FormDes/Source/gfdstd.lpk`: The form editor.
 * `GreatisRuntimeFusion/ObjInsp/Source/oipkg7.lpk`: The object inspector.
 * `GreatisRuntimeFusion/RunFus/Source/rfpkg.lpk`: The merged runtime designers.
 

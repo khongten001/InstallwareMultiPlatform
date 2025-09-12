@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -430,14 +430,17 @@ var
   c, cX: Char;
   s, sX, sY: String;
   i, j: Integer;
-  l: TStringList;
+  l, lX: TStringList;
 begin
+  lX := TStringList.Create; 
+  lX.CommaText := Components.CommaText;
+  lX.Sorted := True;
   l := TStringList.Create;
   repeat
     l.Clear;
-    for i := 1 to Components.Count do
+    for i := 1 to lX.Count do
     begin
-      s := Components[i -1];
+      s := lX[i -1];
       if AnsiCompareText('MYAH-PREDEF-COMPONENT', s) = 0 then Continue;
       if GetComponentDelete(s) or GetAnyParentComponentHide(s) then Continue;
       l.Add(s);
@@ -467,16 +470,16 @@ begin
       for j := 1 to OccurrencesOfChar(s, '\') do
         if j = OccurrencesOfChar(s, '\') then
         begin
-          if i = Components.Count then
+          if i = lX.Count then
             {$IFDEF WINDOWS}
             Write('`-')
             {$ELSE}
             Write('└─')
             {$ENDIF}
           else
-            if ((OccurrencesOfChar(s, '\') > OccurrencesOfChar(Components[i], '\')) or
-              ((i +1) = Components.Count) and
-                (OccurrencesOfChar(s, '\') < OccurrencesOfChar(Components[i], '\'))) then
+            if ((OccurrencesOfChar(s, '\') > OccurrencesOfChar(lX[i], '\')) or
+              ((i +1) = lX.Count) and
+                (OccurrencesOfChar(s, '\') < OccurrencesOfChar(lX[i], '\'))) then
               {$IFDEF WINDOWS}
               Write('`-')
               {$ELSE}
@@ -491,7 +494,7 @@ begin
               {$ENDIF}
         end
         else
-          if i = Components.Count then
+          if i = lX.Count then
             Write('  ')
           else
             {$IFDEF WINDOWS}
@@ -543,6 +546,7 @@ begin
     else
       Break;
   until false;
+  lX.Free;
   l.Free;
 end;
 {$ENDIF}

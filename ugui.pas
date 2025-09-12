@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -19309,8 +19309,8 @@ begin
         (GetPreReqTopInsertionIndex(false) = -1) then
       begin
         Application.MessageBox(PChar(SSomeNecessaryScriptCommandsWereN
-          + #13 + SApplicationRuntimesForThisScript
-          + #13#13 + SToAvoidSeeingThisMessageCreateNe_3),
+          + MyLineEnding + SApplicationRuntimesForThisScript
+          + MyLineEnding + MyLineEnding + SToAvoidSeeingThisMessageCreateNe_3),
           PChar(Application.Title), mb_Ok + mb_IconStop);
         
           Runtimes.Checked[Runtimes.ItemIndex] := false

@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -3445,13 +3445,13 @@ var
   i: Integer;
   s: String;
 begin
-  Result := IntToStr(Line);
-  Exit;
+  
   Result := '';
   s := Types[Line];
   if NativeEngineMode then
   begin
-    if AnsiPos('Install ', s) <> 1 then Exit;
+    if (AnsiPos('Install ', s) <> 1)
+      and (AnsiPos('File Bag', s) <> 1) then Exit; 
     
   end;
   i := CommandHeaders.IndexOf(IntToStr(Line));
@@ -3469,8 +3469,7 @@ var
   MaxLen: Integer;
   Blendable: Boolean;
 begin
-  Result := IntToStr(Line);
-  Exit;
+  
   Result := '';
   
   i := CommandHeaders.IndexOf(IntToStr(Line));
@@ -3493,6 +3492,11 @@ begin
   begin
     Result := 'IF'; 
     i := 12;
+  end else
+  if s = 'File Bag' then 
+  begin
+    Result := 'FB'; 
+    i := 4;
   end else
   if s = 'Create Link' then 
   begin
@@ -6269,7 +6273,7 @@ begin
     {$ENDIF}
     SureSetVariable('SUPPORTDIR', CachedSupportDir, 'Initialization'); 
     SureSetVariable('MSIFILE', MSIFile, 'Initialization'); 
-    SureSetVariable('IAX_VERSION', '2.5', 'Initialization'); 
+    SureSetVariable('IAX_VERSION', '2.52', 'Initialization'); 
     
     AllowMissHeader := True;
     
@@ -9016,8 +9020,8 @@ begin
         if not DoNativeProcessing then
           Break;
         
-        s1 := CachedDataDir + Webs[i -1] +  'FileBag' + IntToStr(i);
-        s2 := SubstituteVariables('$SUPPORTDIR$' + 'FileBag' + IntToStr(i));
+        s1 := CachedDataDir + Webs[i -1] +  'FileBag' + GetCommandHeaderEx(Types, References, Derefs, i -1);
+        s2 := SubstituteVariables('$SUPPORTDIR$' + 'FileBag' + GetCommandHeaderEx(Types, References, Derefs, i -1));
         if not CopyFolderDecrypt(s1, s2) then
           s2 := 'ERROR';
         s := ReadOffset(Derefs, References[i -1], 4);
@@ -12446,7 +12450,7 @@ var
   b: Boolean;
 begin
   try
-    StableStatementIDs := false; 
+    StableStatementIDs := True;
     BlendedOptimize := True; 
     sX := x64Mode;
     x64Mode := 'x64';
@@ -12689,15 +12693,10 @@ begin
             RegIteration := false;
       end;
       thScriptTypesiMinus1 := thScriptTypes[i -1];
-      if not Skipper then
-      begin
-        Header := GetCommandHeader(thScriptTypes, thScriptReferences, Derefs, i -1, not StableStatementIDs,
-          BlendInstead);
-      end;
-      
+       
       if (not Skipper) or
-        (Skipper and (((thScriptTypesiMinus1 = 'Install Files') or (thScriptTypesiMinus1 = 'Install Assembly'))
-          or ((thScriptTypesiMinus1 = 'Install Service') or (thScriptTypesiMinus1 = 'Install ODBC Driver')))) then 
+        (Skipper and ((thScriptTypesiMinus1 = 'Install Files') or (thScriptTypesiMinus1 = 'File Bag'))
+          ) then 
           Header := GetCommandHeader(thScriptTypes, thScriptReferences, Derefs, i -1, not StableStatementIDs, BlendInstead);
       if ComponentStore <> '' then
         ComponentSpaces[ComponentSpaces.IndexOf(ComponentStore) +1]
@@ -12831,7 +12830,8 @@ begin
         if thScriptTypesiMinus1 = 'File Bag' then 
         begin
           BuildPath := AssertDir(ExtractFilePath(MSIFile)) + 'data' + PathDelim + WebStore +
-            'FileBag' + IntToStr(i) + PathDelim; 
+            'FileBag' +  Header + PathDelim; 
+          
           ForceDirectories(BuildPath);
           
           begin
@@ -15073,7 +15073,7 @@ begin
   
   FreeMem(p);
   
-  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.5');
+  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.52');
   SaveCompilerVariables(Conditionals); 
   
   BackTypes := TStringList.Create;
@@ -17070,6 +17070,8 @@ begin
       {$IFDEF LINUX}
       
       try
+        
+        DeleteFile(AssertDir(s16) + 'application-x-' + s1 + '.xml');
         AssignFile(t, AssertDir(s16) + 'application-x-' + s1 + '.xml'); 
         ReWrite(t);
         WriteLn(t, '<?xml version="1.0" encoding="UTF-8"?>');
@@ -17084,6 +17086,7 @@ begin
         CloseFile(t);
         NativeLogAddEntry('Create File', AssertDir(s16) + 'application-x-' + s1 + '.xml');
         
+        DeleteFile(AssertDir(s14) + 'application-x-' + s1 + '.desktop');
         AssignFile(t, AssertDir(s14) + 'application-x-' + s1 + '.desktop');
         ReWrite(t);
         WriteLn(t, '[Desktop Entry]');
@@ -17103,6 +17106,8 @@ begin
           WriteLn(t, 'Icon=' + s4); 
         CloseFile(t);
         {$IFDEF LCLQT5}
+        
+        DeleteFile(AssertDir(s14) + 'application-x-' + s1 + '.sh');
         AssignFile(t, AssertDir(s14) + 'application-x-' + s1 + '.sh');
         ReWrite(t);
         WriteLn(t, '#!/bin/sh');

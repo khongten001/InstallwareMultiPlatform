@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -201,7 +201,7 @@ var
   bY: Boolean;
 begin
   
-  DelegateBindProgress(thyProgressHeader + #13 + Text, SmartPosition, 100, 0);
+  DelegateBindProgress(thyProgressHeader + MyLineEnding + Text, SmartPosition, 100, 0);
   {$IFDEF USEVARMANAGER}
   bY := VarManager['MYAH_thCancelled'] = 'TRUE';
   {$ELSE}
@@ -227,7 +227,7 @@ begin
     Result := not bY;
     Exit;
   end;
-  DelegateBindProgress(thyProgressHeader + #13 + Text, SmartPosition, 100, 0);
+  DelegateBindProgress(thyProgressHeader + MyLineEnding + Text, SmartPosition, 100, 0);
   {$IFDEF USEVARMANAGER}
   bY := VarManager['MYAH_thCancelled'] = 'TRUE';
   {$ELSE}

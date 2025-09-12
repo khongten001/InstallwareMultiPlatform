@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -395,8 +395,8 @@ begin
     
     if not DirectoryExists(EXEDIR + 'Templates' + PathDelim + 'Empty Setup') then
     begin
-      Application.MessageBox(PChar('We''re not able to locate the "Empty Setup" template on your device.' + #13#13
-        + 'Please run InstallAware setup again, and add the "Templates" feature to install this template on your device.' + #13#13
+      Application.MessageBox(PChar('We''re not able to locate the "Empty Setup" template on your device.' + MyLineEnding + MyLineEnding
+        + 'Please run InstallAware setup again, and add the "Templates" feature to install this template on your device.' + MyLineEnding + MyLineEnding
         + 'Then come here and try again.'), 
         PChar(Application.Title), mb_Ok + mb_IconStop);
       Exit;
@@ -809,8 +809,8 @@ begin
   
   if s = '' then
   begin
-    Application.MessageBox(PChar('We''re not able to locate PackageAware on your Windows device.' + #13#13
-      + 'Please run InstallAware setup again, and add the "Setup Capture" feature to install PackageAware on this device.' + #13#13
+    Application.MessageBox(PChar('We''re not able to locate PackageAware on your Windows device.' + MyLineEnding + MyLineEnding
+      + 'Please run InstallAware setup again, and add the "Setup Capture" feature to install PackageAware on this device.' + MyLineEnding + MyLineEnding
       + 'Then come here and try to launch PackageAware again.'), 
       PChar(Application.Title), mb_Ok + mb_IconStop);
     Exit;

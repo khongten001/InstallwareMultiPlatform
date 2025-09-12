@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-08-22
+Change Date:          2029-09-12
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -277,6 +277,7 @@ var
   {$ENDIF}
   
 const
+  MyLineEnding = LineEnding;
   INVALID_HANDLE_VALUE = THandle(-1);
   
   Ventura = 'Library';
@@ -313,17 +314,17 @@ resourcestring
   SApplicationRuntimesForThisScript = 'Application Runtimes cannot be added visually to this setup script.';
   SToAvoidSeeingThisMessageCreateNe_3 = 'To avoid seeing this message, create new projects using the Empty Setup option.';
   SUnableToCreateAccessFolder = 'Unable to create/access folder';
-  SThisFolderAlreadyContainsPreviou = 'This folder already contains previously exported translations for the current project. Would you like to preserve existing translation data?'#13#13;
-  SYesPreserveExistingTranslationsA = 'Yes: Preserve existing translations, adding new items as necessary.'#13;
-  SNoOverwriteAllPreviousTranslatio = 'No: Overwrite all previous translations.'#13;
+  SThisFolderAlreadyContainsPreviou = 'This folder already contains previously exported translations for the current project. Would you like to preserve existing translation data?' + MyLineEnding + MyLineEnding;
+  SYesPreserveExistingTranslationsA = 'Yes: Preserve existing translations, adding new items as necessary.' + MyLineEnding;
+  SNoOverwriteAllPreviousTranslatio = 'No: Overwrite all previous translations.' + MyLineEnding;
   SCancelDoNothing = 'Cancel: Do nothing.';
   SUnableToAccessFolder = 'Unable to access folder';
-  SFolderDoesNotSeemToContainTransl = 'Folder does not seem to contain translations for current project'#13#13;
-  SExpectedTranslationIndexFileNotF = 'Expected translation index file not found:'#13;
-  SExpectedTranslationMapFileNotFou = 'Expected translation map file not found:'#13;
+  SFolderDoesNotSeemToContainTransl = 'Folder does not seem to contain translations for current project' + MyLineEnding + MyLineEnding;
+  SExpectedTranslationIndexFileNotF = 'Expected translation index file not found:' + MyLineEnding;
+  SExpectedTranslationMapFileNotFou = 'Expected translation map file not found:' + MyLineEnding;
   SFolderDoesNotContainAnyLocalizat = 'Folder does not contain any (exported) localizations';
   SPleaseChooseAtLeastOneLanguageFo = 'Please choose at least one language for localization or import';
-  SProjectAlreadyContainsPreviously = 'Project already contains previously imported translations.'#13'Would you like to discard them and import new translations?';
+  SProjectAlreadyContainsPreviously = 'Project already contains previously imported translations.' + MyLineEnding + 'Would you like to discard them and import new translations?';
   SNext = '&Next >';
   SFinish = '&Finish';
   SExportToFolder = 'Export to Folder';
@@ -346,7 +347,7 @@ resourcestring
   SThisVersionNumberHasAlreadyBeenD = 'This version number has already been defined.';
   SNewApplicationVersion = 'New Application Version';
   SVersion = 'Version:';
-  SPleaseEnterAVersionNumberVersion = 'Please enter a version number.'#13#13'Version numbers must match the values entered in the Product Version field of Project Properties view for the applications you are updating.';
+  SPleaseEnterAVersionNumberVersion = 'Please enter a version number.' + MyLineEnding + MyLineEnding + 'Version numbers must match the values entered in the Product Version field of Project Properties view for the applications you are updating.';
   SPleaseSaveYourProjectBeforeDefin_1 = 'Please save your project before defining application versions.';
   SNoUpdatePacksAvailable = 'No update packs available.';
   SAreYouSureYouWishToRemoveAllUpda = 'Are you sure you wish to remove all update information for the selected application version?';
@@ -394,7 +395,7 @@ resourcestring
   SAllRightsReserved = 'All rights reserved';
   SQuickStart = 'Quick Start';
   QuickStartHint = 'Quick Start is the recommended entry point to quickly and easily producing a working setup for your application if you are new to InstallAware.';
-  STheDialogEditorHasNotBeenInstall = 'The Dialog Editor has not been installed.'#13#13'1. Run the InstallAware Multi Platform setup,'#13'2. Choose to add the Dialog Editor feature.';
+  STheDialogEditorHasNotBeenInstall = 'The Dialog Editor has not been installed.' + MyLineEnding + MyLineEnding + '1. Run the InstallAware Multi Platform setup,'#13'2. Choose to add the Dialog Editor feature.';
   SToAvoidSeeingThisMessageCreateNe_1 = 'To avoid seeing this message, create new projects using the Empty Setup option, or add an ''Apply Uninstall'' command to your script now.';
   SApplyUninstallCommandNotFoundInS = '''Apply Uninstall'' command not found in setup script.';
   SThisCommandMustBePresentInYourSc_10 = 'This command must be present in your script before you may visually add run program commands (that execute before or after the uninstallation) to your project.';
@@ -419,7 +420,7 @@ resourcestring
   SSpecifiedFolderAlreadyExistsTUseF = 'Specified template already exists. Overwrite with new template?';
   SWarningAllFolderContentsWillBeEr = 'Warning: All folder contents will be erased!';
   SWarningAllFolderContentsTWillBeEr = 'Warning: Old template will be completely erased!';
-  SPackageAwareIsAStandAloneUtility = 'PackageAware is a stand-alone utility which may be run on any computer.'#13#13'We recommend you use clean machines and your favorite hypervisor software to optimize the capture process.';
+  SPackageAwareIsAStandAloneUtility = 'PackageAware is a stand-alone utility which may be run on any computer.' + MyLineEnding + MyLineEnding + 'We recommend you use clean machines and your favorite hypervisor software to optimize the capture process.';
   SPackageAwareHasNotBeenInstalledP = 'PackageAware has not been installed. Please install it first.';
   SLUASetup = 'User Mode Setup';
   SLUA = 'Generates a setup script to run under a limited user account, without ever requiring elevation to perform installation, repair, and uninstallation tasks.';
@@ -490,7 +491,7 @@ resourcestring
   SLABELUndefined = 'LABEL undefined: ';
   SSyntaxErrorInExpressionPleaseRev = 'Syntax error in expression. Please review the help topic "Evaluate Expression" for the correct syntax.';
   SVariableNotDefined = 'Variable not defined: ';
-  SATargetFolderMustBeSpecifiedForF = 'A target folder must be specified for files that are being installed.'#13'The value $TARGETDIR$ represents the destination folder chosen by the user.';
+  SATargetFolderMustBeSpecifiedForF = 'A target folder must be specified for files that are being installed.' + MyLineEnding + 'The value $TARGETDIR$ represents the destination folder chosen by the user.';
   SAtLeastOneDeleteModeMustBeSelect = 'At least one delete mode must be selected';
   SVariableRequired = 'Variable required';
   SWebMediaBlockMustHaveAtLeastOneD = 'Web Media Block must have at least one download URL';
@@ -525,7 +526,7 @@ resourcestring
   SIncludeScriptIsAlreadyPartOfYour = ' include script is already part of your project.';
   SThe = 'The ';
   SThisScriptIsAlreadyYourSetupSPri = 'This script is already your setup''s primary script. You cannot overwrite the main script of your setup with an include script.';
-  SScriptFileNotFoundOnDisk = 'Script file not found on disk:'#13;
+  SScriptFileNotFoundOnDisk = 'Script file not found on disk:' + MyLineEnding;
   SWelcomePage = 'Welcome Page';
   SUntitled_1 = '(untitled)';
   SThereIsAlreadyAScriptInYourProje = 'There is already a script in your project with that file name. Please choose a different file name.';
@@ -536,7 +537,7 @@ resourcestring
   SInvalidIconFilePleaseChooseANewI = 'Invalid icon file. Please choose a new icon.';
   SUnableToFindSavedScriptContextFo = 'Unable to find saved script context for ';
   SUnableToSaveProjectScriptHasBeen = 'Unable to save project - script has been corrupted. Please revert to a saved copy to avoid losing your work.';
-  SYouMustStopDebuggingBeforeUsingT = 'You must stop debugging before using this action.'#13'Do you wish to stop debugging now?';
+  SYouMustStopDebuggingBeforeUsingT = 'You must stop debugging before using this action.' + MyLineEnding + 'Do you wish to stop debugging now?';
   SThisProjectCanNoLongerBeLocatedD = 'This project can no longer be located. Do you wish to remove it from the Reopen list?';
   SUnableToGetFoldedLineNumberInCod = 'Unable to get folded line number in code folding!';
   SErrorLoadingLine = 'Error loading line #';
@@ -549,7 +550,7 @@ resourcestring
   SAttemptToRenderUntypedLine = 'Attempt to render untyped line!';
   SAttemptToRenderNullCommentLine = 'Attempt to render null-comment line!';
   SAttemptToRenderUnsupportedComman = 'Attempt to render unsupported command! Please make sure all plug-ins required by project are installed.';
-  SToInstallPlugIns1OpenTheControlP = #13#13'To install plug-ins:'#13#13'1. Open the Control Panel "Programs and Features" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Change features" and install missing plug-ins.';
+  SToInstallPlugIns1OpenTheControlP = MyLineEnding + MyLineEnding + 'To install plug-ins:'#13#13'1. Open the Control Panel "Programs and Features" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Change features" and install missing plug-ins.';
   SScriptForProjectMissing = 'Script for project missing: ';
   SClosingProjectNow = 'Closing project now.';
   SProjectLoadError = 'Project Load Error';
@@ -913,7 +914,7 @@ function YTM_FastPosBack(const aString, aSubStr : String; aStartPos: Integer): I
 function RightAnsiPos(SubStr, s: string): Integer;
 function SingleLineToMultiLine(Single: String): String;
 function MultiLineToSingleLine(Multi: String): String;
-function MyLineEnding: String;
+
 function LengthMyLineEnding: Integer;
 function MemoMultiToDefaultMultiLineAdapter(Value: String): String;
 
@@ -4661,25 +4662,6 @@ begin
       Delete(Result, (Length(Result) - Length(s) +1), Length(s));
       Result := Result + '$NEWLINE$';
     end;
-end;
-
-function MyLineEnding: String;
-begin
-  if True then
-  begin
-    
-    Result := sLineBreak;
-    Exit;
-  end;
-  {$IFDEF DARWIN}
-  Result := #$E2#$80#$A8; 
-  {$ELSE}
-  {$IFDEF WINDOWS}
-  Result := AnsiString(#13#10);
-  {$ELSE}
-  Result := #$0A;
-  {$ENDIF}
-  {$ENDIF} 
 end;
 
 function LengthMyLineEnding: Integer;

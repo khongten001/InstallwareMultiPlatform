@@ -7,9 +7,8 @@
       <Unit0>
         <Filename Value="miaxstub.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="478"/>
+        <TopLine Value="2"/>
         <CursorPos X="78" Y="495"/>
         <UsageCount Value="226"/>
         <Bookmarks Count="2">
@@ -22,16 +21,16 @@
         <Filename Value="udlgapi.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDlgAPI"/>
-        <TopLine Value="2221"/>
-        <CursorPos X="29" Y="848"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="25" Y="20"/>
         <UsageCount Value="226"/>
         <Bookmarks Count="6">
-          <Item0 Y="411" ID="5"/>
-          <Item1 Y="1816" ID="8"/>
-          <Item2 X="33" Y="1639" ID="6"/>
+          <Item0 Y="414" ID="5"/>
+          <Item1 Y="1820" ID="8"/>
+          <Item2 X="33" Y="1643" ID="6"/>
           <Item3 Y="154" ID="7"/>
-          <Item4 X="62" Y="1837" ID="3"/>
-          <Item5 X="62" Y="1876" ID="4"/>
+          <Item4 X="62" Y="1841" ID="3"/>
+          <Item5 X="62" Y="1880" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
@@ -40,7 +39,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mScriptExec"/>
         <EditorIndex Value="11"/>
-        <TopLine Value="7000"/>
+        <TopLine Value="2"/>
         <CursorPos X="57" Y="7013"/>
         <UsageCount Value="226"/>
         <Bookmarks Count="2">
@@ -54,7 +53,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mUtils"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="3865"/>
+        <TopLine Value="2"/>
         <CursorPos X="9" Y="3865"/>
         <UsageCount Value="226"/>
         <Loaded Value="True"/>
@@ -64,7 +63,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSevenZIPAPI"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="140"/>
+        <TopLine Value="2"/>
         <CursorPos X="22" Y="155"/>
         <UsageCount Value="216"/>
         <Loaded Value="True"/>
@@ -74,6 +73,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDirectExtractMedia"/>
         <EditorIndex Value="5"/>
+        <TopLine Value="2"/>
         <CursorPos X="22" Y="8"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -320,7 +320,7 @@
         <UnitName Value="uRunAppAs"/>
         <EditorIndex Value="13"/>
         <CursorPos X="29" Y="82"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="47"/>
         <Loaded Value="True"/>
       </Unit32>
       <Unit33>
@@ -336,7 +336,7 @@
         <EditorIndex Value="12"/>
         <TopLine Value="137"/>
         <CursorPos X="27" Y="144"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="47"/>
         <Loaded Value="True"/>
       </Unit34>
       <Unit35>
@@ -388,7 +388,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="27"/>
         <CursorPos X="11" Y="39"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit41>
@@ -397,7 +397,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="2"/>
         <CursorPos X="96" Y="70"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit42>
     </Units>
@@ -407,124 +407,124 @@
     </OtherDefines>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="639" Column="33" TopLine="615"/>
+        <Filename Value="mutils.pas"/>
+        <Caret Line="2043" Column="25" TopLine="2023"/>
       </Position1>
       <Position2>
         <Filename Value="mutils.pas"/>
-        <Caret Line="5253" Column="46" TopLine="5246"/>
+        <Caret Line="2047" Column="25" TopLine="2027"/>
       </Position2>
       <Position3>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="862" Column="15" TopLine="852"/>
-      </Position3>
-      <Position4>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="183" Column="42" TopLine="172"/>
-      </Position4>
-      <Position5>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="178" Column="19" TopLine="172"/>
-      </Position5>
-      <Position6>
-        <Filename Value="usevenzipapi.pas"/>
-        <Caret Line="29" Column="10" TopLine="17"/>
-      </Position6>
-      <Position7>
-        <Filename Value="usevenzipapi.pas"/>
-        <Caret Line="155" Column="22" TopLine="140"/>
-      </Position7>
-      <Position8>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="799" Column="10" TopLine="787"/>
-      </Position8>
-      <Position9>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="3815" Column="19" TopLine="3804"/>
-      </Position9>
-      <Position10>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="3820" Column="46" TopLine="3804"/>
-      </Position10>
-      <Position11>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="418" Column="19" TopLine="411"/>
-      </Position11>
-      <Position12>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="47" Column="16" TopLine="35"/>
-      </Position12>
-      <Position13>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="582" Column="84" TopLine="562"/>
-      </Position13>
-      <Position14>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="591" Column="85" TopLine="571"/>
-      </Position14>
-      <Position15>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="686" Column="67" TopLine="671"/>
-      </Position15>
-      <Position16>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="3860" Column="13" TopLine="3838"/>
-      </Position16>
-      <Position17>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="806" Column="32" TopLine="787"/>
-      </Position17>
-      <Position18>
-        <Filename Value="miaxstub.lpr"/>
-        <Caret Line="567" TopLine="554"/>
-      </Position18>
-      <Position19>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="5323" Column="23" TopLine="5311"/>
-      </Position19>
-      <Position20>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="806" Column="23" TopLine="794"/>
-      </Position20>
-      <Position21>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="1637" Column="22" TopLine="1617"/>
-      </Position21>
-      <Position22>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="2003" Column="28" TopLine="1983"/>
-      </Position22>
-      <Position23>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="2013" Column="27" TopLine="1993"/>
-      </Position23>
-      <Position24>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="2021" Column="25" TopLine="2001"/>
-      </Position24>
-      <Position25>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="2043" Column="25" TopLine="2023"/>
-      </Position25>
-      <Position26>
-        <Filename Value="mutils.pas"/>
-        <Caret Line="2047" Column="25" TopLine="2027"/>
-      </Position26>
-      <Position27>
         <Filename Value="mutils.pas"/>
         <Caret Line="3865" Column="9" TopLine="3865"/>
-      </Position27>
-      <Position28>
+      </Position3>
+      <Position4>
         <Filename Value="t4a_VersionInfo.pas"/>
         <Caret Line="587" Column="6" TopLine="575"/>
-      </Position28>
-      <Position29>
+      </Position4>
+      <Position5>
         <Filename Value="mscriptexec.pas"/>
         <Caret Line="14904" Column="57" TopLine="14891"/>
-      </Position29>
-      <Position30>
+      </Position5>
+      <Position6>
         <Filename Value="mscriptexec.pas"/>
         <Caret Line="7013" Column="57" TopLine="7000"/>
+      </Position6>
+      <Position7>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="397" Column="3" TopLine="371"/>
+      </Position7>
+      <Position8>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="20" Column="25" TopLine="4"/>
+      </Position8>
+      <Position9>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="307" Column="25" TopLine="280"/>
+      </Position9>
+      <Position10>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="315" Column="29" TopLine="288"/>
+      </Position10>
+      <Position11>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="320" Column="32" TopLine="293"/>
+      </Position11>
+      <Position12>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="322" Column="25" TopLine="295"/>
+      </Position12>
+      <Position13>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="352" Column="31" TopLine="326"/>
+      </Position13>
+      <Position14>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="357" Column="78" TopLine="333"/>
+      </Position14>
+      <Position15>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="359" Column="77" TopLine="333"/>
+      </Position15>
+      <Position16>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="360" Column="38" TopLine="334"/>
+      </Position16>
+      <Position17>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="361" Column="77" TopLine="335"/>
+      </Position17>
+      <Position18>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="376" Column="31" TopLine="350"/>
+      </Position18>
+      <Position19>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="489" Column="27" TopLine="462"/>
+      </Position19>
+      <Position20>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="545" Column="27" TopLine="519"/>
+      </Position20>
+      <Position21>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="623" Column="23" TopLine="596"/>
+      </Position21>
+      <Position22>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="624" Column="66" TopLine="597"/>
+      </Position22>
+      <Position23>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="958" Column="22" TopLine="932"/>
+      </Position23>
+      <Position24>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="1042" Column="22" TopLine="1016"/>
+      </Position24>
+      <Position25>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="1186" Column="23" TopLine="1159"/>
+      </Position25>
+      <Position26>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="1187" Column="66" TopLine="1160"/>
+      </Position26>
+      <Position27>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="1722" Column="31" TopLine="1696"/>
+      </Position27>
+      <Position28>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="1731" Column="31" TopLine="1705"/>
+      </Position28>
+      <Position29>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="2268" Column="23" TopLine="2242"/>
+      </Position29>
+      <Position30>
+        <Filename Value="udlgapi.pas"/>
+        <Caret Line="2269" Column="66" TopLine="2243"/>
       </Position30>
     </JumpHistory>
     <RunParams>
