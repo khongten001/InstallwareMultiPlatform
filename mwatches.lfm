@@ -10,16 +10,13 @@ object Watches: TWatches
   ClientHeight = 97
   ClientWidth = 948
   Color = clBtnFace
-  DragKind = dkDock
-  DragMode = dmAutomatic
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   OnClose = FormClose
   OnResize = FormResize
   Position = poOwnerFormCenter
-  UseDockManager = True
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Panel: TPanel
     Left = 24
     Height = 97
@@ -29,6 +26,7 @@ object Watches: TWatches
     BevelOuter = bvNone
     ClientHeight = 97
     ClientWidth = 924
+    ParentBackground = False
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 225
@@ -97,7 +95,7 @@ object Watches: TWatches
     object AddWatch: TToolButton
       Left = 1
       Hint = 'Add Watch'
-      Top = 2
+      Top = 0
       Caption = 'AddWatch'
       ImageIndex = 0
       OnClick = AddWatchClick
@@ -106,7 +104,7 @@ object Watches: TWatches
     object EditWatch: TToolButton
       Left = 1
       Hint = 'Edit Watch'
-      Top = 24
+      Top = 22
       Caption = 'EditWatch'
       ImageIndex = 1
       OnClick = EditWatchClick
@@ -115,7 +113,7 @@ object Watches: TWatches
     object DeleteWatch: TToolButton
       Left = 1
       Hint = 'Delete Watch'
-      Top = 46
+      Top = 44
       Caption = 'DeleteWatch'
       ImageIndex = 2
       OnClick = DeleteWatchClick
@@ -124,7 +122,7 @@ object Watches: TWatches
     object EditValue: TToolButton
       Left = 1
       Hint = 'Edit Variable Value'
-      Top = 68
+      Top = 66
       Caption = 'EditValue'
       ImageIndex = 3
       OnClick = EditValueClick

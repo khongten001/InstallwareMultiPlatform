@@ -1,0 +1,60 @@
+object SelectLayout: TSelectLayout
+  Left = 0
+  Height = 99
+  Top = 34
+  Width = 228
+  HelpType = htKeyword
+  HelpKeyword = 'idelayouts'
+  BorderStyle = bsDialog
+  Caption = 'Select Visual Layout'
+  ClientHeight = 99
+  ClientWidth = 228
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '3.4.0.0'
+  object Label1: TLabel
+    Left = 16
+    Height = 13
+    Top = 16
+    Width = 36
+    Caption = '&Layout:'
+    FocusControl = Layout
+  end
+  object Layout: TComboBox
+    Left = 16
+    Height = 20
+    Top = 32
+    Width = 193
+    ItemHeight = 26
+    Style = csDropDownList
+    TabOrder = 0
+  end
+  object BitBtn1: TBitBtn
+    Left = 56
+    Height = 25
+    Top = 56
+    Width = 75
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 2
+    TabOrder = 1
+  end
+  object BitBtn2: TBitBtn
+    Left = 136
+    Height = 25
+    Top = 56
+    Width = 75
+    Cancel = True
+    Caption = '&Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 2
+    TabOrder = 2
+  end
+end

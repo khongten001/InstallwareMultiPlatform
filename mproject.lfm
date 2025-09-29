@@ -1,7 +1,7 @@
 object Project: TProject
   Left = 381
   Height = 663
-  Top = 25
+  Top = 34
   Width = 293
   HelpType = htKeyword
   HelpKeyword = 'displayingtheprojectmanager'
@@ -10,7 +10,7 @@ object Project: TProject
   ClientHeight = 663
   ClientWidth = 293
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Tree: TTreeView
     Left = 0
     Height = 663

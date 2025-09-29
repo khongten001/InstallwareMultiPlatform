@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-09-12
+Change Date:          2029-09-29
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -149,7 +149,7 @@ interface
 uses
   {$IFDEF DARWIN}
   
-  CocoaAll,
+  CocoaAll, MacOSAll,
   
   {$ENDIF}
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ComCtrls,
@@ -162,7 +162,7 @@ uses
   mscrSetComponent, mscrSpaceComponent, mscrDeleteComponent, mscrCreateFolder,
   mscrCreateShortcut, mscrRunProgram, mscrWebMediaBlock, uDownload, ComboEx,
   Buttons, ShellCtrls, CheckLst{$IFDEF WINDOWS}, Windows, ShellAPI{$ENDIF}, mchangetheme,
-  mBatchBuild, AnchorDocking, AnchorDockStorage, SyncObjs, Design, FileLbl,
+  mBatchBuild, SyncObjs, Design, FileLbl,
   mscrDeleteFiles, mscrDeleteFilesRecursive, mscrRegion, mscrReadText, ToolForm,
   mscrWriteText, mscrRmDir, mscrCreateLink, usevenzipapi, mDialogLocalize,
   uDlgAPI, LazFileUtils, uDisplaySystemFolder, mNewProject, mscrMathematics,
@@ -179,7 +179,8 @@ uses
   mscrDeleteRegistry, mscrFindAllRegistry, mscrGetOSorSP, mscrGetSystemSettings,
   mscrReadRegistry, mscrWriteRegistry, mUpdatePack, mscrCompress7Zip, mscrExtract7Zip,
   mscrSetOwner, mscrSetGroup, mscrGetNativeSettings, mscrReturnFromInclude,
-  mscrRunProgramAs, mscrRunScript, FDMain, mscrCheckProcess, mscrSetWineMode;
+  mscrRunProgramAs, mscrRunScript, FDMain, mscrCheckProcess, mscrSetWineMode,
+  mDeleteLayout, mSelectLayout, mSaveLayout;
 
 type
 
@@ -229,7 +230,6 @@ type
     BitBtn10: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn8: TBitBtn;
-    BottomDockPanel: TPanel;
     BuildSel: TBitBtn;
     Button1: TButton;
     Button2: TButton;
@@ -379,7 +379,6 @@ type
     Language: TComboBox;
     LargeMinus: TImage;
     LargePlus: TImage;
-    LeftDockPanel: TPanel;
     LinuxShuntCombo: TComboBox;
     Existing: TListBox;
     Local: TListView;
@@ -390,6 +389,14 @@ type
     MediumPlus: TImage;
     Console: TCheckBox;
     MenuItem71: TMenuItem;
+    MenuItem72: TMenuItem;
+    MenuItem73: TMenuItem;
+    MenuItem74: TMenuItem;
+    MenuItem75: TMenuItem;
+    MenuItem76: TMenuItem;
+    MenuItem77: TMenuItem;
+    Separator10: TMenuItem;
+    ToolbarPopup: TPopupMenu;
     Separator1: TMenuItem;
     NewRuntime: TButton;
     Runtimes: TCheckListBox;
@@ -553,7 +560,6 @@ type
     N18: TMenuItem;
     N19: TMenuItem;
     RenameFeature: TBitBtn;
-    RightDockPanel: TPanel;
     Script: TWiseListBox;
     ScriptBook: TNotebook;
     Scripts: TPage;
@@ -571,9 +577,6 @@ type
     Splitter2: TSplitter;
     Splitter3: TSplitter;
     Splitter4: TSplitter;
-    SplitterBottom: TSplitter;
-    SplitterLeft: TSplitter;
-    SplitterRight: TSplitter;
     TabSet: TTabControl;
     Separator6: TMenuItem;
     MenuItem49: TMenuItem;
@@ -694,6 +697,11 @@ type
     procedure Label16MouseLeave(Sender: TObject);
     procedure MenuItem70Click(Sender: TObject);
     procedure MenuItem71Click(Sender: TObject);
+    procedure MenuItem72Click(Sender: TObject);
+    procedure MenuItem73Click(Sender: TObject);
+    procedure MenuItem75Click(Sender: TObject);
+    procedure MenuItem76Click(Sender: TObject);
+    procedure MenuItem77Click(Sender: TObject);
     procedure MonitorURLChange(Sender: TObject);
     procedure ParticularsChange(Sender: TObject);
     procedure ParticularsDropDown(Sender: TObject);
@@ -1011,6 +1019,7 @@ type
       Selected: Boolean);
     procedure wodbcClick(Sender: TObject);
   private
+    procedure LayoutsChange(Sender: TObject);
   public
     function LoadNamedRuntimeUnit(Runtime: String; CheckUnit: Boolean): Boolean;
     function AddNamedRuntime(Runtime: String): Boolean;
@@ -1136,6 +1145,7 @@ type
     procedure AssertLineIsVisible(Line: Integer);
     procedure ShowCaretEx;
     procedure HideCaretEx;
+    procedure ProcessToolbarSize;
     function GetFunctionDataForStack(Kind, Guid: String): String;
     procedure ProcessCodeFolding(Line: Integer);
     procedure ClearSelectionEx(ListBox: TListBox);
@@ -1232,6 +1242,10 @@ type
     procedure OpenMRUF(FileName: String);
     
     procedure AdaptToolbar(aVisual: Boolean);
+    
+    procedure SaveControlState(var t: TextFile; Control: TControl);
+    procedure LoadControlState(var t: TextFile; Control: TControl);
+    procedure RefreshLayoutList;
   end;
 
 const
@@ -1256,6 +1270,7 @@ var
   scrForceValue, scrForceValueX, scrForceValueY, scrForceValueZ: String;
   EnabledCodeCompletion: Boolean = True;
   EnabledCodeCompletionElse: Boolean = false;
+  EnabledSmall: Boolean = false;
   StatusStack: TStringList;
   ProjectStruct: TProjectStruct;
   CurrentProjectName: String;
@@ -1326,6 +1341,12 @@ var
   DialogsList: TStringList;
   PhatAnalyticsFirstColumn: Boolean = True;
   IconCache, SelectedIconCache: TStringList;
+  
+  CurrentCodeLayout, CurrentVisualLayout: String;
+  Layouts: TStringList;
+  
+  LayoutsItemIndex: Integer;
+  LayoutsText: String;
 
 implementation
 
@@ -1362,6 +1383,40 @@ begin
     until ContinueDebug or BreakRun;
   end;
   Result := not BreakRun;
+end;
+
+procedure Tui.LayoutsChange(Sender: TObject);
+var
+  t: TextFile;
+  BOM: Char;
+begin
+  try
+    
+    if LayoutsItemIndex = -1 then Exit;
+    
+    AssignFile(t, EXEDIR + LayoutsText + '.milx',cp_utf8); 
+    Reset(t);
+    if not eof(t) then
+    begin
+      read(t, BOM);
+      if ansicomparetext(BOM, #$FEFF) <> 0 then
+      begin
+        closefile(t);
+        reset(t);
+      end;
+    end;
+    LoadControlState(t, Project);
+    LoadControlState(t, Watches);
+    LoadControlState(t, ui);
+    CloseFile(t);
+    if Notebook.ActivePage = 'Visual' then 
+      CurrentVisualLayout := LayoutsText
+    else
+      CurrentCodeLayout := LayoutsText;
+    if Sender <> nil then LayoutsChange(nil);
+  finally
+    
+  end;
 end;
 
 function Tui.Dfm2Txt(const ASrc, ADest: String): Boolean;
@@ -6676,7 +6731,7 @@ begin
       
       Script.TopIndex := Script.ItemIndex;
     end;
-    
+    RefreshLayoutList;
     if Notebook.ActivePage = 'Code' then
       FormResize(Self); 
     TabSet.OnChange := @TabSetChange;
@@ -6722,7 +6777,7 @@ begin
       end;
     end;
     ReadLn(t, CurrentProjectName);
-    ReadLn(t);
+    ReadLn(t, CurrentCodeLayout);
     ReadLn(t, j);
     ReadLn(t, i);
     
@@ -6762,8 +6817,8 @@ begin
     StringToFont(s, fontLine);
     RedrawScript;
     ReadLn(t, i);
-    
-    ReadLn(t);
+    actions_panel.Width := i;
+    ReadLn(t, CurrentVisualLayout);
     ReadLn(t, s);
     SwitchToUI(s = 'Visual'); 
     ReadLn(t, s);
@@ -6818,6 +6873,16 @@ begin
       ReadLn(t, s);
       EnabledCodeCompletionElse := StrToBool(s);
     end;
+    if not EOF(t) then
+    begin
+      ReadLn(t, s);
+      EnabledSmall := StrToBool(s);
+    end;
+    if not EOF(t) then
+    begin
+      ReadLn(t, i);
+      TreeEx.Width := i;
+    end;
     CloseFile(t);
     b := false;
     if ParamStr(1) <> '' then
@@ -6847,12 +6912,15 @@ begin
       CurrentUnit.TabIndex := CurrentUnit.Tabs.Count -1;
     CurrentUnitChange(Self);
     
+    RefreshLayoutList;
+    
     if j = 2 then
     begin
       Application.ProcessMessages; 
       TimerMaximize.Interval := 1;
       TimerMaximize.Enabled := True;
     end;
+    ProcessToolbarSize;
   end;
 end;
 
@@ -6912,7 +6980,7 @@ begin
   AssignFile(t, EXEDIR + 'miax.mix',cp_utf8); 
   ReWrite(t);
   WriteLn(t, CurrentProjectName);
-  WriteLn(t);
+  WriteLn(t, CurrentCodeLayout);
   if aWindowState = wsNormal then
     i := 0
   else
@@ -6938,8 +7006,8 @@ begin
   WriteLn(t, FontToString(fontWindowsInstaller));
   WriteLn(t, FontToString(fontModifySystem));
   WriteLn(t, FontToString(fontLine));
-  WriteLn(t,0);
-  WriteLn(t,0);
+  WriteLn(t, actions_panel.Width);
+  WriteLn(t, CurrentVisualLayout);
   WriteLn(t, Notebook.ActivePage);
   WriteLn(t, EnabledFolding);
   WriteLn(t, ActiveTab);
@@ -6961,6 +7029,8 @@ begin
   WriteLn(t,True);
   WriteLn(t, EnabledCodeCompletion);
   WriteLn(t, EnabledCodeCompletionElse);
+  WriteLn(t, EnabledSmall);
+  WriteLn(t, TreeEx.Width);
   CloseFile(t);
 end;
 
@@ -7094,6 +7164,26 @@ begin
   NSTableView(NSScrollView(Script.Handle).documentView).setAllowsTypeSelect(false);
   {$ENDIF}
   {$ENDIF}
+end;
+
+procedure Tui.ProcessToolbarSize;
+begin
+  if EnabledSmall then
+  begin
+    ToolBar.ShowCaptions := false;
+    ToolBar.ButtonHeight := 30;
+    ToolBar.ButtonWidth := 30;
+    MenuItem72.Checked := false;
+    MenuItem73.Checked := True;
+  end
+  else
+  begin
+    ToolBar.ShowCaptions := True;
+    ToolBar.ButtonHeight := 60;
+    ToolBar.ButtonWidth := 60;
+    MenuItem72.Checked := True;
+    MenuItem73.Checked := false;
+  end;
 end;
 
 function Tui.GetFunctionDataForStack(Kind, Guid: String): String;
@@ -15978,6 +16068,90 @@ begin
   end;
 end;
 
+procedure Tui.SaveControlState(var t: TextFile; Control: TControl);
+var
+  TargetControl: TControl;
+begin
+  
+  if True then
+  begin
+    TargetControl := Control;
+    WriteLn(t, 0);
+  end
+  else
+  begin
+    TargetControl := Control;
+    WriteLn(t, Control.Parent.Tag);
+  end;
+  WriteLn(t, Control.Height);
+  WriteLn(t, Control.Width);
+  WriteLn(t, TargetControl.Top);
+  WriteLn(t, TargetControl.Left);
+  WriteLn(t, Control.Visible);
+  
+end;
+
+procedure Tui.LoadControlState(var t: TextFile; Control: TControl);
+var
+  s: String;
+  DockParent, fltTop, fltLeft, fltHeight, fltWidth: integer;
+  aVisible, aFloating: Boolean;
+begin
+  if EOF(t) then Exit;
+  ReadLn(t, s);
+  
+  ReadLn(t, fltHeight);
+  ReadLn(t, fltWidth);
+  ReadLn(t, fltTop);
+  ReadLn(t, fltLeft);
+  ReadLn(t, s);
+  aVisible := MyStrToBool(s);
+  
+  if True then
+  begin
+    
+    if aVisible then
+    begin
+      Control.Show;
+      Control.Left := fltLeft;
+      Control.Top :=  fltTop;
+      Control.Width := fltWidth;
+      Control.Height := fltHeight;
+    end
+    else
+      Control.Hide;
+  end;
+  
+end;
+
+procedure Tui.RefreshLayoutList;
+var
+  i: Integer;
+  l: TStringList;
+  CurrentLayout: String;
+begin
+  l := FindAllFilesEx(EXEDIR + '*.milx', false); 
+  Layouts.Clear;
+  for i := 1 to l.Count do
+    Layouts.Add(ExtractFileNameOnly(l[i -1]));
+  if Notebook.ActivePage = 'Visual' then 
+    CurrentLayout := CurrentVisualLayout
+  else
+    CurrentLayout := CurrentCodeLayout;
+  if Layouts.IndexOf(CurrentLayout) <> -1 then
+  begin
+    LayoutsItemIndex := Layouts.IndexOf(CurrentLayout);
+    LayoutsText := Layouts[LayoutsItemIndex];
+  end
+  else
+  begin
+    LayoutsItemIndex := -1;
+    LayoutsText := '';
+  end;
+  l.Free;
+  LayoutsChange(Self);
+end;
+
 procedure Tui.MenuItem14Click(Sender: TObject);
 begin
   About.ShowModal;
@@ -16017,8 +16191,10 @@ begin
   IDEOptions.CodeFolding.Checked := EnabledFolding;
   IDEOptions.Export.Checked := EnabledExport;
   
+  IDEOptions.Small.Checked := EnabledSmall;
   if IDEOptions.ShowModal = mrOk then
   begin
+    EnabledSmall := IDEOptions.Small.Checked;
     Script.Font := IDEOptions.Sample.Font;
     BaseFontSize := Script.Font.Size;
     CopyFont(pxfontComment, fontComment);
@@ -16057,6 +16233,7 @@ begin
     RedrawScript;
     SaveUISettings(wsNormal, True);
     
+    ProcessToolbarSize;
   end
   else
   begin
@@ -16066,8 +16243,8 @@ end;
 
 procedure Tui.MenuItem25Click(Sender: TObject);
 begin
+  Project.Show;
   
-  DockMaster.MakeDockable(Project, True, True);
 end;
 
 procedure Tui.MenuItem26Click(Sender: TObject);
@@ -16148,7 +16325,17 @@ var
   l: TStringList;
   sX: String;
   b: Boolean;
+  {$IFDEF DARWIN}
+  w: NSWindow;
+  {$ENDIF}
 begin
+  {$IFDEF DARWIN}
+  w := NSView(ui.Handle).window;
+  
+  w.setCollectionBehavior($00004000);
+  w.setStyleMask(W.styleMask and not $00004000);
+  
+  {$ENDIF}
   frmToolForm := nil;
   frmObjectInspector := nil;
   ShellTree.UseBuiltinIcons := True;
@@ -16387,7 +16574,6 @@ begin
   
   Application.HelpFile := EXEDIR + 'miae.chm'; 
   
-  DockMaster.MakeDockSite(Self, [akLeft, akBottom, akRight], admrpChild);
 end;
 
 procedure Tui.FormDestroy(Sender: TObject);
@@ -16974,8 +17160,8 @@ begin
     begin
       VarWatches.Add(AnsiUpperCase(AddWatch.Variable.Text));
       RefreshWatches;
+      Watches.Show;
       
-      DockMaster.MakeDockable(Watches, True, True);
     end;
   PopStatusStack;
 end;
@@ -18500,8 +18686,8 @@ end;
 
 procedure Tui.MenuItem8Click(Sender: TObject);
 begin
+  Watches.Show;
   
-  DockMaster.MakeDockable(Watches, True, True);
 end;
 
 procedure Tui.NewFeatureClick(Sender: TObject);
@@ -19887,6 +20073,86 @@ end;
 procedure Tui.MenuItem71Click(Sender: TObject);
 begin
   ToolButton18Click(Self);
+end;
+
+procedure Tui.MenuItem72Click(Sender: TObject);
+begin
+  EnabledSmall := false;
+  ProcessToolbarSize;
+end;
+
+procedure Tui.MenuItem73Click(Sender: TObject);
+begin
+  EnabledSmall := True;
+  ProcessToolbarSize;
+end;
+
+procedure Tui.MenuItem75Click(Sender: TObject);
+var
+  t: TextFile;
+begin
+  try
+    PushStatusStack('Saving IDE layout');
+    if Notebook.ActivePage = 'Visual' then 
+      SaveLayout.Layout.Text := CurrentVisualLayout
+    else
+      SaveLayout.Layout.Text := CurrentCodeLayout;
+    if SaveLayout.ShowModal = mrOk then
+    begin
+      AssignFile(t, EXEDIR + SaveLayout.Layout.Text + '.milx',cp_utf8); 
+      ReWrite(t);
+      SaveControlState(t, Project);
+      SaveControlState(t, Watches);
+      SaveControlState(t, ui);
+      
+      CloseFile(t);
+      if Notebook.ActivePage = 'Visual' then 
+        CurrentVisualLayout := SaveLayout.Layout.Text
+      else
+        CurrentCodeLayout := SaveLayout.Layout.Text;
+      RefreshLayoutList;
+    end;
+  finally
+    PopStatusStack;
+  end;
+end;
+
+procedure Tui.MenuItem76Click(Sender: TObject);
+begin
+  try
+    PushStatusStack('Deleting IDE layout');
+    if DeleteLayout.ShowModal = mrNo then
+      if DeleteLayout.Layout.ItemIndex <> -1 then
+      begin
+        DeleteFile(PChar(EXEDIR + DeleteLayout.Layout.Items
+          [DeleteLayout.Layout.ItemIndex] + '.milx')); 
+        RefreshLayoutList;
+      end;
+  finally
+    PopStatusStack;
+  end;
+end;
+
+procedure Tui.MenuItem77Click(Sender: TObject);
+var
+  t: TextFile;
+begin
+  if Notebook.ActivePage = 'Code' then
+    SelectLayout.Layout.Text := CurrentCodeLayout
+  else
+    SelectLayout.Layout.Text := CurrentVisualLayout;
+  if Notebook.ActivePage = 'Code' then
+    SelectLayout.Caption := StringReplace(SelectLayout.Caption, 'Visual', 'Code', [rfReplaceAll, rfIgnoreCase])
+  else
+    SelectLayout.Caption := StringReplace(SelectLayout.Caption, 'Code', 'Visual', [rfReplaceAll, rfIgnoreCase]);
+  if SelectLayout.ShowModal = mrOk then
+  begin
+    if Notebook.ActivePage = 'Code' then
+      CurrentCodeLayout := SelectLayout.Layout.Text
+    else
+      CurrentVisualLayout := SelectLayout.Layout.Text;
+    RefreshLayoutList;
+  end;
 end;
 
 procedure Tui.AccessChange(Sender: TObject; Item: TListItem; Change: TItemChange
@@ -21556,6 +21822,7 @@ initialization
   IncludeDepthStack := TStringList.Create;
   
   DialogsList := TStringList.Create;
+  Layouts := TStringList.Create;
 
 finalization
   
@@ -21594,5 +21861,6 @@ finalization
   if Assigned(DialogsList) then
     FreeAndNil(DialogsList);
   gbp.Free;
+  Layouts.Free;
 
 end.

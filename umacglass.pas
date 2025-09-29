@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-09-12
+Change Date:          2029-09-29
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -201,6 +201,7 @@ begin
   hWnd := NSView(Form.Handle).window;
   hWnd.setOpaque(false);
   hWnd.setBackgroundColor(NSColor.clearColor);
+  
   LContext := NSView(Form.Handle);
   hWndNS.origin.x := 0.0;
   hWndNS.origin.y := 0.0;

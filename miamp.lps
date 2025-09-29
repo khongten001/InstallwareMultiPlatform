@@ -3,13 +3,12 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Default"/>
-    <Units Count="153">
+    <Units Count="156">
       <Unit0>
         <Filename Value="miamp.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="2"/>
-        <CursorPos X="72" Y="36"/>
+        <EditorIndex Value="7"/>
+        <CursorPos X="47" Y="165"/>
         <UsageCount Value="224"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -20,11 +19,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uGui"/>
-        <TopLine Value="2"/>
-        <CursorPos X="28" Y="7503"/>
+        <TopLine Value="21340"/>
+        <CursorPos X="46" Y="21349"/>
         <UsageCount Value="224"/>
-        <Bookmarks Count="1">
-          <Item0 X="7" Y="16044" ID="9"/>
+        <Bookmarks Count="4">
+          <Item0 X="7" Y="16137" ID="9"/>
+          <Item1 X="36" Y="21365" ID="1"/>
+          <Item2 X="19" Y="1290" ID="2"/>
+          <Item3 X="31" Y="21332" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,9 +38,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
-        <EditorIndex Value="19"/>
-        <TopLine Value="2"/>
-        <CursorPos X="15" Y="2"/>
+        <EditorIndex Value="25"/>
+        <CursorPos X="8" Y="9"/>
         <UsageCount Value="224"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -47,9 +48,7 @@
         <Filename Value="mutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mUtils"/>
-        <EditorIndex Value="21"/>
-        <TopLine Value="131"/>
-        <CursorPos X="29" Y="145"/>
+        <EditorIndex Value="28"/>
         <UsageCount Value="210"/>
         <Bookmarks Count="2">
           <Item0 Y="3554"/>
@@ -60,7 +59,7 @@
       <Unit4>
         <Filename Value="mAutomate.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="2"/>
         <CursorPos X="25" Y="71"/>
         <UsageCount Value="209"/>
@@ -73,9 +72,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="mProject"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="2"/>
-        <CursorPos X="3" Y="298"/>
+        <EditorIndex Value="12"/>
+        <CursorPos X="41" Y="9"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -86,8 +84,8 @@
         <ComponentName Value="Options"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="10"/>
-        <CursorPos X="15" Y="236"/>
+        <EditorIndex Value="14"/>
+        <CursorPos X="8" Y="12"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -121,10 +119,11 @@
         <ComponentName Value="IDEOptions"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="228"/>
-        <CursorPos X="8" Y="240"/>
+        <EditorIndex Value="15"/>
+        <CursorPos X="67" Y="15"/>
         <UsageCount Value="206"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="mscrmessagebox.pas"/>
@@ -163,24 +162,19 @@
         <Filename Value="mscriptexec.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mScriptExec"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="15"/>
-        <TopLine Value="20434"/>
-        <CursorPos X="5" Y="20454"/>
+        <EditorIndex Value="20"/>
+        <TopLine Value="16506"/>
+        <CursorPos X="32" Y="16516"/>
         <UsageCount Value="200"/>
-        <Bookmarks Count="5">
+        <Bookmarks Count="1">
           <Item0 ID="6"/>
-          <Item1 ID="1"/>
-          <Item2 ID="2"/>
-          <Item3 ID="3"/>
-          <Item4 ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="mbuildthread.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="2"/>
         <CursorPos X="57" Y="1714"/>
         <UsageCount Value="201"/>
@@ -203,7 +197,7 @@
         <ComponentName Value="AddDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="16"/>
         <CursorPos Y="152"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -223,10 +217,11 @@
         <ComponentName Value="Watches"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="140"/>
-        <CursorPos X="36" Y="149"/>
+        <EditorIndex Value="13"/>
+        <CursorPos X="32" Y="10"/>
         <UsageCount Value="208"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit18>
       <Unit19>
         <Filename Value="crc32.pas"/>
@@ -263,7 +258,7 @@
         <Filename Value="udlgapi.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDlgAPI"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="24"/>
         <TopLine Value="1987"/>
         <CursorPos X="20" Y="1991"/>
         <UsageCount Value="200"/>
@@ -358,10 +353,12 @@
         <Filename Value="umacglass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacGlass"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="7"/>
-        <CursorPos X="5" Y="13"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="26"/>
+        <TopLine Value="64"/>
+        <CursorPos X="74" Y="71"/>
         <UsageCount Value="267"/>
+        <Loaded Value="True"/>
       </Unit31>
       <Unit32>
         <Filename Value="mapplychanges.pas"/>
@@ -504,7 +501,7 @@
         <Filename Value="ugrabmedia.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGrabMedia"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="23"/>
         <TopLine Value="2"/>
         <CursorPos X="48" Y="199"/>
         <UsageCount Value="227"/>
@@ -514,7 +511,7 @@
         <Filename Value="uextractmedia.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExtractMedia"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="2"/>
         <CursorPos X="52" Y="84"/>
         <UsageCount Value="227"/>
@@ -524,7 +521,7 @@
         <Filename Value="ucopymedia.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCopyMedia"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <CursorPos X="71" Y="144"/>
         <UsageCount Value="226"/>
         <Loaded Value="True"/>
@@ -697,7 +694,7 @@
         <ComponentName Value="NewProject"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="2"/>
         <CursorPos X="15" Y="83"/>
         <UsageCount Value="202"/>
@@ -753,7 +750,7 @@
         <ComponentName Value="ChangeTheme"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="2"/>
         <CursorPos X="110" Y="47"/>
         <UsageCount Value="204"/>
@@ -774,7 +771,7 @@
         <ComponentName Value="QuickStartWizard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="2"/>
         <CursorPos X="13" Y="44"/>
         <UsageCount Value="220"/>
@@ -1208,7 +1205,7 @@
         <ComponentName Value="scrSet64BitMode"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="2"/>
         <CursorPos X="22" Y="20"/>
         <UsageCount Value="246"/>
@@ -1467,7 +1464,7 @@
         <ComponentName Value="OS3"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="2"/>
         <CursorPos Y="272"/>
         <UsageCount Value="209"/>
@@ -1484,7 +1481,7 @@
         <ComponentName Value="scrSetWineMode"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="2"/>
         <CursorPos X="44" Y="38"/>
         <UsageCount Value="207"/>
@@ -1492,31 +1489,79 @@
         <LoadedDesigner Value="True"/>
       </Unit135>
       <Unit136>
-        <Filename Value="WiseListBox.pas"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="63"/>
+        <Filename Value="mdeletelayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DeleteLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="39" Y="37"/>
+        <UsageCount Value="52"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit136>
       <Unit137>
+        <Filename Value="msavelayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SaveLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="28"/>
+        <CursorPos X="10" Y="44"/>
+        <UsageCount Value="52"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit137>
+      <Unit138>
+        <Filename Value="mselectlayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SelectLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="28"/>
+        <CursorPos Y="45"/>
+        <UsageCount Value="52"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="../../Desktop/miamp22.9.5.zip"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="50"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit139>
+      <Unit140>
+        <Filename Value="WiseListBox.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="55"/>
+      </Unit140>
+      <Unit141>
         <Filename Value="udirectextractmedia.pas"/>
         <UnitName Value="uDirectExtractMedia"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="133"/>
         <CursorPos X="32" Y="141"/>
-        <UsageCount Value="40"/>
-      </Unit137>
-      <Unit138>
+        <UsageCount Value="32"/>
+      </Unit141>
+      <Unit142>
         <Filename Value="uguipa.pas"/>
         <ComponentName Value="GuiPA"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="27"/>
         <TopLine Value="753"/>
         <CursorPos X="60" Y="794"/>
         <UsageCount Value="104"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
-      </Unit138>
-      <Unit139>
+      </Unit142>
+      <Unit143>
         <Filename Value="uimagelistpool.pas"/>
         <ComponentName Value="ImageListPool"/>
         <HasResources Value="True"/>
@@ -1524,31 +1569,31 @@
         <UnitName Value="uImageListPool"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="51" Y="11"/>
-        <UsageCount Value="78"/>
-      </Unit139>
-      <Unit140>
+        <UsageCount Value="70"/>
+      </Unit143>
+      <Unit144>
         <Filename Value="../../fpcupdeluxe/lazarus/lcl/customtimer.pas"/>
         <UnitName Value="CustomTimer"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="144"/>
         <CursorPos Y="157"/>
-        <UsageCount Value="0"/>
-      </Unit140>
-      <Unit141>
+        <UsageCount Value="2"/>
+      </Unit144>
+      <Unit145>
         <Filename Value="../../fpcupdeluxe/lazarus/lcl/interfaces/cocoa/cocoaobject.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="566"/>
         <CursorPos Y="579"/>
-        <UsageCount Value="0"/>
-      </Unit141>
-      <Unit142>
+        <UsageCount Value="2"/>
+      </Unit145>
+      <Unit146>
         <Filename Value="packages/UnTerminal-trunk/UnTerminal.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="305"/>
         <CursorPos X="47" Y="316"/>
-        <UsageCount Value="42"/>
-      </Unit142>
-      <Unit143>
+        <UsageCount Value="34"/>
+      </Unit146>
+      <Unit147>
         <Filename Value="design.pas"/>
         <ComponentName Value="frmDesign"/>
         <HasResources Value="True"/>
@@ -1557,193 +1602,190 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="53"/>
         <CursorPos Y="64"/>
-        <UsageCount Value="37"/>
-      </Unit143>
-      <Unit144>
+        <UsageCount Value="29"/>
+      </Unit147>
+      <Unit148>
         <Filename Value="GreatisRuntimeFusion/FormDes/Source/FDCmpPal.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="32"/>
-      </Unit144>
-      <Unit145>
+        <UsageCount Value="24"/>
+      </Unit148>
+      <Unit149>
         <Filename Value="GreatisRuntimeFusion/FormDes/Source/FDMain.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1607"/>
         <CursorPos X="7" Y="1622"/>
-        <UsageCount Value="32"/>
-      </Unit145>
-      <Unit146>
+        <UsageCount Value="24"/>
+      </Unit149>
+      <Unit150>
         <Filename Value="GreatisRuntimeFusion/RunFus/Source/RFReg.pas"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="29"/>
         <CursorPos X="11" Y="39"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="97"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit146>
-      <Unit147>
+      </Unit150>
+      <Unit151>
         <Filename Value="../../fpcupdeluxe/lazarus/lcl/buttons.pp"/>
         <UnitName Value="Buttons"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="231"/>
         <CursorPos X="36" Y="231"/>
-        <UsageCount Value="42"/>
-      </Unit147>
-      <Unit148>
+        <UsageCount Value="34"/>
+      </Unit151>
+      <Unit152>
         <Filename Value="../../fpcupdeluxe/lazarus/lcl/menus.pp"/>
         <UnitName Value="Menus"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="3" Y="53"/>
-        <UsageCount Value="42"/>
-      </Unit148>
-      <Unit149>
+        <UsageCount Value="34"/>
+      </Unit152>
+      <Unit153>
         <Filename Value="miaxbuild.lpr"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="159"/>
         <CursorPos X="70" Y="172"/>
-        <UsageCount Value="41"/>
-      </Unit149>
-      <Unit150>
+        <UsageCount Value="33"/>
+      </Unit153>
+      <Unit154>
         <Filename Value="../../fpcupdeluxe/fpcsrc/rtl/unix/sysunixh.inc"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="29"/>
         <TopLine Value="46"/>
         <CursorPos X="18" Y="56"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="79"/>
         <Loaded Value="True"/>
-      </Unit150>
-      <Unit151>
+      </Unit154>
+      <Unit155>
         <Filename Value="../../fpcupdeluxe/fpcsrc/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="17"/>
-        <CursorPos X="22" Y="27"/>
-        <UsageCount Value="5"/>
-      </Unit151>
-      <Unit152>
-        <Filename Value="../../Downloads/Telegram Desktop/mscriptexec.pas"/>
-        <UnitName Value="mScriptExec"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="20434"/>
-        <CursorPos X="5" Y="20454"/>
-        <UsageCount Value="6"/>
-      </Unit152>
+        <CursorPos X="31" Y="18"/>
+        <UsageCount Value="46"/>
+        <Loaded Value="True"/>
+      </Unit155>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="453" Column="18" TopLine="436"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="567" Column="15" TopLine="557"/>
       </Position1>
       <Position2>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="4069" Column="25" TopLine="4053"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="21350" Column="36" TopLine="21339"/>
       </Position2>
       <Position3>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="7191" Column="37" TopLine="7184"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="1113" Column="15" TopLine="1107"/>
       </Position3>
       <Position4>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="7202" Column="14" TopLine="7192"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="16873" Column="3" TopLine="16870"/>
       </Position4>
       <Position5>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="20437" Column="28" TopLine="20430"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="1002" Column="41" TopLine="994"/>
       </Position5>
       <Position6>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="200" Column="40" TopLine="188"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7025" Column="13" TopLine="7014"/>
       </Position6>
       <Position7>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="190" Column="75" TopLine="186"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="1003" Column="14" TopLine="993"/>
       </Position7>
       <Position8>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="196" Column="11" TopLine="186"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7189" Column="22" TopLine="7175"/>
       </Position8>
       <Position9>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="190" Column="75" TopLine="186"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7025" Column="19" TopLine="7016"/>
       </Position9>
       <Position10>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="194" Column="75" TopLine="186"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7188" Column="26" TopLine="7172"/>
       </Position10>
       <Position11>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13728" Column="56" TopLine="13711"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7025" Column="19" TopLine="7016"/>
       </Position11>
       <Position12>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13743" Column="20" TopLine="13723"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7188" Column="26" TopLine="7172"/>
       </Position12>
       <Position13>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13750" Column="79" TopLine="13734"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7085" Column="19" TopLine="7065"/>
       </Position13>
       <Position14>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13761" Column="38" TopLine="13744"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7025" TopLine="7016"/>
       </Position14>
       <Position15>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13946" Column="68" TopLine="13931"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="7026" TopLine="7016"/>
       </Position15>
       <Position16>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13823" Column="15" TopLine="13814"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="21360" Column="29" TopLine="21352"/>
       </Position16>
       <Position17>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13947" Column="86" TopLine="13931"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="14" Column="18"/>
       </Position17>
       <Position18>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13999" Column="23" TopLine="13983"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="687" Column="25" TopLine="671"/>
       </Position18>
       <Position19>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="14005" Column="123" TopLine="13989"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="17156" TopLine="17139"/>
       </Position19>
       <Position20>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="14314" TopLine="14298"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="17151" Column="50" TopLine="17142"/>
       </Position20>
       <Position21>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13823" Column="15" TopLine="13814"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="17149" Column="23" TopLine="17140"/>
       </Position21>
       <Position22>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13947" Column="86" TopLine="13931"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="15" Column="22" TopLine="5"/>
       </Position22>
       <Position23>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13999" Column="23" TopLine="13983"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="17151" Column="48" TopLine="17142"/>
       </Position23>
       <Position24>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="14005" Column="125" TopLine="13989"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="17153" Column="37" TopLine="17140"/>
       </Position24>
       <Position25>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="14314" TopLine="14298"/>
+        <Filename Value="uabout.pas"/>
+        <Caret Line="9" Column="6"/>
       </Position25>
       <Position26>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="14321" Column="63" TopLine="14303"/>
+        <Filename Value="umacglass.pas"/>
+        <Caret Line="69" Column="7" TopLine="59"/>
       </Position26>
       <Position27>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="13825" Column="15" TopLine="13814"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="10" Column="46"/>
       </Position27>
       <Position28>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="221" Column="26" TopLine="210"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="1276" Column="48" TopLine="1259"/>
       </Position28>
       <Position29>
-        <Filename Value="mscriptexec.pas"/>
-        <Caret Line="4105" Column="46" TopLine="4096"/>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="16949" Column="39" TopLine="16932"/>
       </Position29>
+      <Position30>
+        <Filename Value="ugui.pas"/>
+        <Caret Line="21329" Column="61" TopLine="21312"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -1761,22 +1803,6 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="usevenzipapi.pas"/>
-        <Line Value="155"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="mscriptexec.pas"/>
-        <Line Value="1"/>
-      </Item>
-    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="s"/>

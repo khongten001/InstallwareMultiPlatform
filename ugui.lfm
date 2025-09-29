@@ -187,9 +187,9 @@ object ui: Tui
     Visible = False
   end
   object _35: TImage
-    Left = 0
+    Left = 11
     Height = 72
-    Top = 50
+    Top = 394
     Width = 200
     AutoSize = True
     Picture.Data = {
@@ -1550,9 +1550,9 @@ object ui: Tui
     Visible = False
   end
   object _50: TImage
-    Left = 0
+    Left = 11
     Height = 103
-    Top = 50
+    Top = 394
     Width = 286
     AutoSize = True
     Picture.Data = {
@@ -4402,9 +4402,9 @@ object ui: Tui
     Visible = False
   end
   object _36: TImage
-    Left = 16
+    Left = 27
     Height = 72
-    Top = 50
+    Top = 394
     Width = 200
     AutoSize = True
     Picture.Data = {
@@ -4508,9 +4508,9 @@ object ui: Tui
     Visible = False
   end
   object _51: TImage
-    Left = 8
+    Left = 19
     Height = 103
-    Top = 50
+    Top = 394
     Width = 286
     AutoSize = True
     Picture.Data = {
@@ -5126,10 +5126,10 @@ object ui: Tui
     TabOrder = 3
     object Code: TPage
       object ScriptBook: TNotebook
-        Left = 11
-        Height = 345
+        Left = 0
+        Height = 356
         Top = 0
-        Width = 929
+        Width = 951
         PageIndex = 0
         Align = alClient
         TabOrder = 0
@@ -5138,9 +5138,9 @@ object ui: Tui
           HelpKeyword = 'welcome'
           object Image3: TImage
             Left = 0
-            Height = 345
+            Height = 356
             Top = 0
-            Width = 929
+            Width = 951
             Align = alClient
             AutoSize = True
             OnClick = Image3Click
@@ -14025,9 +14025,9 @@ object ui: Tui
           end
           object Image2: TImage
             Left = 0
-            Height = 345
+            Height = 356
             Top = 0
-            Width = 929
+            Width = 951
             Align = alClient
             AutoSize = True
             OnClick = Image2Click
@@ -24181,7 +24181,7 @@ object ui: Tui
           object Label3: TLabel
             Left = 16
             Height = 16
-            Top = 219
+            Top = 230
             Width = 886
             Anchors = [akLeft, akBottom]
             Caption = 'Type the full command name to insert directly in your Code Editor and press <Enter> to specify command parameters - there is no syntax to learn.'
@@ -24193,7 +24193,7 @@ object ui: Tui
           object Label4: TLabel
             Left = 16
             Height = 16
-            Top = 244
+            Top = 255
             Width = 846
             Anchors = [akLeft, akBottom]
             Caption = 'Use the arrow keys and cut/copy/paste/delete/undo/redo across any editor lines. The script drives your entire setup, nothing is hard-coded.'
@@ -24205,7 +24205,7 @@ object ui: Tui
           object Label5: TLabel
             Left = 16
             Height = 16
-            Top = 269
+            Top = 280
             Width = 794
             Anchors = [akLeft, akBottom]
             Caption = 'Switch to your Visual Tab to visualize your script and make any changes you like graphically. The underlying code updates instantly.'
@@ -24233,9 +24233,9 @@ object ui: Tui
           end
           object Existing: TListBox
             Left = 16
-            Height = 3
+            Height = 14
             Top = 160
-            Width = 840
+            Width = 862
             Anchors = [akTop, akLeft, akRight, akBottom]
             ItemHeight = 0
             TabOrder = 1
@@ -24245,7 +24245,7 @@ object ui: Tui
           object Button2: TButton
             Left = 16
             Height = 25
-            Top = 171
+            Top = 182
             Width = 115
             Anchors = [akLeft, akBottom]
             Caption = 'Open Project'
@@ -24739,83 +24739,6 @@ object ui: Tui
             OnKeyPress = LinuxShuntComboKeyPress
           end
         end
-      end
-      object LeftDockPanel: TPanel
-        Tag = 1
-        Left = 0
-        Height = 345
-        Top = 0
-        Width = 10
-        Align = alLeft
-        BevelOuter = bvNone
-        Color = 15856113
-        DockSite = True
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 1
-        Visible = False
-      end
-      object RightDockPanel: TPanel
-        Tag = 3
-        Left = 941
-        Height = 345
-        Top = 0
-        Width = 10
-        Align = alRight
-        BevelOuter = bvNone
-        Color = 15856113
-        DockSite = True
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 2
-        Visible = False
-      end
-      object BottomDockPanel: TPanel
-        Tag = 2
-        Left = 0
-        Height = 10
-        Top = 346
-        Width = 951
-        Align = alBottom
-        BevelOuter = bvNone
-        Color = 15856113
-        DockSite = True
-        ParentBackground = False
-        ParentColor = False
-        TabOrder = 3
-        Visible = False
-      end
-      object SplitterBottom: TSplitter
-        Cursor = crVSplit
-        Left = 0
-        Height = 1
-        Top = 345
-        Width = 951
-        Align = alBottom
-        Color = 15856113
-        ParentColor = False
-        ResizeAnchor = akBottom
-        Visible = False
-      end
-      object SplitterRight: TSplitter
-        Left = 940
-        Height = 345
-        Top = 0
-        Width = 1
-        Align = alRight
-        Color = 15856113
-        ParentColor = False
-        ResizeAnchor = akRight
-        Visible = False
-      end
-      object SplitterLeft: TSplitter
-        Left = 10
-        Height = 345
-        Top = 0
-        Width = 1
-        Color = 15856113
-        ParentColor = False
-        Visible = False
       end
     end
     object Visual: TPage
@@ -34450,6 +34373,7 @@ object ui: Tui
     HotImages = ImageList
     Images = ImageList
     ParentShowHint = False
+    PopupMenu = ToolbarPopup
     ShowCaptions = True
     ShowHint = True
     TabOrder = 4
@@ -34544,9 +34468,9 @@ object ui: Tui
       OnClick = MenuItem18Click
     end
     object ToolButton15: TToolButton
-      Left = 682
+      Left = 1
       Hint = 'Run current project without debugging'
-      Top = 0
+      Top = 60
       Caption = '&Run without Debugging'
       DropdownMenu = PopupRun
       ImageIndex = 14
@@ -34554,23 +34478,23 @@ object ui: Tui
       Style = tbsDropDown
     end
     object ToolButton11: TToolButton
-      Left = 844
+      Left = 163
       Height = 60
-      Top = 0
+      Top = 60
       Caption = 'ToolButton11'
       ImageIndex = 11
       Style = tbsSeparator
     end
     object ToolButton12: TToolButton
-      Left = 852
+      Left = 171
       Hint = 'Run current project'
-      Top = 0
+      Top = 60
       Caption = '&Run '
       ImageIndex = 13
       OnClick = Run2Click
     end
     object ToolButton13: TToolButton
-      Left = 1
+      Left = 231
       Hint = 'Step through code'
       Top = 60
       Caption = '&Step'
@@ -34578,7 +34502,7 @@ object ui: Tui
       OnClick = MenuItem10Click
     end
     object ToolButton17: TToolButton
-      Left = 61
+      Left = 291
       Hint = 'Set a debug breakpoint'
       Top = 60
       Caption = 'Set &Breakpoint'
@@ -34586,7 +34510,7 @@ object ui: Tui
       OnClick = MenuItem15Click
     end
     object ToolButton16: TToolButton
-      Left = 158
+      Left = 388
       Hint = 'Add a variable watch'
       Top = 60
       Caption = 'Add &Watch...'
@@ -34594,7 +34518,7 @@ object ui: Tui
       OnClick = MenuItem13Click
     end
     object ToolButton14: TToolButton
-      Left = 243
+      Left = 473
       Hint = 'Reset running project'
       Top = 60
       Caption = '&Reset'
@@ -34602,7 +34526,7 @@ object ui: Tui
       OnClick = MenuItem11Click
     end
     object ToolButton19: TToolButton
-      Left = 303
+      Left = 533
       Height = 60
       Top = 60
       Caption = 'ToolButton19'
@@ -34610,9 +34534,9 @@ object ui: Tui
       Style = tbsSeparator
     end
     object ToolButton23: TToolButton
-      Left = 311
+      Left = 682
       Hint = 'Go to build folder'
-      Top = 60
+      Top = 0
       Caption = 'Open Build &Folder'
       DropdownMenu = PopupFolder
       ImageIndex = 29
@@ -34620,7 +34544,7 @@ object ui: Tui
       Style = tbsDropDown
     end
     object ToolButton21: TToolButton
-      Left = 439
+      Left = 541
       Hint = 'Start InstallAware User Interface Editor'
       Top = 60
       Caption = 'Start &Dialog Editor'
@@ -34628,7 +34552,7 @@ object ui: Tui
       OnClick = MenuItem21Click
     end
     object ToolButton18: TToolButton
-      Left = 558
+      Left = 660
       Hint = 'Start Project OS/3 Wizard'
       Top = 60
       Caption = 'Project OS/&3'
@@ -34654,8 +34578,8 @@ object ui: Tui
     TabOrder = 2
   end
   object MainMenu: TMainMenu
-    Left = 32
-    Top = 16
+    Left = 43
+    Top = 360
     object MenuItem1: TMenuItem
       Caption = '&File'
       OnClick = MenuItem1Click
@@ -34871,6 +34795,28 @@ object ui: Tui
         ShortCut = 49239
         OnClick = MenuItem8Click
       end
+      object MenuItem74: TMenuItem
+        Caption = 'Layouts'
+        Hint = 'Manage IDE layouts'
+        object MenuItem75: TMenuItem
+          Caption = '&Save Current Layout...'
+          Hint = 'Save current IDE layout'
+          OnClick = MenuItem75Click
+        end
+        object MenuItem76: TMenuItem
+          Caption = '&Delete...'
+          Hint = 'Delete IDE layout(s)'
+          OnClick = MenuItem76Click
+        end
+        object Separator10: TMenuItem
+          Caption = '-'
+        end
+        object MenuItem77: TMenuItem
+          Caption = 'Select &Layout...'
+          Hint = 'Select active IDE layout'
+          OnClick = MenuItem77Click
+        end
+      end
     end
     object MenuItem2: TMenuItem
       Caption = '&Project'
@@ -35001,35 +34947,35 @@ object ui: Tui
     Title = 'Open Project'
     Filter = 'Installation Projects (*.mprx)|*.mprx|All Files (*.*)|*.*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 125
-    Top = 16
+    Left = 136
+    Top = 360
   end
   object SaveProject: TSaveDialog
     Title = 'Save Project'
     DefaultExt = '.mprx'
     Filter = 'Installation Projects (*.mprx)|*.mprx|All Files (*.*)|*.*'
     Options = [ofHideReadOnly, ofPathMustExist, ofEnableSizing]
-    Left = 167
-    Top = 16
+    Left = 178
+    Top = 360
   end
   object TimerMaximize: TTimer
     Enabled = False
     OnTimer = TimerMaximizeTimer
-    Left = 125
-    Top = 67
+    Left = 136
+    Top = 411
   end
   object FindDialog: TFindDialog
     OnClose = FindDialogClose
     OnShow = FindDialogShow
     Options = [frDown, frHideWholeWord]
     OnFind = FindDialogFind
-    Left = 211
-    Top = 16
+    Left = 222
+    Top = 360
   end
   object ScriptPopup: TPopupMenu
     OnPopup = ScriptPopupPopup
-    Left = 80
-    Top = 16
+    Left = 91
+    Top = 360
     object Cut2: TMenuItem
       Caption = 'Cu&t'
       ImageIndex = 6
@@ -35117,33 +35063,33 @@ object ui: Tui
     Options = [frDown, frHideWholeWord, frHidePromptOnReplace]
     OnFind = ReplaceDialogFind
     OnReplace = ReplaceDialogReplace
-    Left = 252
-    Top = 16
+    Left = 263
+    Top = 360
   end
   object OpenProjectEx: TOpenDialog
     Title = 'Import InstallAware Project'
     Filter = 'InstallAware Projects (*.mpr)|*.mpr|All Files (*.*)|*.*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 294
-    Top = 16
+    Left = 305
+    Top = 360
   end
   object ImpDlgDir: TSelectDirectoryDialog
     Title = 'Import InstallAware Dialogs'
     Options = [ofPathMustExist, ofShareAware, ofEnableSizing, ofForceShowHidden, ofViewDetail]
-    Left = 336
-    Top = 16
+    Left = 347
+    Top = 360
   end
   object OpenPKG: TOpenDialog
     Title = 'Import PKG Package'
     Filter = 'PKG Packages (*.pkg)|*.pkg|All Files (*.*)|*.*'
     Options = [ofHideReadOnly, ofPathMustExist, ofEnableSizing]
-    Left = 379
-    Top = 16
+    Left = 390
+    Top = 360
   end
   object FeatureImages: TImageList
     Width = 32
-    Left = 167
-    Top = 67
+    Left = 178
+    Top = 411
     Bitmap = {
       4C7A030000002000000010000000080100000000000078DAED95510E84200C44
       7B743E38185F5C8B4DCDB251169419507497268D06121E4329E3BD0F1A7EC057
@@ -35157,8 +35103,8 @@ object ui: Tui
     }
   end
   object ImageListTree: TImageList
-    Left = 210
-    Top = 67
+    Left = 221
+    Top = 411
     Bitmap = {
       4C7A290000001000000010000000DE3300000000000078DAED9D095C5447BEEF
       9B1831461D3526C624469398184D42DCE2121317DC97B8EF0BE8430511111F82
@@ -35580,8 +35526,8 @@ object ui: Tui
   end
   object FeaturesPopup: TPopupMenu
     Images = FeatureImages
-    Left = 252
-    Top = 67
+    Left = 263
+    Top = 411
     object ComponentisSelected1: TMenuItem
       Caption = 'Feature is Initially &Selected'
       ImageIndex = 1
@@ -35594,8 +35540,8 @@ object ui: Tui
     end
   end
   object FileImages: TImageList
-    Left = 294
-    Top = 67
+    Left = 305
+    Top = 411
     Bitmap = {
       4C7A1F0000001000000010000000DF2900000000000078DAED9D075854D7D6F7
       47A3DE9B446FA246939B986BEA8D1A3526D1144B2C89D1C47835B1C5865EBBD8
@@ -35938,8 +35884,8 @@ object ui: Tui
   object FilesPopupExTree: TPopupMenu
     Images = FileImages
     OnPopup = FilesPopupExTreePopup
-    Left = 336
-    Top = 67
+    Left = 347
+    Top = 411
     object MenuItem50: TMenuItem
       Caption = '&Edit...'
       ImageIndex = 5
@@ -35976,8 +35922,8 @@ object ui: Tui
   end
   object PopupShellViews: TPopupMenu
     Images = FileImages
-    Left = 421
-    Top = 67
+    Left = 432
+    Top = 411
     object MenuItem59: TMenuItem
       AutoCheck = True
       Caption = '&Large Icons'
@@ -36020,8 +35966,8 @@ object ui: Tui
   object FilesPopupEx: TPopupMenu
     Images = FileImages
     OnPopup = FilesPopupExPopup
-    Left = 379
-    Top = 67
+    Left = 390
+    Top = 411
     object AddFiles1: TMenuItem
       Caption = 'Add New &File(s)...'
       ImageIndex = 3
@@ -36053,12 +35999,12 @@ object ui: Tui
     Title = 'Add New File(s)'
     Filter = 'All Files (*)|*'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 421
-    Top = 16
+    Left = 432
+    Top = 360
   end
   object ImageList: TImageList
-    Left = 470
-    Top = 67
+    Left = 481
+    Top = 411
     Bitmap = {
       4C7A7200000010000000100000002D8C00000000000078DAEC9D07585457FAFF
       27C5B44D624C36AE9BB83175534D4CD4C454A3492CB1C61E7B2CD84B54EC0222
@@ -37188,8 +37134,8 @@ object ui: Tui
   object GenericPopupMenu: TPopupMenu
     Images = FileImages
     OnPopup = GenericPopupMenuPopup
-    Left = 526
-    Top = 67
+    Left = 537
+    Top = 411
     object Action144: TMenuItem
       Caption = '&New...'
       ImageIndex = 28
@@ -37210,12 +37156,12 @@ object ui: Tui
     Enabled = False
     Interval = 314
     OnTimer = SpoolTimerTimer
-    Left = 470
-    Top = 16
+    Left = 481
+    Top = 360
   end
   object PopupBuild: TPopupMenu
-    Left = 526
-    Top = 16
+    Left = 537
+    Top = 360
     object MenuItem7: TMenuItem
       Caption = '&Uncompressed...'
       OnClick = MenuItem7Click
@@ -37231,8 +37177,8 @@ object ui: Tui
   end
   object PopupFolder: TPopupMenu
     OnPopup = PopupFolderPopup
-    Left = 583
-    Top = 16
+    Left = 594
+    Top = 360
     object MenuItem53: TMenuItem
       Caption = '&Uncompressed'
       OnClick = MenuItem53Click
@@ -37248,8 +37194,8 @@ object ui: Tui
   end
   object PopupRun: TPopupMenu
     OnPopup = PopupRunPopup
-    Left = 639
-    Top = 16
+    Left = 650
+    Top = 360
     object MenuItem58: TMenuItem
       Caption = '&Uncompressed'
       OnClick = MenuItem58Click
@@ -37267,12 +37213,12 @@ object ui: Tui
     Enabled = False
     Interval = 100
     OnTimer = NewShowTimerTimer
-    Left = 583
-    Top = 67
+    Left = 594
+    Top = 411
   end
   object NewAssocPopup: TPopupMenu
-    Left = 690
-    Top = 16
+    Left = 701
+    Top = 360
     object Define1: TMenuItem
       Caption = '&Define...'
       OnClick = Define1Click
@@ -37283,8 +37229,8 @@ object ui: Tui
     end
   end
   object NewLocalPopup: TPopupMenu
-    Left = 738
-    Top = 16
+    Left = 749
+    Top = 360
     object MenuItem66: TMenuItem
       Caption = '&Copy/Move Local Files...'
       OnClick = MenuItem66Click
@@ -37295,8 +37241,8 @@ object ui: Tui
     end
   end
   object NewINIPopup: TPopupMenu
-    Left = 787
-    Top = 16
+    Left = 798
+    Top = 360
     object MenuItem68: TMenuItem
       Caption = '&Edit INI Entry...'
       OnClick = MenuItem68Click
@@ -37310,49 +37256,49 @@ object ui: Tui
     Title = 'Select INI File'
     Filter = 'INI Files (*.ini)|*.ini|All Files (*)|*'
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 843
-    Top = 16
+    Left = 854
+    Top = 360
   end
   object ExTrap: TApplicationProperties
     OnException = ExTrapException
     OnHelp = ExTrapHelp
-    Left = 639
-    Top = 67
+    Left = 650
+    Top = 411
   end
   object OpenDialogText: TOpenDialog
     Title = 'Load Text'
     Filter = 'Text Files (*.txt)|*.txt|All Files (*)|*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 690
-    Top = 67
+    Left = 701
+    Top = 411
   end
   object OpenIconWindows: TOpenDialog
     Title = 'Select Windows Icon'
     DefaultExt = '.ico'
     Filter = 'Icons|*.ico|All Files|*.*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 738
-    Top = 67
+    Left = 749
+    Top = 411
   end
   object OpenIconmacOS: TOpenDialog
     Title = 'Select macOS Icon'
     DefaultExt = '.ico'
     Filter = 'Icons|*.icns|All Files|*.*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 787
-    Top = 67
+    Left = 798
+    Top = 411
   end
   object OpenIconLinux: TOpenDialog
     Title = 'Select Linux Icon'
     DefaultExt = '.ico'
     Filter = 'Icons|*.png|All Files|*.*'
     Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
-    Left = 843
-    Top = 67
+    Left = 854
+    Top = 411
   end
   object CodeNavigate: TImageList
-    Left = 304
-    Top = 120
+    Left = 91
+    Top = 411
     Bitmap = {
       4C7A070000001000000010000000420F00000000000078DAA598095CD565BAC7
       CFADB93573BBB7F2CE54B6DD9A26EF9DF6B1B2D2B1B4B2EEFD94659A69A6C68C
@@ -37478,5 +37424,19 @@ object ui: Tui
       FAF354343B7FFDBC11764BA4FF234D7DD7CC77E78FCCCA7F6BF6C82FA2D9F8FF
       7F62E0AEE3F1F26FBF74CC1603FF2CFF7F76FC0D65383632
     }
+  end
+  object ToolbarPopup: TPopupMenu
+    Left = 43
+    Top = 410
+    object MenuItem72: TMenuItem
+      Caption = '&Large Buttons'
+      RadioItem = True
+      OnClick = MenuItem72Click
+    end
+    object MenuItem73: TMenuItem
+      Caption = '&Small Buttons'
+      RadioItem = True
+      OnClick = MenuItem73Click
+    end
   end
 end

@@ -1,10 +1,10 @@
 /Users/c/Developer/miamp/iamp/iamp.mprx
-
+Debug
 0
-0
-34
-1280
-695
+246
+47
+1024
+537
 "Courier New", 11, [], [clWindowText]
 "Courier New", 11, [Italic], [clGreen]
 "Courier New", 11, [], [clBlack]
@@ -15,11 +15,11 @@
 "Courier New", 11, [], [clPurple]
 "Courier New", 11, [], [clMaroon]
 "Courier New", 11, [], [clBtnShadow]
-0
-0
+211
+Design
 Code
 TRUE
-1
+2
 TRUE
 TRUE
 TRUE
@@ -38,3 +38,5 @@ TRUE
 TRUE
 TRUE
 FALSE
+TRUE
+213
