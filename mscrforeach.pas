@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-09-29
+Change Date:          2029-10-10
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 

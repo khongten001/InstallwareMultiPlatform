@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-09-29
+Change Date:          2029-10-10
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -3076,7 +3076,8 @@ begin
     if CSIDL = $1002 then
       Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows NT\CurrentVersion', 'SystemRoot', Is64Bit);
   end;
-  Path := StringReplace(Path, '\\', '/', [rfReplaceAll, rfIgnoreCase]);
+  
+  Path := StringReplace(Path, '\', '/', [rfReplaceAll, rfIgnoreCase]);
   Path := StringReplace(Path, 'c:/', WinePath + 'drive_c/', [rfReplaceAll, rfIgnoreCase]);
 end;
 
@@ -3380,6 +3381,8 @@ begin
           begin
             Delete(s, 1, Length(Value + '='));
             Delete(sX, 1, Length(Value + '='));
+            
+            sX := StringReplace(sX, '\\', '\', [rfReplaceAll, rfIgnoreCase]);
             if AnsiPos('"', s) = 1 then 
             begin
               Delete(sX, Length(sX), 1);
