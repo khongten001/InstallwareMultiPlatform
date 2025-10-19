@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-10
+Change Date:          2029-10-19
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -166,6 +166,7 @@ type
     Label35: TLabel;
     Page4B: TPage;
     Panel7: TPanel;
+    Progress: TProgressBar;
     SaveProject: TSaveDialog;
     SaveSetup: TBitBtn;
     BuildNow: TCheckBox;
@@ -324,7 +325,7 @@ end;
 
 procedure TOS3.FormShow(Sender: TObject);
 begin
-  ui.PushStatusStack('Project OS/3');
+  ui.PushStatusStack('Application Porting Toolkit');
   Notebook.PageIndex := Notebook.Pages.IndexOf('Page0'); 
   SetControls(True, false);
 end;
@@ -338,9 +339,9 @@ end;
 procedure TOS3.NextClick(Sender: TObject);
 var
   b: Boolean;
-  s, sX: String;
   l: TStringList;
-  i, j, k: Integer;
+  s, sX, sY, sZ: String;
+  i, j, k, m, n, o: Integer;
 begin
   if Notebook.ActivePage = 'Page0' then 
   begin
@@ -403,7 +404,7 @@ begin
     end;
     
     Notebook.PageIndex := Notebook.Pages.IndexOf('PageY'); 
-    DoingWork.Caption := 'Initializing the Empty Setup template for use with Project OS/3.';
+    DoingWork.Caption := 'Initializing the Empty Setup template for use with Application Porting Toolkit';
     DoingWorkTitle.Caption := 'Preparing...';
     Back.Enabled := false;
     Next.Enabled := false;
@@ -534,8 +535,11 @@ begin
     else
     
     begin
+      StrCopy(ProjectStruct.Conditionals, PChar('IGNOREMISSINGFILES=TRUE,CACHESOURCES=TRUE'));
       
       j := ui.GetSetupGlobalInsertionIndex;
+      ui.EmitInsertCommand('Set Variable', '"NATIVE_ERROR$MYAH$MYAH$FALSE","IGNORE"', j);
+      ui.EmitInsertCommand('Set Variable', '"NATIVE_OVERWRITE$MYAH$MYAH$FALSE","NEVER"', j);
       if AnsiCompareText(ExtractFileExt(ProjectFile.Text), '.mpr') = 0 then 
       begin
         
@@ -546,10 +550,42 @@ begin
         ui.EmitInsertCommand('End', '', j);
         ui.EmitInsertCommand('Define Component', '"$TITLE$","TRUE","Installs $TITLE$"', j); 
         
-        StrCopy(ProjectStruct.Conditionals, PChar('IGNOREMISSINGFILES=TRUE'));
+        sY := '';
         
-      end
-      else
+        Progress.Min := 0;
+        Progress.Max := ScriptTypes.Count;
+        Progress.Position := 0;
+        o := 0;
+        Progress.Visible := True;
+        for i := ScriptTypes.Count downto 1 do
+        begin
+          Progress.Position := Progress.Position +1;
+          Application.ProcessMessages;
+          if ScriptTypes[i -1] = 'Install Files' then
+          begin
+            sZ := ScriptReferences[i -1];
+            m := InstallFiles.IndexOf(sZ); 
+            
+            if (sY = '') or (sY <> InstallFiles[m +3]) then
+            begin
+              sY := InstallFiles[m +3];
+              InstallFiles[m +1] := AssertDir(ExtractFilePath(InstallFiles[m +1])) + '*';
+            end
+            else
+            begin
+              ui.RenderDeleteScriptEx(i -1, True); 
+              o := o +1;
+              DoingWork.Caption := 'Optimized ' + IntToStr(o) + ' Install Files statements...';
+              
+            end;
+          end;
+        end;
+        
+        Progress.Visible := false;
+        DoingWork.Caption := 'Adding Wine support to your project, and finalizing other changes.';
+        Application.ProcessMessages;
+      end;
+      if false then 
       begin 
         
         StrCopy(ProjectStruct.Conditionals,

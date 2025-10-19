@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-10
+Change Date:          2029-10-19
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -362,7 +362,7 @@ resourcestring
   {$ELSE}
   SDefaultFilter = 'All files (*)|*';
   {$ENDIF}
-  cProjectOS3 = 'Project OS/3';
+  cProjectOS3 = 'Application Porting Toolkit';
   SGeneratesWine = 'Installs a Windows application to run unmodified on Linux and macOS, with execution through a new or existing instance of Wine.';
   SNoChanges = 'No Changes';
   SNone = 'None';

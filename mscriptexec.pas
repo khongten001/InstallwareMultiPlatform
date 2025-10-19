@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-10
+Change Date:          2029-10-19
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -6273,7 +6273,7 @@ begin
     {$ENDIF}
     SureSetVariable('SUPPORTDIR', CachedSupportDir, 'Initialization'); 
     SureSetVariable('MSIFILE', MSIFile, 'Initialization'); 
-    SureSetVariable('IAX_VERSION', '2.62', 'Initialization'); 
+    SureSetVariable('IAX_VERSION', '2.63', 'Initialization'); 
     
     AllowMissHeader := True;
     
@@ -15073,7 +15073,7 @@ begin
   
   FreeMem(p);
   
-  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.62');
+  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.63');
   SaveCompilerVariables(Conditionals); 
   
   BackTypes := TStringList.Create;
