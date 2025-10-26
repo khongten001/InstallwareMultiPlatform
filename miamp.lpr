@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-19
+Change Date:          2029-10-27
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -176,7 +176,7 @@ uses
   mscrsetowner, mscrsetgroup, mscrgetnativesettings, mscrreturnfrominclude,
   uLicenseESLR8, mscrrunprogramas, uRunAppAs, mscrrunscript, uRunScript,
   mscrcheckprocess, mos3, mscrsetwinemode, mdeletelayout, msavelayout,
-  mselectlayout;
+  mselectlayout, uTahoe;
 
 {$R *.res}
 

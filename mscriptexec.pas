@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-19
+Change Date:          2029-10-27
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -151,7 +151,7 @@ uses
   {$ELSE}
   Crt,
   {$ENDIF}
-  Classes, SysUtils, INIFiles, {$IFDEF BACKIDE}uGui, mBuildThread,{$ENDIF} mUtils, LazUTF8,
+  Classes, SysUtils, INIFiles, {$IFDEF BACKIDE}uGui, mBuildThread,{$ENDIF} mUtils, uTahoe, LazUTF8,
   mEval, SyncObjs, MD5, CRC32, FileInfo, {$IFNDEF WINDOWS}BaseUnix, Unix,{$ENDIF}
   uDlgAPI, LCLIntf, uDirectExtractMedia, registry, mAutomate, uRunApp, LazFileUtils,
   FileUtil, Masks, VerifySign, Process, Math, StrUtils, uSleep, RegExpr, t4a_VersionInfo,
@@ -6273,7 +6273,7 @@ begin
     {$ENDIF}
     SureSetVariable('SUPPORTDIR', CachedSupportDir, 'Initialization'); 
     SureSetVariable('MSIFILE', MSIFile, 'Initialization'); 
-    SureSetVariable('IAX_VERSION', '2.63', 'Initialization'); 
+    SureSetVariable('IAX_VERSION', '2.64', 'Initialization'); 
     
     AllowMissHeader := True;
     
@@ -9677,6 +9677,7 @@ begin
               fpUnLink(TouchList[i5]);
               DeleteFile(TouchList[i5]);
               fpSymLink(PChar(TouchList[i5 -1]), PChar(TouchList[i5]));
+              FixSquircleJail(TouchList[i5], false); 
             end;
           {$ENDIF}
         end;
@@ -9830,6 +9831,7 @@ begin
             FileCopyFile(s6 + 'setup.png', s5 + 'setup.png', false); 
             FileCopyFile(s6 + 'miax.lib', s5 + 'miax.lib', false); 
             LazShimSetExecutable(s5 + 'miax.lib', EXEDIR + 'miax.lib');
+            FixSquircleJail(DeAssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(DeAssertDir(s5))))), false); 
             SaveComponents(s5 + ExtractFileNameOnly(MSIFile) + '.dat', false); 
             ParameterCache.SaveToFile(s5 + ExtractFileNameOnly(MSIFile) + '.par', TEncoding.UTF8); 
             NativeAppendToLog(NativeLogGuessPath);
@@ -9887,6 +9889,7 @@ begin
             FileCopyFile(s2 + 'setup.png', s1 + 'setup.png', false); 
             FileCopyFile(EXEDIR + 'miax.lib', s1 + 'miax.lib', false); 
             LazShimSetExecutable(s1 + 'miax.lib', EXEDIR + 'miax.lib');
+            FixSquircleJail(DeAssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(DeAssertDir(s1))))), false); 
             s2 := s2 + ExtractFileNameOnly(MSIFile);
             {$ELSE}
             SetFileAttributes(PChar(s1 + ExtractFileName(s2){$IFDEF WINDOWS}+ '.exe'{$ENDIF}), FILE_ATTRIBUTE_NORMAL); 
@@ -15073,7 +15076,7 @@ begin
   
   FreeMem(p);
   
-  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.63');
+  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.64');
   SaveCompilerVariables(Conditionals); 
   
   BackTypes := TStringList.Create;
@@ -16102,6 +16105,8 @@ begin
       TouchList.Add(ToFile);
       TouchList.Add(LinkPath);
       {$ENDIF}
+      DoDebug('MCS#1: ' + LinkPath);
+      FixSquircleJail(LinkPath, false); 
     end;
     Exit;
   end;
@@ -16219,6 +16224,9 @@ begin
   WriteLn(t, '</plist>');
   CloseFile(t);
   NativeLogAddEntry('Create File', sX);
+  DoDebug('CREATE SHORTCUT SQUIRCLE PATH: (LP) ' + LinkPath + '.app');
+  FixSquircleJail(LinkPath + '.app', false); 
+  
   Result := True;
 {$ENDIF}
 {$ENDIF}
@@ -16956,6 +16964,11 @@ begin
     ReWrite(t);
     WriteLn(t, ExpandFileName(s2));
     CloseFile(t);
+    {$IFDEF INTEROP}
+    FixSquircleJail(DeAssertDir(ExtractFilePath(DeAssertDir(sv16))), false);
+    {$ELSE}
+    FixSquircleJail(DeAssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(DeAssertDir(sv14))))), false);
+    {$ENDIF}
     
     {$ENDIF}
     {$IFDEF LINUX}

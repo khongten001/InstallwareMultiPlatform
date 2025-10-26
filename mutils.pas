@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-19
+Change Date:          2029-10-27
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -4485,6 +4485,13 @@ begin
   Result := FileExists(FileName);
   if (not Result) and FollowLink then 
   begin
+    
+    if DirectoryExists(FileName, FollowLink) then
+    begin
+      Result := false; 
+      
+      Exit;
+    end;
     
     try
       

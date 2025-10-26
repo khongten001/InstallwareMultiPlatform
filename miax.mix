@@ -1,10 +1,10 @@
-/Users/c/Desktop/Subtitle Edit/Subtitle Edit.mprx
+/Users/c/Developer/miamp/iamp/iamp.mprx
 Debug
 0
-246
+9
 47
-1024
-537
+1261
+676
 "Courier New", 11, [], [clWindowText]
 "Courier New", 11, [Italic], [clGreen]
 "Courier New", 11, [], [clBlack]
@@ -17,7 +17,7 @@ Debug
 "Courier New", 11, [], [clBtnShadow]
 211
 Design
-Code
+Visual
 TRUE
 1
 TRUE

@@ -52,7 +52,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-19
+Change Date:          2029-10-27
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -142,7 +142,7 @@ unit mbuildthread;
 interface
 
 uses
-  SysUtils, Classes, mUtils, LCLIntf, LCLType, LMessages,
+  SysUtils, Classes, mUtils, uTahoe, LCLIntf, LCLType, LMessages,
   FileUtil, uSevenZIPAPI{$IFNDEF WINDOWS}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
 
 type
@@ -1543,6 +1543,8 @@ begin
       DoGenericCodeSign(SetupEXE + '.app/Contents/' + Ventura +  '/miax.lib'); 
       DoGenericCodeSign(SetupEXE + '.app/Contents/MacOS/miaxstub'); 
       DoGenericCodeSign(SetupEXE + '.app'); 
+      
+      FixSquircleJail(SetupEXE + '.app', True); 
       {$ENDIF}
       
       {$IFDEF DARWIN}
