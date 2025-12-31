@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -690,13 +691,14 @@ initialization
   else
   begin
     {$IFDEF WINDOWS}
-    FileExclude.Add('*\local settings\temp');
-    FileExclude.Add('*\local settings\temporary internet files');
-    FileExclude.Add('*\local settings\history');
-    FileExclude.Add('*\cookies');
-    FileExclude.Add('*\recycled');
-    FileExclude.Add('*\recycler');
-    FileExclude.Add('*\packageaware');
+    
+    FileExclude.Add('*\Local Settings\Temp');
+    FileExclude.Add('*\Local Settings\Temporary Internet Files');
+    FileExclude.Add('*\Local Settings\History');
+    FileExclude.Add('*\Cookies');
+    FileExclude.Add('*\Recycled');
+    FileExclude.Add('*\Recycler');
+    FileExclude.Add('*\PackageAware');
     FileExclude.Add('pagefile.sys');
     FileExclude.Add('hiberfil.sys');
     {$ELSE}

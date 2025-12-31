@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -140,7 +141,7 @@ unit mbuildthread;
 interface
 
 uses
-  SysUtils, Classes, mUtils, LCLIntf, LCLType, LMessages,
+  SysUtils, Classes, mUtils, uTahoe, LCLIntf, LCLType, LMessages,
   FileUtil, uSevenZIPAPI{$IFNDEF WINDOWS}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
 
 type
@@ -1541,6 +1542,8 @@ begin
       DoGenericCodeSign(SetupEXE + '.app/Contents/' + Ventura +  '/miax.lib'); 
       DoGenericCodeSign(SetupEXE + '.app/Contents/MacOS/miaxstub'); 
       DoGenericCodeSign(SetupEXE + '.app'); 
+      
+      FixSquircleJail(SetupEXE + '.app', True); 
       {$ENDIF}
       
       {$IFDEF DARWIN}
@@ -1593,17 +1596,17 @@ begin
         lZEy := TStringList.Create;
         MyFindAllFiles(lZEy, thBuildToFolder, '*.7zip', false);
         for nI := 1 to lZEy.Count do
-          MoveFile(lZEy[i -1],
-            AssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(lZEy[i -1]))))
-              + ExtractFileName(lZEy[i -1]));
+          MoveFile(lZEy[nI -1],
+            AssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(lZEy[nI -1]))))
+              + ExtractFileName(lZEy[nI -1]));
         if LaunchAppAndWait2('/usr/bin/hdiutil', lZEx, false, True) <> 0 then
           raise Exception.Create('Unable to build disk image "' + rZ);
         WipeFolder(SETUPEXE + '.app/', True);
         RemoveDirectory(SETUPEXE + '.app/');
         for nI := 1 to lZEy.Count do
-          MoveFile(AssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(lZEy[i -1]))))
-            + ExtractFileName(lZEy[i -1]),
-            lZEy[i -1]);
+          MoveFile(AssertDir(ExtractFilePath(DeAssertDir(ExtractFilePath(lZEy[nI -1]))))
+            + ExtractFileName(lZEy[nI -1]),
+            lZEy[nI -1]);
         UpdateString := 'Built DMG for macOS';
         DisplayUpdateEx(UpdateString);
         

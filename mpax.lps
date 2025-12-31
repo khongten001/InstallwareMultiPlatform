@@ -20,11 +20,15 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="409"/>
-        <CursorPos X="80" Y="415"/>
+        <TopLine Value="632"/>
+        <CursorPos X="53" Y="646"/>
         <UsageCount Value="210"/>
-        <Bookmarks Count="1">
+        <Bookmarks Count="5">
           <Item0 ID="7"/>
+          <Item1 X="56" Y="824" ID="1"/>
+          <Item2 X="56" Y="651" ID="3"/>
+          <Item3 X="54" Y="679" ID="4"/>
+          <Item4 X="56" Y="769" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,6 +39,7 @@
         <ComponentName Value="Scanning"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <TopLine Value="2"/>
         <CursorPos Y="9"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
@@ -44,15 +49,12 @@
         <Filename Value="uScanner.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="240"/>
-        <CursorPos X="11" Y="249"/>
+        <TopLine Value="291"/>
+        <CursorPos X="21" Y="284"/>
         <UsageCount Value="210"/>
-        <Bookmarks Count="5">
-          <Item0 X="18" Y="396" ID="2"/>
-          <Item1 X="3" Y="356" ID="4"/>
-          <Item2 Y="300" ID="5"/>
-          <Item3 Y="689" ID="6"/>
-          <Item4 X="3" Y="871" ID="3"/>
+        <Bookmarks Count="2">
+          <Item0 Y="300" ID="5"/>
+          <Item1 Y="689" ID="6"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -60,8 +62,8 @@
         <Filename Value="uScanThread.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="86"/>
-        <CursorPos X="6" Y="51"/>
+        <TopLine Value="53"/>
+        <CursorPos X="9" Y="59"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit>
@@ -69,7 +71,7 @@
         <Filename Value="uUpdateThread.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="146"/>
+        <TopLine Value="2"/>
         <CursorPos X="6" Y="120"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
@@ -81,7 +83,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="11"/>
-        <TopLine Value="49"/>
+        <TopLine Value="2"/>
         <CursorPos X="4" Y="64"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
@@ -90,9 +92,10 @@
       <Unit>
         <Filename Value="uGlobals.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="571"/>
-        <CursorPos X="32" Y="575"/>
+        <TopLine Value="578"/>
+        <CursorPos X="44" Y="586"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit>
@@ -101,8 +104,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mUtils"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="4432"/>
-        <CursorPos X="3" Y="4434"/>
+        <CursorPos X="5" Y="5342"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
       </Unit>
@@ -110,7 +112,7 @@
         <Filename Value="mAutomate.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="246"/>
+        <TopLine Value="2"/>
         <CursorPos X="7" Y="269"/>
         <UsageCount Value="209"/>
         <Loaded Value="True"/>
@@ -121,21 +123,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="120"/>
         <CursorPos X="26" Y="152"/>
-        <UsageCount Value="124"/>
+        <UsageCount Value="123"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="miaAutomate.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="31" Y="43"/>
-        <UsageCount Value="142"/>
+        <UsageCount Value="141"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="uHalcyonSupport.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="59" Y="10"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -144,7 +146,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="138"/>
         <CursorPos X="15" Y="148"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="38"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -152,7 +154,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="816"/>
         <CursorPos X="48" Y="856"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="38"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -160,7 +162,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="66"/>
         <CursorPos X="14" Y="68"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -169,14 +171,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="103"/>
         <CursorPos X="15" Y="114"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="37"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="WiseListBox.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="80"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="61"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -184,7 +186,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="848"/>
         <CursorPos X="14" Y="860"/>
-        <UsageCount Value="42"/>
+        <UsageCount Value="41"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -204,7 +206,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="354"/>
         <CursorPos Y="359"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="36"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -212,7 +214,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2044"/>
         <CursorPos X="3" Y="2050"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="35"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -220,7 +222,7 @@
         <UnitName Value="MTProcs"/>
         <EditorIndex Value="6"/>
         <TopLine Value="12"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -228,7 +230,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="38"/>
         <CursorPos X="5" Y="47"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -236,7 +238,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="3" Y="31"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -245,7 +247,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="14" Y="52"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -254,7 +256,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="166"/>
         <CursorPos X="14" Y="173"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -262,7 +264,7 @@
         <UnitName Value="Laz_AVL_Tree"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="200"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -270,7 +272,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="37"/>
         <CursorPos X="15" Y="49"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -279,7 +281,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="23"/>
         <CursorPos X="20" Y="38"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -288,16 +290,15 @@
         <EditorIndex Value="14"/>
         <TopLine Value="7360"/>
         <CursorPos X="15" Y="7381"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ucopymedia.pas"/>
         <UnitName Value="uCopyMedia"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="106"/>
-        <CursorPos X="9" Y="117"/>
-        <UsageCount Value="14"/>
+        <CursorPos X="9" Y="106"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -305,7 +306,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="668"/>
         <CursorPos X="7" Y="679"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -314,7 +315,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2535"/>
         <CursorPos X="11" Y="2547"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -323,7 +324,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
         <CursorPos X="3" Y="70"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -334,141 +335,145 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="33"/>
         <CursorPos X="39" Y="52"/>
-        <UsageCount Value="10"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../../fpcupdeluxe/lazarus/ide/lazarus.pp"/>
         <UnitName Value="Lazarus"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="41"/>
+        <TopLine Value="2"/>
         <CursorPos X="3" Y="54"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../fpcupdeluxe/fpcsrc/rtl/objpas/sysutils/finah.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="23"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="437" Column="54" TopLine="422"/>
+        <Caret Line="698" Column="13"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="502" Column="36" TopLine="487"/>
+        <Caret Line="19" Column="34" TopLine="2"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="507" Column="36" TopLine="492"/>
+        <Caret Line="825" Column="56" TopLine="807"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="516" Column="36" TopLine="501"/>
+        <Caret Line="770" Column="56" TopLine="751"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="525" Column="51" TopLine="510"/>
+        <Caret Line="651" Column="56" TopLine="632"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="534" Column="45" TopLine="519"/>
+        <Caret Line="811" Column="56" TopLine="796"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="546" Column="51" TopLine="531"/>
+        <Caret Line="651" Column="56" TopLine="632"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="570" Column="48" TopLine="555"/>
+        <Caret Line="702" Column="54" TopLine="671"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="763" Column="43" TopLine="754"/>
+        <Caret Line="666" Column="56"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="305" Column="51" TopLine="292"/>
+        <Caret Line="685" Column="11" TopLine="672"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="307" Column="56" TopLine="292"/>
+        <Caret Line="686" TopLine="2"/>
       </Position>
       <Position>
         <Filename Value="uguipa.pas"/>
-        <Caret Line="309" Column="53" TopLine="292"/>
+        <Caret Line="790" Column="31" TopLine="762"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="562" Column="66" TopLine="549"/>
+        <Filename Value="mutils.pas"/>
+        <Caret Line="4434" Column="3" TopLine="2"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="565" Column="38" TopLine="549"/>
+        <Filename Value="mutils.pas"/>
+        <Caret Line="751" Column="21" TopLine="719"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="589" Column="84" TopLine="576"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="12" Column="59" TopLine="2"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="567" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="52" Column="20" TopLine="35"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="565" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="146" TopLine="140"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="562" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="284" Column="17" TopLine="273"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="309" Column="53" TopLine="296"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="294" Column="14" TopLine="284"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="307" Column="56" TopLine="296"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="282" Column="16" TopLine="272"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="305" Column="51" TopLine="296"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="294" Column="14" TopLine="284"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="589" Column="84" TopLine="576"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="282" Column="16" TopLine="272"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="567" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="294" Column="14" TopLine="284"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="565" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="282" Column="16" TopLine="272"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="562" Column="38" TopLine="554"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="294" Column="14" TopLine="294"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="309" Column="53" TopLine="296"/>
+        <Filename Value="uScanThread.pas"/>
+        <Caret Line="59" Column="9" TopLine="50"/>
       </Position>
       <Position>
-        <Filename Value="uguipa.pas"/>
-        <Caret Line="627" TopLine="606"/>
+        <Filename Value="uScanThread.pas"/>
+        <Caret Line="80" Column="5" TopLine="70"/>
       </Position>
       <Position>
-        <Filename Value="mpax.lpr"/>
-        <Caret Line="89" Column="21" TopLine="64"/>
+        <Filename Value="uScanThread.pas"/>
+        <Caret Line="59" Column="9" TopLine="53"/>
       </Position>
       <Position>
-        <Filename Value="uScanning.pas"/>
-        <Caret Line="9"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="254" Column="10" TopLine="243"/>
       </Position>
       <Position>
-        <Filename Value="../../fpcupdeluxe/lazarus/ide/lazarus.pp"/>
-        <Caret Line="54" Column="3" TopLine="41"/>
+        <Filename Value="uScanner.pas"/>
+        <Caret Line="284" Column="21" TopLine="275"/>
       </Position>
     </JumpHistory>
     <RunParams>

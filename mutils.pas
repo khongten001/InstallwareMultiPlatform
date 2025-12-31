@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -275,6 +276,7 @@ var
   {$ENDIF}
   
 const
+  MyLineEnding = LineEnding;
   INVALID_HANDLE_VALUE = THandle(-1);
   
   Ventura = 'Library';
@@ -307,6 +309,28 @@ const
 
 resourcestring
   
+  SSomeNecessaryScriptCommandsWereN = 'Some necessary script commands were not found in your setup script.';
+  SApplicationRuntimesForThisScript = 'Application Runtimes cannot be added visually to this setup script.';
+  SToAvoidSeeingThisMessageCreateNe_3 = 'To avoid seeing this message, create new projects using the Empty Setup option.';
+  SUnableToCreateAccessFolder = 'Unable to create/access folder';
+  SThisFolderAlreadyContainsPreviou = 'This folder already contains previously exported translations for the current project. Would you like to preserve existing translation data?' + MyLineEnding + MyLineEnding;
+  SYesPreserveExistingTranslationsA = 'Yes: Preserve existing translations, adding new items as necessary.' + MyLineEnding;
+  SNoOverwriteAllPreviousTranslatio = 'No: Overwrite all previous translations.' + MyLineEnding;
+  SCancelDoNothing = 'Cancel: Do nothing.';
+  SUnableToAccessFolder = 'Unable to access folder';
+  SFolderDoesNotSeemToContainTransl = 'Folder does not seem to contain translations for current project' + MyLineEnding + MyLineEnding;
+  SExpectedTranslationIndexFileNotF = 'Expected translation index file not found:' + MyLineEnding;
+  SExpectedTranslationMapFileNotFou = 'Expected translation map file not found:' + MyLineEnding;
+  SFolderDoesNotContainAnyLocalizat = 'Folder does not contain any (exported) localizations';
+  SPleaseChooseAtLeastOneLanguageFo = 'Please choose at least one language for localization or import';
+  SProjectAlreadyContainsPreviously = 'Project already contains previously imported translations.' + MyLineEnding + 'Would you like to discard them and import new translations?';
+  SNext = '&Next >';
+  SFinish = '&Finish';
+  SExportToFolder = 'Export to Folder';
+  SImportFromFolder = 'Import from Folder';
+  SDialog = 'Dialog: ';
+  SUnableToReconcileTranslationsPle = 'Unable to reconcile translations. Please try your export again into a different folder. Be sure to use the correct folder that already contains translations for your project.';
+  
   SOffline = '(Offline)';
   SInstallProduct = 'Install Product';
   SUninstallProduct = 'Uninstall Product';
@@ -322,7 +346,7 @@ resourcestring
   SThisVersionNumberHasAlreadyBeenD = 'This version number has already been defined.';
   SNewApplicationVersion = 'New Application Version';
   SVersion = 'Version:';
-  SPleaseEnterAVersionNumberVersion = 'Please enter a version number.'#13#13'Version numbers must match the values entered in the Product Version field of Project Properties view for the applications you are updating.';
+  SPleaseEnterAVersionNumberVersion = 'Please enter a version number.' + MyLineEnding + MyLineEnding + 'Version numbers must match the values entered in the Product Version field of Project Properties view for the applications you are updating.';
   SPleaseSaveYourProjectBeforeDefin_1 = 'Please save your project before defining application versions.';
   SNoUpdatePacksAvailable = 'No update packs available.';
   SAreYouSureYouWishToRemoveAllUpda = 'Are you sure you wish to remove all update information for the selected application version?';
@@ -337,6 +361,8 @@ resourcestring
   {$ELSE}
   SDefaultFilter = 'All files (*)|*';
   {$ENDIF}
+  cProjectOS3 = 'Application Porting Toolkit';
+  SGeneratesWine = 'Installs a Windows application to run unmodified on Linux and macOS, with execution through a new or existing instance of Wine.';
   SNoChanges = 'No Changes';
   SNone = 'None';
   SFull = 'Full';
@@ -368,7 +394,7 @@ resourcestring
   SAllRightsReserved = 'All rights reserved';
   SQuickStart = 'Quick Start';
   QuickStartHint = 'Quick Start is the recommended entry point to quickly and easily producing a working setup for your application if you are new to InstallAware.';
-  STheDialogEditorHasNotBeenInstall = 'The Dialog Editor has not been installed.'#13#13'1. Run the InstallAware Multi Platform setup,'#13'2. Choose to add the Dialog Editor feature.';
+  STheDialogEditorHasNotBeenInstall = 'The Dialog Editor has not been installed.' + MyLineEnding + MyLineEnding + '1. Run the InstallAware Multi Platform setup,'#13'2. Choose to add the Dialog Editor feature.';
   SToAvoidSeeingThisMessageCreateNe_1 = 'To avoid seeing this message, create new projects using the Empty Setup option, or add an ''Apply Uninstall'' command to your script now.';
   SApplyUninstallCommandNotFoundInS = '''Apply Uninstall'' command not found in setup script.';
   SThisCommandMustBePresentInYourSc_10 = 'This command must be present in your script before you may visually add run program commands (that execute before or after the uninstallation) to your project.';
@@ -393,7 +419,7 @@ resourcestring
   SSpecifiedFolderAlreadyExistsTUseF = 'Specified template already exists. Overwrite with new template?';
   SWarningAllFolderContentsWillBeEr = 'Warning: All folder contents will be erased!';
   SWarningAllFolderContentsTWillBeEr = 'Warning: Old template will be completely erased!';
-  SPackageAwareIsAStandAloneUtility = 'PackageAware is a stand-alone utility which may be run on any computer.'#13#13'We recommend you use clean machines and your favorite hypervisor software to optimize the capture process.';
+  SPackageAwareIsAStandAloneUtility = 'PackageAware is a stand-alone utility which may be run on any computer.' + MyLineEnding + MyLineEnding + 'We recommend you use clean machines and your favorite hypervisor software to optimize the capture process.';
   SPackageAwareHasNotBeenInstalledP = 'PackageAware has not been installed. Please install it first.';
   SLUASetup = 'User Mode Setup';
   SLUA = 'Generates a setup script to run under a limited user account, without ever requiring elevation to perform installation, repair, and uninstallation tasks.';
@@ -464,7 +490,7 @@ resourcestring
   SLABELUndefined = 'LABEL undefined: ';
   SSyntaxErrorInExpressionPleaseRev = 'Syntax error in expression. Please review the help topic "Evaluate Expression" for the correct syntax.';
   SVariableNotDefined = 'Variable not defined: ';
-  SATargetFolderMustBeSpecifiedForF = 'A target folder must be specified for files that are being installed.'#13'The value $TARGETDIR$ represents the destination folder chosen by the user.';
+  SATargetFolderMustBeSpecifiedForF = 'A target folder must be specified for files that are being installed.' + MyLineEnding + 'The value $TARGETDIR$ represents the destination folder chosen by the user.';
   SAtLeastOneDeleteModeMustBeSelect = 'At least one delete mode must be selected';
   SVariableRequired = 'Variable required';
   SWebMediaBlockMustHaveAtLeastOneD = 'Web Media Block must have at least one download URL';
@@ -499,7 +525,7 @@ resourcestring
   SIncludeScriptIsAlreadyPartOfYour = ' include script is already part of your project.';
   SThe = 'The ';
   SThisScriptIsAlreadyYourSetupSPri = 'This script is already your setup''s primary script. You cannot overwrite the main script of your setup with an include script.';
-  SScriptFileNotFoundOnDisk = 'Script file not found on disk:'#13;
+  SScriptFileNotFoundOnDisk = 'Script file not found on disk:' + MyLineEnding;
   SWelcomePage = 'Welcome Page';
   SUntitled_1 = '(untitled)';
   SThereIsAlreadyAScriptInYourProje = 'There is already a script in your project with that file name. Please choose a different file name.';
@@ -510,7 +536,7 @@ resourcestring
   SInvalidIconFilePleaseChooseANewI = 'Invalid icon file. Please choose a new icon.';
   SUnableToFindSavedScriptContextFo = 'Unable to find saved script context for ';
   SUnableToSaveProjectScriptHasBeen = 'Unable to save project - script has been corrupted. Please revert to a saved copy to avoid losing your work.';
-  SYouMustStopDebuggingBeforeUsingT = 'You must stop debugging before using this action.'#13'Do you wish to stop debugging now?';
+  SYouMustStopDebuggingBeforeUsingT = 'You must stop debugging before using this action.' + MyLineEnding + 'Do you wish to stop debugging now?';
   SThisProjectCanNoLongerBeLocatedD = 'This project can no longer be located. Do you wish to remove it from the Reopen list?';
   SUnableToGetFoldedLineNumberInCod = 'Unable to get folded line number in code folding!';
   SErrorLoadingLine = 'Error loading line #';
@@ -523,7 +549,7 @@ resourcestring
   SAttemptToRenderUntypedLine = 'Attempt to render untyped line!';
   SAttemptToRenderNullCommentLine = 'Attempt to render null-comment line!';
   SAttemptToRenderUnsupportedComman = 'Attempt to render unsupported command! Please make sure all plug-ins required by project are installed.';
-  SToInstallPlugIns1OpenTheControlP = #13#13'To install plug-ins:'#13#13'1. Open the Control Panel "Programs and Features" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Change features" and install missing plug-ins.';
+  SToInstallPlugIns1OpenTheControlP = MyLineEnding + MyLineEnding + 'To install plug-ins:'#13#13'1. Open the Control Panel "Programs and Features" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Change features" and install missing plug-ins.';
   SScriptForProjectMissing = 'Script for project missing: ';
   SClosingProjectNow = 'Closing project now.';
   SProjectLoadError = 'Project Load Error';
@@ -764,6 +790,8 @@ function GetSystemPreferredUILanguages(dwFlags: UINT32; var pulNumLanguages: UIN
 function GetUserDefaultUILanguage: LANGID; stdcall; external kernel32 name 'GetUserDefaultUILanguage';
 {$ENDIF}
 
+function IsValidSaveNameEx(FileName: String): Boolean;
+
 procedure MyPlaySound(Path: String);
 function IsDarkModeAppearance:boolean;
 
@@ -827,6 +855,7 @@ procedure MyFindAllFiles(AList: TStrings; const SearchPath: String;
   const SearchMask: String = ''; SearchSubDirs: Boolean = True; DirAttr: Word = faDirectory;
   MaskSeparator: char = ';'; PathSeparator: char = ';'; NoFollow: Boolean = True); overload;
 
+function CloneFolder(Source, Target: String): Boolean;
 function IsPipe(const FilePath: String): Boolean;
 function FindAllFilesEx(Path: String; Recurse: Boolean): TStringList;
 function FileCopyFile(Source, Target: String; FailIfExists: Boolean): Boolean;
@@ -881,9 +910,10 @@ function ytm_SmartPos(SearchStr,
                 startpos:integer=1;
                 ForwardSearch : Boolean = TRUE):integer;
 function YTM_FastPosBack(const aString, aSubStr : String; aStartPos: Integer): Integer;
+function RightAnsiPos(SubStr, s: string): Integer;
 function SingleLineToMultiLine(Single: String): String;
 function MultiLineToSingleLine(Multi: String): String;
-function MyLineEnding: String;
+
 function LengthMyLineEnding: Integer;
 function MemoMultiToDefaultMultiLineAdapter(Value: String): String;
 
@@ -994,7 +1024,25 @@ function GetSysWow64DirWin: String;
 function GetWindowsDirectoryWin(lpBuffer: PChar; uSize: Cardinal): Cardinal; stdcall;
 function GetSystemDirectoryWin(lpBuffer: PChar; uSize: Cardinal): Cardinal; stdcall;
 
+function IterateWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean;
+  
+  Keys, Values: TStringList;
+  
+  DeleteValue: Boolean = false; DeleteKey: Boolean = false;
+  
+  WriteData: String = '' 
+  ): String;
+function DeleteWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean;
+  DeleteEntireKey: Boolean = false): String;
+function WriteWineRegistryString(HivePath, Key, Value, Data: String; Is64Bit: Boolean): String;
+function WriteWineRegistryExpandString(HivePath, Key, Value, Data: String; Is64Bit: Boolean): String;
+function WriteWineRegistryMultiString(HivePath, Key, Value, Data: String; Is64Bit: Boolean): String;
+function WriteWineRegistryInteger(HivePath, Key, Value: String; Data: Integer; Is64Bit: Boolean): String;
+function WriteWineRegistryBinary(HivePath, Key, Value, Data: String; Is64Bit: Boolean): String;
+function CheckWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean): String;
+function ReadWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean): String;
 procedure GetSpecialFolder(CSIDL: Integer; var Path: String);
+procedure GetSpecialFolderWine(CSIDL: Integer; var Path: String; WinePath: String; Is64Bit: Boolean);
 {$IFDEF DARWIN}
 function GetSignificantDir(DirLocation: qword; DomainMask: qword; count: byte): string;
 
@@ -2911,6 +2959,127 @@ begin
 end;
 {$ENDIF}
 
+procedure GetSpecialFolderWine(CSIDL: Integer; var Path: String; WinePath: String; Is64Bit: Boolean);
+var
+  s: String;
+begin
+  Path := '';
+  if not DirectoryExists(WinePath) then Exit;
+  case CSIDL of
+    $1a:
+    s := 'AppData';
+    $20:
+    s := 'Cache';
+    $21:
+    s := 'Cookies';
+    $0:
+    s := 'Desktop';
+    $6:
+    s := 'Favorites';
+    $1c:
+    s := 'Local AppData';
+    $d:
+    s := 'My Music';
+    $27:
+    s := 'My Pictures';
+    $e:
+    s := 'My Videos';
+    $13:
+    s := 'NetHood';
+    $5:
+    s := 'Personal';
+    {$2e:
+    s := 'Personal';} 
+    $1b:
+    s := 'PrintHood';
+    $2:
+    s := 'Programs';
+    $8:
+    s := 'Recent';
+    $9:
+    s := 'SendTo';
+    $b:
+    s := 'Start Menu';
+    $7:
+    s := 'Startup';
+    $15:
+    s := 'Templates';
+    $30:
+    s := 'Administrative Tools';
+    $1000:
+    s := '{374DE290-123F-4565-9164-39C4925E467B}'; 
+  else
+    s := ''; 
+  end;
+  if s <> '' then
+    Path := ReadWineRegistry(WinePath + 'user.reg', 'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders', s, Is64Bit)
+  else
+  begin
+    case CSIDL of
+      $23:
+      s := 'Common AppData';
+      $2f:
+      s := 'Common Administrative Tools';
+      $19:
+      s := 'Common Desktop';
+      $2e:
+      s := 'Common Documents';
+      $1f:
+      s := 'Common Favorites';
+      $17:
+      s := 'Common Programs';
+      $16:
+      s := 'Common Start Menu';
+      $18:
+      s := 'Common StartUp';
+      $13:
+      s := 'Common Templates';
+      $35:
+      s := 'CommonMusic';
+      $36:
+      s := 'CommonPictures';
+      $37:
+      s := 'CommonVideo';
+    else
+      s := ''; 
+    end;
+    if s <> '' then
+      Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders', s, Is64Bit);
+  end;
+  if s = '' then
+  begin
+    
+    if CSIDL = $26 then
+    begin
+      if Is64Bit then
+        Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows\CurrentVersion', 'ProgramFilesDir', Is64Bit)
+      else
+        Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows\CurrentVersion', 'ProgramFilesDir (x86)', Is64Bit);
+    end
+    else
+    if CSIDL = $2b then
+    begin
+      if Is64Bit then
+        Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows\CurrentVersion', 'CommonFilesDir', Is64Bit)
+      else
+        Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows\CurrentVersion', 'CommonFilesDir (x86)', Is64Bit);
+    end
+    else
+    if CSIDL = $1001 then
+    begin
+      Path := ReadWineRegistry(WinePath + 'system.reg', 'System\CurrentControlSet\Control\Session Manager\Environment', 'winsysdir', Is64Bit);
+      if not Is64Bit then
+        Path := StringReplace(Path, 'system32', 'syswow64', [rfReplaceAll, rfIgnoreCase]);
+    end
+    else
+    if CSIDL = $1002 then
+      Path := ReadWineRegistry(WinePath + 'system.reg', 'Software\Microsoft\Windows NT\CurrentVersion', 'SystemRoot', Is64Bit);
+  end;
+  
+  Path := StringReplace(Path, '\', '/', [rfReplaceAll, rfIgnoreCase]);
+  Path := StringReplace(Path, 'c:/', WinePath + 'drive_c/', [rfReplaceAll, rfIgnoreCase]);
+end;
+
 {$IFDEF DARWIN}
 function GetSignificantDir(DirLocation: qword; DomainMask: qword; count: byte): string;
 var
@@ -2994,6 +3163,449 @@ begin
   else
     Result := false;
 {$ENDIF}
+end;
+
+function IterateWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean;
+  Keys, Values: TStringList; DeleteValue: Boolean; DeleteKey: Boolean; WriteData: String = ''): String;
+var
+  b: Boolean;
+  i: Integer;
+  l: TStringList;
+  t, tX: TextFile;
+  s, sX, sY, sZ: String;
+procedure FlushRemainderFile;
+begin
+  while not EOF(t) do
+  begin
+    ReadLn(t, s);
+    WriteLn(tX, s);
+  end;
+  CloseFile(t);
+  CloseFile(tX);
+  Erase(t);
+  Rename(tX, HivePath);
+end;
+begin
+  b := false; 
+  Result := '';
+  Key := DeAssertDir(AnsiLowerCase(Key));
+  Value := AnsiLowerCase(Value);
+  
+    sZ := '[' + StringReplace(Key, '\', '\\', [rfReplaceAll, rfIgnoreCase]) + '\\';
+  Key := '[' + StringReplace(Key, '\', '\\', [rfReplaceAll, rfIgnoreCase]) + ']';
+  if not Is64Bit then
+    if AnsiPos('system.reg', AnsiLowerCase(HivePath)) <> 0 then 
+    begin
+      if AnsiPos('software\classes', Key) = 1 then
+      begin
+        Key := StringReplace(Key, 'software\classes', 'software\classes\wow6432node', [rfIgnoreCase]);
+        if Assigned(Keys) then
+          sZ := StringReplace(sZ, 'software\classes', 'software\classes\wow6432node', [rfIgnoreCase]);
+      end
+      else
+        if AnsiPos('software', Key) = 1 then
+        begin
+          Key := StringReplace(Key, 'software', 'software\wow6432node', [rfIgnoreCase]);
+          if Assigned(Keys) then
+            sZ := StringReplace(sZ, 'software', 'software\wow6432node', [rfIgnoreCase]);
+        end;
+    end;
+  if Value = '' then
+    Value := '@'
+  else
+    Value := '"' + Value + '"';
+  i := 0; 
+  FileMode := 0;
+  while not MyFileExists(HivePath) do
+  begin
+    try
+      AssignFile(t, HivePath);
+      Reset(t);
+      if IOResult <> 0 then
+        raise Exception.Create('READ$ERROR');
+      CloseFile(t);
+      Break;
+    except
+      i := i +1;
+      Sleep(314);
+    end;
+    if i = 22 then
+    begin
+      Result := 'READ$ERROR';
+      Exit;
+    end;
+  end;
+  if Assigned(Keys) then
+  begin
+    Keys.Clear;
+    l := TStringList.Create;
+  end
+  else
+    l := nil;
+  if Assigned(Values) then
+    Values.Clear;
+  AssignFile(t, HivePath);
+  Reset(t);
+  if DeleteValue or (WriteData <> '') then 
+  begin
+    AssignFile(tX, HivePath + '.iamp');
+    ReWrite(tX);
+  end;
+  while not EOF(t) do
+  begin
+    ReadLn(t, s);
+    
+      sY := s;
+    s := AnsiLowerCase(sY);
+    if Assigned(Keys) then
+      if AnsiPos(sZ, s) = 1 then 
+      begin
+        s := sY;
+        Delete(s, 1, 1);
+        Delete(s, AnsiPos(']', s), Length(s));
+        
+        s := DeAssertDir(StringReplace(s, '\\', '\', [rfReplaceAll, rfIgnoreCase]));
+        while AnsiCompareText('[' + DeAssertDir(ExtractFilePath(s)),
+          DeAssertDir(StringReplace(sZ, '\\', '\', [rfReplaceAll, rfIgnoreCase]))) <> 0 do
+        begin
+          s := DeAssertDir(ExtractFilePath(s));
+          if s = '' then Break; 
+        end;
+        if (l.IndexOf(AnsiLowerCase(s)) = -1) and (s <> '') then
+        begin
+          l.Add(AnsiLowerCase(s));
+          Keys.Add(s);
+        end;
+        s := AnsiLowerCase(sY);
+      end
+      else
+        
+        if (AnsiPos('[', s) = 1) and (Keys.Count > 1) then
+        begin
+          CloseFile(t);
+          if Assigned(l) then
+            FreeAndNil(l);
+          Exit;
+        end;
+    if DeleteKey then
+    begin
+      if (AnsiPos(Key, s) = 1) or (AnsiPos(sZ, s) = 1) then 
+      begin
+        while not EOF(t) do
+        begin
+          ReadLn(t, s);
+          if s = '' then Break; 
+        end;
+        b := True; 
+      end
+      else
+        WriteLn(tX, sY); 
+      Continue; 
+      
+    end;
+    if AnsiPos(Key, s) = 1 then
+    begin
+      if DeleteValue then
+        if not DeleteKey then 
+          WriteLn(tX, sY);
+      if WriteData <> '' then
+        WriteLn(tX, sY);
+      while not EOF(t) do
+      begin
+        ReadLn(t, s);
+        if s = '' then 
+        begin
+          Result := 'NO$VALUE';
+          if WriteData = '' then
+          begin
+            if DeleteValue then 
+            begin
+              if not DeleteKey then 
+              begin
+                CloseFile(t);
+                CloseFile(tX);
+                Erase(tX);
+              end;
+            end
+            else
+              CloseFile(t); 
+            if not DeleteKey then
+            begin
+              if Assigned(l) then
+                FreeAndNil(l);
+              Exit; 
+            end;
+          end
+          else
+          begin
+            WriteLn(tX, Value + '=' + WriteData);
+            WriteLn(tX); 
+            FlushRemainderFile; 
+            if Assigned(l) then 
+              FreeAndNil(l);
+            Exit;
+          end;
+        end;
+        sX := s;
+        s := AnsiLowerCase(s);
+        if Assigned(Values) and (AnsiPos('#', s) <> 1) then 
+        begin
+          s := sX;
+          Delete(s, 1, 1);
+          Delete(s, AnsiPos('"', s), Length(s));
+          Values.Add(s);
+          s := AnsiLowerCase(sX);
+        end;
+        if AnsiPos(Value + '=', s) = 1 then
+        begin
+          if WriteData <> '' then 
+          begin
+            WriteLn(tX, Value + '=' + WriteData);
+            FlushRemainderFile; 
+            if Assigned(l) then 
+              FreeAndNil(l);
+            Exit;
+          end;
+          if DeleteValue then
+          begin
+            if not DeleteKey then
+            begin
+              FlushRemainderFile; 
+              if Assigned(l) then
+                FreeAndNil(l);
+              Exit;
+            end; 
+          end
+          else
+          begin
+            Delete(s, 1, Length(Value + '='));
+            Delete(sX, 1, Length(Value + '='));
+            
+            sX := StringReplace(sX, '\\', '\', [rfReplaceAll, rfIgnoreCase]);
+            if AnsiPos('"', s) = 1 then 
+            begin
+              Delete(sX, Length(sX), 1);
+              Delete(sX, 1, 1);
+            end
+            else
+            if AnsiPos('dword:', s) = 1 then 
+            begin
+              Delete(s, 1, AnsiPos(':', s));
+              sX := IntToStr(StrToInt('$' + s));
+            end
+            else
+            if AnsiPos('str(2):', s) = 1 then 
+            begin
+              Delete(sX, Length(sX), 1);
+              Delete(sX, 1, AnsiPos('"', sX));
+            end
+            else
+            if AnsiPos('str(7):', s) = 1 then 
+            begin
+              Delete(sX, Length(sX), 1);
+              Delete(sX, 1, AnsiPos('"', sX));
+              sX := StringReplace(sX, '\0', '$NEWLINE$', [rfReplaceAll, rfIgnoreCase]);
+            end
+            else
+            
+            if AnsiPos('hex', s) = 1 then 
+            begin
+              Delete(sX, 1, AnsiPos(':', sX));
+              Result := StringReplace(sX, ',', '', [rfReplaceAll, rfIgnoreCase]);
+            end
+            else
+              sX := 'UNKNOWN$TYPE';
+            Result := sX;
+            if (not Assigned(Keys)) and (not Assigned(Values)) then
+            begin
+              CloseFile(t);
+              if Assigned(l) then
+                FreeAndNil(l);
+              Exit;
+            end;
+          end;
+        end
+        else
+          if WriteData <> '' then
+            WriteLn(tX, sX) 
+          else
+            if DeleteValue then 
+              if not DeleteKey then 
+                WriteLn(tX, sX);
+      end;
+      if EOF(t) and (WriteData <> '') then 
+      begin
+        WriteLn(tX, Value + '=' + WriteData);
+        FlushRemainderFile; 
+        if Assigned(l) then 
+          FreeAndNil(l);
+        Exit;
+      end;
+    end
+    else
+      if DeleteValue or (WriteData <> '') then
+        WriteLn(tX, sY);
+  end;
+  CloseFile(t);
+  if WriteData <> '' then
+  begin
+    WriteLn(tX);
+    WriteLn(tX, Key);
+    WriteLn(tX, Value + '=' + WriteData);
+    
+    Result := 'NO$KEY';
+    if Assigned(l) then
+      FreeAndNil(l);
+    CloseFile(tX);
+    Erase(t);
+    Rename(tX, HivePath);
+    Exit;
+  end;
+  if DeleteValue and (not DeleteKey) then 
+  begin
+    CloseFile(tX);
+    Erase(tX);
+  end
+  else
+    if DeleteKey and b then 
+    begin
+      CloseFile(tX);
+      Erase(t);
+      Rename(tX, HivePath);
+    end;
+  Result := 'NO$KEY';
+  if Assigned(l) then
+    FreeAndNil(l);
+end;
+
+function DeleteWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean;
+  DeleteEntireKey: Boolean = false): String;
+begin
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value, Is64Bit, nil, nil, True, DeleteEntireKey);
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function WriteWineRegistryString(HivePath, Key, Value, Data: String; Is64Bit: Boolean
+  ): String;
+begin
+  Data := StringReplace(Data, '\', '\\', [rfReplaceAll, rfIgnoreCase]);
+  Data := StringReplace(Data, '"', '\"', [rfReplaceAll, rfIgnoreCase]);
+  
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value,
+      Is64Bit, nil, nil, false, false, '"' + Data + '"');
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function WriteWineRegistryExpandString(HivePath, Key, Value, Data: String;
+  Is64Bit: Boolean): String;
+begin
+  Data := StringReplace(Data, '\', '\\', [rfReplaceAll, rfIgnoreCase]);
+  Data := StringReplace(Data, '"', '\"', [rfReplaceAll, rfIgnoreCase]);
+  
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value,
+      Is64Bit, nil, nil, false, false, 'str(2):"' + Data + '"');
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function WriteWineRegistryMultiString(HivePath, Key, Value, Data: String;
+  Is64Bit: Boolean): String;
+begin
+  Data := StringReplace(Data, '\', '\\', [rfReplaceAll, rfIgnoreCase]);
+  Data := StringReplace(Data, '"', '\"', [rfReplaceAll, rfIgnoreCase]);
+  
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value,
+      Is64Bit, nil, nil, false, false, 'str(7):"' +
+      StringReplace(Data, '$NEWLINE$', '\0', [rfReplaceAll, rfIgnoreCase]) + '"');
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function WriteWineRegistryInteger(HivePath, Key, Value: String; Data: Integer;
+  Is64Bit: Boolean): String;
+begin
+  
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value,
+      Is64Bit, nil, nil, false, false, 'dword:"' + IntToHex(Data, 8) + '"');
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function WriteWineRegistryBinary(HivePath, Key, Value, Data: String; Is64Bit: Boolean
+  ): String;
+var
+  s: String;
+  i: Integer;
+begin
+  s := '';
+  for i := 1 to Length(Data) do
+  begin
+    s := s + Data[i];
+    if i mod 2 = 0 then
+      if i <> Length(Data) then
+        s := s + ',';
+  end;
+  
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value,
+      Is64Bit, nil, nil, false, false, 'hex:"' + s + '"');
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function CheckWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean): String;
+begin
+  try
+    Result := IterateWineRegistry(HivePath, Key, Value, Is64Bit, nil, nil, false, false);
+  except
+    Result := 'INTERNAL$ERROR';
+  end;
+end;
+
+function ReadWineRegistry(HivePath, Key, Value: String; Is64Bit: Boolean): String;
+begin
+  try
+    Result := CheckWineRegistry(HivePath, Key, Value, Is64Bit);
+  except
+    Result := '';
+    
+  end;
+  if Result = 'UNKNOWN$TYPE' then
+  begin
+    
+    Result := '';
+  end
+  else
+    if Result = 'NO$VALUE' then
+    begin
+      
+      Result := '';
+    end
+    else
+      if Result = 'NO$KEY' then
+      begin
+        
+        Result := '';
+      end
+      else
+        if Result = 'READ$ERROR' then
+        begin
+          
+          Result := '';
+        end;
 end;
 
 procedure GetSpecialFolder(CSIDL: Integer; var Path: String);
@@ -3873,6 +4485,13 @@ begin
   if (not Result) and FollowLink then 
   begin
     
+    if DirectoryExists(FileName, FollowLink) then
+    begin
+      Result := false; 
+      
+      Exit;
+    end;
+    
     try
       
       fs := TFileStream.Create(FileName, fmOpenRead);
@@ -4013,6 +4632,19 @@ begin
   CloseFile(t);
 end;
 
+function RightAnsiPos(SubStr, s: string): Integer;
+var
+  i: Integer;
+begin
+  Result := 0;
+  while AnsiPos(SubStr, s) <> 0 do
+  begin
+    i := AnsiPos(SubStr, s);
+    Delete(s, 1, i);
+    if i <> 0 then Result := Result +i;
+  end;
+end;
+
 function SingleLineToMultiLine(Single: String): String;
 begin
   Result := StringReplace(Single, '$NEWLINE$', MyLineEnding, [rfReplaceAll, rfIgnoreCase]); 
@@ -4039,25 +4671,6 @@ begin
       Delete(Result, (Length(Result) - Length(s) +1), Length(s));
       Result := Result + '$NEWLINE$';
     end;
-end;
-
-function MyLineEnding: String;
-begin
-  if True then
-  begin
-    
-    Result := sLineBreak;
-    Exit;
-  end;
-  {$IFDEF DARWIN}
-  Result := #$E2#$80#$A8; 
-  {$ELSE}
-  {$IFDEF WINDOWS}
-  Result := AnsiString(#13#10);
-  {$ELSE}
-  Result := #$0A;
-  {$ENDIF}
-  {$ENDIF} 
 end;
 
 function LengthMyLineEnding: Integer;
@@ -4289,8 +4902,7 @@ begin
   StringToFont(s, ToFont);
 end;
 
-function FontToString(
-  Font : TFont ) : string;
+function FontToString(Font: TFont): String;
 var
   sStyle : string;
 begin
@@ -4637,6 +5249,39 @@ begin
 end;
 {$ENDIF}
 
+function CloneFolder(Source, Target: String): Boolean;
+var
+  relPath, srcFile, dstFile: String;
+  i: Integer;
+  l: TStringList;
+begin
+  Result := False;
+  Source := IncludeTrailingPathDelimiter(Source);
+  Target := IncludeTrailingPathDelimiter(Target);
+
+  l := FindAllFilesEz(Source + '*.*', True, False, nil);
+  try
+    for i := 0 to l.Count - 1 do
+    begin
+      srcFile := l[i];
+
+      relPath := ExtractFilePath(srcFile);
+      Delete(relPath, 1, Length(Source));
+
+      ForceDirectories(Target + relPath);
+
+      dstFile := Target + relPath + ExtractFileName(srcFile);
+
+      if not FileCopyFile(srcFile, dstFile, False) then
+        Exit; 
+    end;
+
+    Result := True;
+  finally
+    l.Free;
+  end;
+end;
+
 function IsPipe(const FilePath: String): Boolean;
 {$IFNDEF WINDOWS}
 var
@@ -4670,7 +5315,8 @@ begin
     Result := True;
     Exit;
   end;
-  if MyFileExists(Target) and FailIfExists then Exit;
+  
+  if FailIfExists and MyFileExists(Target) then Exit;
   if not FailIfExists then f := [cffOverwriteFile, cffPreserveTime]
     else f := [cffPreserveTime];
   {$IFNDEF WINDOWS}
@@ -4696,6 +5342,24 @@ begin
   CloseFile(s);
   CloseFile(t);
   Result := j = k;
+end;
+
+function IsValidSaveNameEx(FileName: String): Boolean;
+begin
+  Result := false;
+  
+  FileName := ExtractFileName(FileName);
+  if AnsiPos('\', FileName) <> 0 then Exit;
+  if AnsiPos('/', FileName) <> 0 then Exit;
+  if AnsiPos(':', FileName) <> 0 then Exit;
+  if AnsiPos('*', FileName) <> 0 then Exit;
+  if AnsiPos('?', FileName) <> 0 then Exit;
+  if AnsiPos('"', FileName) <> 0 then Exit;
+  if AnsiPos('<', FileName) <> 0 then Exit;
+  if AnsiPos('>', FileName) <> 0 then Exit;
+  if AnsiPos('|', FileName) <> 0 then Exit;
+  
+  Result := True;
 end;
 
 procedure MyPlaySound(Path: String);

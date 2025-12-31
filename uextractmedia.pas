@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -206,7 +207,7 @@ begin
     if i >= 100 then thxProgress := 100
       else thxProgress := i;
     thxProgressText := ExtractFileName(lpCurrentFileName) + ', ' + IntToStr(thxProgress) + msg20;
-    DelegateBindProgress(thxProgressTextHeader + #13 + thxProgressText, thxProgress, 100, 0);
+    DelegateBindProgress(thxProgressTextHeader + MyLineEnding + thxProgressText, thxProgress, 100, 0);
     {$IFDEF USEVARMANAGER}
     bY := VarManager['MYAH_thCancelled'] = 'TRUE';
     {$ELSE}

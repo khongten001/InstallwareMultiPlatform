@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -177,7 +178,7 @@ uses
   mproject, mUtils, uGui;
 
 resourcestring
-  SNoSetupThemesHaveBeenInstalled1O = 'No setup themes have been installed.'#13#13'1. Open the Control Panel "Add-Remove Programs" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Add or Remove Features" and choose at least one setup theme.';
+  SNoSetupThemesHaveBeenInstalled1O = 'No setup themes have been installed.' + MyLineEnding + MyLineEnding + '1. Open the Control Panel "Add-Remove Programs" applet,'#13'2. Choose the "Change" option for InstallAware,'#13'3. Select "Add or Remove Features" and choose at least one setup theme.';
   SWarningAllCustomizationsMadeToYo = 'Warning: All customizations made to your existing dialogs will be lost!';
   SAreYouSureYouWantToOverwriteAllY = 'Are you sure you want to overwrite all your dialogs with base versions from the ';
   STheme = ' theme?';

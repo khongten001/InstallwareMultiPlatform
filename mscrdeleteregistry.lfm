@@ -1,12 +1,12 @@
 object scrDeleteRegistry: TscrDeleteRegistry
   Left = 8
   Height = 297
-  Top = 25
+  Top = 34
   Width = 335
   HelpType = htKeyword
   HelpKeyword = 'deleteregistry'
   BorderStyle = bsDialog
-  Caption = 'Delete Registry (Windows Only)'
+  Caption = 'Delete Registry (Windows and Wine)'
   ClientHeight = 297
   ClientWidth = 335
   Color = clBtnFace
@@ -15,7 +15,7 @@ object scrDeleteRegistry: TscrDeleteRegistry
   Font.Name = 'Tahoma'
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Label4: TLabel
     Left = 16
     Height = 13
@@ -65,21 +65,21 @@ object scrDeleteRegistry: TscrDeleteRegistry
       'HKEY_USERS'
       'HKEY_CURRENT_CONFIG'
     )
-    OnChange = RootChange
     Style = csDropDownList
     TabOrder = 0
     Text = 'HKEY_CLASSES_ROOT'
+    OnChange = RootChange
   end
   object Key: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 80
     Width = 304
     TabOrder = 1
   end
   object Value: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 128
     Width = 304
     TabOrder = 2
@@ -126,7 +126,7 @@ object scrDeleteRegistry: TscrDeleteRegistry
   end
   object Target: TEdit
     Left = 16
-    Height = 22
+    Height = 18
     Top = 224
     Width = 304
     TabOrder = 5

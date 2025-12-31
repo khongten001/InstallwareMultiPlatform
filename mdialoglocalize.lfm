@@ -14,11 +14,11 @@ object DialogLocalize: TDialogLocalize
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  Position = poOwnerFormCenter
-  LCLVersion = '3.99.0.0'
   OnCreate = FormCreate
   OnHide = FormHide
   OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '3.4.0.0'
   object Bevel2: TBevel
     Left = -3
     Height = 7
@@ -44,8 +44,8 @@ object DialogLocalize: TDialogLocalize
     Caption = '&Next >'
     Default = True
     Layout = blGlyphRight
-    TabOrder = 1
     OnClick = NextClick
+    TabOrder = 1
   end
   object Back: TBitBtn
     Left = 249
@@ -53,15 +53,15 @@ object DialogLocalize: TDialogLocalize
     Top = 325
     Width = 75
     Caption = '< &Back'
-    TabOrder = 2
     OnClick = BackClick
+    TabOrder = 2
   end
   object Notebook: TNotebook
     Left = 0
     Height = 313
     Top = 0
     Width = 497
-    PageIndex = 0
+    PageIndex = 10
     TabOrder = 0
     object Task: TPage
       object Bevel4: TBevel
@@ -346,7 +346,7 @@ object DialogLocalize: TDialogLocalize
       end
       object ExportFolder: TEdit
         Left = 48
-        Height = 22
+        Height = 18
         Top = 104
         Width = 321
         TabOrder = 0
@@ -385,8 +385,8 @@ object DialogLocalize: TDialogLocalize
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
         }
-        TabOrder = 1
         OnClick = BitBtn1Click
+        TabOrder = 1
       end
       object Panel2: TPanel
         Left = -5
@@ -2224,8 +2224,8 @@ object DialogLocalize: TDialogLocalize
           878D4001010101010101292C44777B85868A40383F3939363B3B282C33028288
           848B403A3A3A3A3A3A3A3A2C0202028C8902
         }
-        TabOrder = 0
         OnClick = BitBtn2Click
+        TabOrder = 0
       end
       object BitBtn11: TBitBtn
         Left = 176
@@ -2263,8 +2263,8 @@ object DialogLocalize: TDialogLocalize
           878D4001010101010101292C44777B85868A40383F3939363B3B282C33028288
           848B403A3A3A3A3A3A3A3A2C0202028C8902
         }
-        TabOrder = 1
         OnClick = BitBtn11Click
+        TabOrder = 1
       end
     end
     object Import1: TPage
@@ -2392,7 +2392,7 @@ object DialogLocalize: TDialogLocalize
       end
       object ImportFolder: TEdit
         Left = 48
-        Height = 22
+        Height = 18
         Top = 104
         Width = 313
         TabOrder = 0
@@ -2431,8 +2431,8 @@ object DialogLocalize: TDialogLocalize
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
         }
-        TabOrder = 1
         OnClick = BitBtn4Click
+        TabOrder = 1
       end
       object Panel3: TPanel
         Left = -5
@@ -2651,7 +2651,7 @@ object DialogLocalize: TDialogLocalize
         Height = 137
         Top = 88
         Width = 401
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
       end
       object BitBtn3: TBitBtn
@@ -2661,8 +2661,8 @@ object DialogLocalize: TDialogLocalize
         Width = 75
         Caption = '&All'
         NumGlyphs = 2
-        TabOrder = 2
         OnClick = BitBtn3Click
+        TabOrder = 2
       end
       object BitBtn5: TBitBtn
         Left = 48
@@ -2671,8 +2671,8 @@ object DialogLocalize: TDialogLocalize
         Width = 75
         Caption = '&None'
         NumGlyphs = 2
-        TabOrder = 1
         OnClick = BitBtn5Click
+        TabOrder = 1
       end
       object Panel4: TPanel
         Left = -5
@@ -4622,8 +4622,8 @@ object DialogLocalize: TDialogLocalize
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
         }
-        TabOrder = 0
         OnClick = BitBtn6Click
+        TabOrder = 0
       end
     end
     object Work: TPage
@@ -8137,7 +8137,7 @@ object DialogLocalize: TDialogLocalize
         Top = 96
         Width = 257
         AutoSize = False
-        Caption = 'The wizard was interruped during the localization process. Please try again later.'
+        Caption = 'The wizard was interrupted during the localization process. Please try again later.'
         ParentColor = False
         WordWrap = True
       end
@@ -8307,8 +8307,8 @@ object DialogLocalize: TDialogLocalize
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
         }
-        TabOrder = 1
         OnClick = BitBtn7Click
+        TabOrder = 1
       end
       object Panel6: TPanel
         Left = -5
@@ -8409,7 +8409,7 @@ object DialogLocalize: TDialogLocalize
       end
       object AutoFolder: TEdit
         Left = 48
-        Height = 22
+        Height = 18
         Top = 104
         Width = 313
         TabOrder = 0
@@ -8534,7 +8534,7 @@ object DialogLocalize: TDialogLocalize
         Height = 137
         Top = 88
         Width = 401
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
       end
       object Panel7: TPanel
@@ -8641,8 +8641,8 @@ object DialogLocalize: TDialogLocalize
         Width = 75
         Caption = '&All'
         NumGlyphs = 2
-        TabOrder = 2
         OnClick = BitBtn8Click
+        TabOrder = 2
       end
       object BitBtn9: TBitBtn
         Left = 48
@@ -8652,8 +8652,8 @@ object DialogLocalize: TDialogLocalize
         Cancel = True
         Caption = '&None'
         NumGlyphs = 2
-        TabOrder = 1
         OnClick = BitBtn9Click
+        TabOrder = 1
       end
     end
     object Localize3: TPage
@@ -10332,7 +10332,7 @@ object DialogLocalize: TDialogLocalize
         Top = 224
         Width = 233
         AutoSize = False
-        Caption = 'Dont discard the folder you just translated. Remember to import the translations back into your project.'
+        Caption = 'Don''t discard the folder you just translated. Remember to import the translations back into your project.'
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
@@ -10500,8 +10500,8 @@ object DialogLocalize: TDialogLocalize
           878D4001010101010101292C44777B85868A40383F3939363B3B282C33028288
           848B403A3A3A3A3A3A3A3A2C0202028C8902
         }
-        TabOrder = 0
         OnClick = BitBtn12Click
+        TabOrder = 0
       end
     end
   end

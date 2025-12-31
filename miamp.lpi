@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="134">
+    <Units Count="140">
       <Unit0>
         <Filename Value="miamp.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1015,6 +1015,46 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit133>
+      <Unit134>
+        <Filename Value="mos3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="OS3"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit134>
+      <Unit135>
+        <Filename Value="mscrsetwinemode.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="scrSetWineMode"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit135>
+      <Unit136>
+        <Filename Value="mdeletelayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DeleteLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit136>
+      <Unit137>
+        <Filename Value="msavelayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SaveLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit137>
+      <Unit138>
+        <Filename Value="mselectlayout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SelectLayout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="utahoe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uTahoe"/>
+      </Unit139>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

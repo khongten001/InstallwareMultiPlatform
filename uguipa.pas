@@ -25,6 +25,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
 
                       Future US, Inc.
                       L3Harris Technologies, Inc.
+                      Unisys Corporation
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -50,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-05-19
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -155,6 +156,7 @@ type
 
   TGuiPA = class(TForm)
     AppEx: TApplicationProperties;
+    Portable: TCheckBox;
     Image1: TImage;
     Label1: TLabel;
     Label2: TLabel;
@@ -452,7 +454,7 @@ var
   l: TList;
   i, j: Integer;
   lX, lY: TStringList;
-  s, sX, sY, SniffedProduct, SniffedCompany, SniffedShortcut: String;
+  s, sX, sY, sZ, SniffedProduct, SniffedCompany, SniffedShortcut: String;
   FileAddList, FileModList, FileAddListEx, FileRemoveList,
   ShortcutList: TStringList;
   sr: TScanRecord;
@@ -531,7 +533,7 @@ begin
     
     EmitAddCommand('Comment', '" _____ ______   ________"');
     EmitAddCommand('Comment', '"|\   _ \  _   \|\   __  \ PackageAware Multi Platform Captured Setup Project"');
-    EmitAddCommand('Comment', '"\ \  \\\__\ \  \ \  \|\  \ Copyright© 1996-2025 InstallAware Software"');
+    EmitAddCommand('Comment', '"\ \  \\\__\ \  \ \  \|\  \ Copyright© 1996-2026 InstallAware Software"');
     EmitAddCommand('Comment', '" \ \  \\|__| \  \ \   ____\ All rights reserved"');
     EmitAddCommand('Comment', '"  \ \  \    \ \  \ \  \___|"');
     EmitAddCommand('Comment', '"   \ \__\    \ \__\ \__\"');
@@ -738,18 +740,71 @@ begin
               sX := StringReplace(sX, PathDelim + PathDelim, PathDelim, [rfReplaceAll, rfIgnoreCase]); 
             if AnsiPos('*', FileAddList[i -1]) <> 0 then
             begin
-              EmitAddCommand('Install Files', PChar('"' + FileAddList[i -1] + '",' +
-                '"TRUE","' + sX + '","FALSE","FALSE","FALSE",' +
-                '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+              if Portable.Checked then
+              begin
+                
+                sZ := FileAddList[i -1];
+                
+                sZ := StringReplace(sZ, ':', '-', [rfReplaceAll, rfIgnoreCase]);
+                
+                sZ := StringReplace(sZ, PathDelim, '-', [rfReplaceAll, rfIgnoreCase]);
+                
+                sZ := StringReplace(sZ, '*.*', '_', [rfReplaceAll, rfIgnoreCase]);
+                sZ := StringReplace(sZ, '*', '_', [rfReplaceAll, rfIgnoreCase]);
+                
+                CloneFolder(StringReplace(StringReplace(FileAddList[i -1], '*.*',
+                  '', [rfReplaceAll, rfIgnoreCase]), '*', '', [rfReplaceAll, rfIgnoreCase]),
+                  AssertDir(ExtractFilePath(ProjectFile)) + 'payload' + PathDelim + sZ);
+                
+                EmitAddCommand('Install Files', PChar('"' +
+                  '#PROJDIR#/payload/'
+                  + StringReplace(sZ, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '/' + ExtractFileName(FileAddList[i -1]) + '",' +
+                  '"TRUE","'
+                  + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",' +
+                  '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+              end
+              else
+                EmitAddCommand('Install Files', PChar('"'
+                  + StringReplace(FileAddList[i -1], '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '",' +  '"TRUE","'
+                  + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",' +
+                  '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
             end
             else
-            begin
             {$IFNDEF WINDOWS}
             
             if fpReadLink(FileAddList[i -1]) = '' then
             {$ENDIF}
-                EmitAddCommand('Install Files', PChar('"' + FileAddList[i -1] + '",' +
-                  '"FALSE","' + sX + '","FALSE","FALSE","FALSE",' +
+            begin
+              if Portable.Checked then
+              begin
+                
+                sZ := FileAddList[i -1];
+                
+                sZ := StringReplace(sZ, ':', '-', [rfReplaceAll, rfIgnoreCase]);
+                
+                sZ := AssertDir(StringReplace(DeAssertDir(ExtractFilePath(sZ)), PathDelim, '-',
+                  [rfReplaceAll, rfIgnoreCase])) + ExtractFileName(FileAddList[i -1]);
+                ForceDirectories(AssertDir(ExtractFilePath(ProjectFile))
+                  + 'payload' + PathDelim + AssertDir(ExtractFilePath(sZ)));
+                FileCopyFile(FileAddList[i -1], AssertDir(ExtractFilePath(ProjectFile))
+                  + 'payload' + PathDelim + sZ, false);
+                EmitAddCommand('Install Files', PChar('"#PROJDIR#/payload/'
+                  + StringReplace(sZ, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '",' + '"FALSE","' +
+                  StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",'
+                  +  '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+              end
+              else
+                EmitAddCommand('Install Files', PChar('"' +
+                  StringReplace(FileAddList[i -1], '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '",' + '"FALSE","'
+                  + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",' +
                   '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
             end;
           end
@@ -759,13 +814,14 @@ begin
             if lX <> nil then
             begin
               EmitAddCommand('Create Shortcut', PChar('"' +
-                Reparse(lX[0]) + '","' +
+                StringReplace(Reparse(lX[0]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
                 {$IFDEF WINDOWS}ExtractFileNameOnly(FileAddList[i -1]){$ELSE}lX[6]{$ENDIF} + '","' +
-                DeAssertDir(ExtractFilePath(FileAddListEx[i -1])) + '","' +
+                StringReplace(DeAssertDir(ExtractFilePath(FileAddListEx[i -1])),
+                  PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
                 lX[1] + '","' +
                 lX[3] + '","' +
-                Reparse(lX[2]) + '","' +
-                Reparse(lX[4]) + '","' +
+                StringReplace(Reparse(lX[2]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
+                StringReplace(Reparse(lX[4]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
                 lX[5] + '","0"'
                 ));
               lX.Free;
@@ -838,9 +894,36 @@ begin
             sX := StringReplace(sX, PathDelim + PathDelim, PathDelim, [rfReplaceAll, rfIgnoreCase]); 
           if AnsiPos('*', s2) <> 0 then
           begin
-            EmitAddCommand('Install Files', PChar('"' + s2 + '",' +
-              '"TRUE","' + sX + '","FALSE","FALSE","FALSE",' +
-              '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+            if Portable.Checked then
+            begin
+              
+              sZ := s2;
+              
+              sZ := StringReplace(sZ, ':', '-', [rfReplaceAll, rfIgnoreCase]);
+              
+              sZ := StringReplace(sZ, PathDelim, '-', [rfReplaceAll, rfIgnoreCase]);
+              
+              sZ := StringReplace(sZ, '*.*', '_', [rfReplaceAll, rfIgnoreCase]);
+              sZ := StringReplace(sZ, '*', '_', [rfReplaceAll, rfIgnoreCase]);
+              
+              CloneFolder(StringReplace(StringReplace(s2, '*.*', '', [rfReplaceAll, rfIgnoreCase]),
+                '*', '', [rfReplaceAll, rfIgnoreCase]),
+                AssertDir(ExtractFilePath(ProjectFile)) + 'payload' + PathDelim + sZ);
+              
+              EmitAddCommand('Install Files', PChar('"' + '#PROJDIR#/payload/'
+                + StringReplace(sZ, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                + '/' + ExtractFileName(s2) + '",' + '"TRUE","'
+                + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                + '","FALSE","FALSE","FALSE",' +
+                '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+            end
+            else
+              EmitAddCommand('Install Files', PChar('"'
+                + StringReplace(s2, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                + '",' + '"TRUE","'
+                + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                + '","FALSE","FALSE","FALSE",' +
+                '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
           end
           else
           begin
@@ -848,9 +931,35 @@ begin
             
             if fpReadLink(s2) = '' then
             {$ENDIF}
-              EmitAddCommand('Install Files', PChar('"' + s2 + '",' +
-                '"FALSE","' + sX + '","FALSE","FALSE","FALSE",' +
-                '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+            begin
+              if Portable.Checked then
+              begin
+                
+                sZ := s2;
+                
+                sZ := StringReplace(sZ, ':', '-', [rfReplaceAll, rfIgnoreCase]);
+                
+                sZ := AssertDir(StringReplace(DeAssertDir(ExtractFilePath(sZ)), PathDelim, '-',
+                  [rfReplaceAll, rfIgnoreCase])) + ExtractFileName(s2);
+                ForceDirectories(AssertDir(ExtractFilePath(ProjectFile))
+                  + 'payload' + PathDelim + AssertDir(ExtractFilePath(sZ)));
+                FileCopyFile(s2, AssertDir(ExtractFilePath(ProjectFile))
+                  + 'payload' + PathDelim + sZ, false);
+                EmitAddCommand('Install Files', PChar('"#PROJDIR#/payload/'
+                  + StringReplace(sZ, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '",' + '"FALSE","'
+                  + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",'
+                  + '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+              end
+              else
+                EmitAddCommand('Install Files', PChar('"'
+                  + StringReplace(s2, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '",' + '"FALSE","'
+                  + StringReplace(sX, '\', '/', [rfReplaceAll, rfIgnoreCase])
+                  + '","FALSE","FALSE","FALSE",' +
+                  '"FALSE","FALSE","FALSE","' + s + '","FALSE","FALSE"'));
+            end;
           end;
         end
         else
@@ -859,13 +968,13 @@ begin
           if lX <> nil then
           begin
             EmitAddCommand('Create Shortcut', PChar('"' +
-              Reparse(lX[0]) + '","' +
+              StringReplace(Reparse(lX[0]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
               {$IFDEF WINDOWS}ExtractFileNameOnly(s2){$ELSE}lX[6]{$ENDIF} + '","' +
-              DeAssertDir(ExtractFilePath(s1)) + '","' +
+              StringReplace(DeAssertDir(ExtractFilePath(s1)), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
               lX[1] + '","' +
               lX[3] + '","' +
-              Reparse(lX[2]) + '","' +
-              Reparse(lX[4]) + '","' +
+              StringReplace(Reparse(lX[2]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
+              StringReplace(Reparse(lX[4]), PathDelim, '/', [rfReplaceAll, rfIgnorecase]) + '","' +
               lX[5] + '","0"'
               ));
             lX.Free;
@@ -916,10 +1025,13 @@ begin
     for i := 1 to FileRemoveList.Count do
       if AnsiPos('*', FileRemoveList[i -1]) <> 0 then
         EmitAddCommand('Remove Directory',
-          PChar('"' + AssertDir(ExtractFilePath(FileRemoveList[i -1]))) + '"')
+          PChar('"' +
+            StringReplace(AssertDir(ExtractFilePath(FileRemoveList[i -1])),
+            PathDelim, '/', [rfReplaceAll, rfIgnoreCase]) + '"'))
       else
         EmitAddCommand('Delete Files', PChar('"' +
-          DeAssertDir(ExtractFilePath(Reparse(FileRemoveList[i -1]))) + '","' +
+          StringReplace(DeAssertDir(ExtractFilePath(Reparse(FileRemoveList[i -1]))),
+            PathDelim, '/', [rfReplaceAll, rfIgnoreCase]) + '","' +
           ExtractFileName(Reparse(FileRemoveList[i -1])) + '","' +
           'TRUE","FALSE"'));
     EmitAddCommand('Code Folding Region', '"FALSE",""');
