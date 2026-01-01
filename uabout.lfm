@@ -39,7 +39,7 @@ object About: TAbout
     Height = 12
     Top = 112
     Width = 317
-    Caption = 'Copyright© 1996-2025 InstallAware Software. All rights reserved.'
+    Caption = 'Copyright© 1996-2026 InstallAware Software. All rights reserved.'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clMedGray
     Font.Height = -10
@@ -52,7 +52,7 @@ object About: TAbout
     Height = 16
     Top = 48
     Width = 121
-    Caption = 'Version 2025 (2.64)'
+    Caption = 'Version 2026 (2.66)'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clMedGray
     Font.Height = -13

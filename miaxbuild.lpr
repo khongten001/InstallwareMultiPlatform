@@ -26,7 +26,6 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       Future US, Inc.
                       L3Harris Technologies, Inc.
                       Unisys Corporation
-                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -52,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-27
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -217,7 +216,7 @@ begin
   WriteLn('|\   _ \  _   \|\   __  \ InstallAware Multi Platform Compiler (Point Reyes)');
   {$ENDIF}
   {$ENDIF}
-  WriteLn('\ \  \\\__\ \  \ \  \|\  \ Copyright(C) 1996-2025 InstallAware Software.');
+  WriteLn('\ \  \\\__\ \  \ \  \|\  \ Copyright(C) 1996-2026 InstallAware Software.');
   WriteLn(' \ \  \\|__| \  \ \   ____\ All rights reserved.');
   WriteLn('  \ \  \    \ \  \ \  \___|');
   WriteLn('   \ \__\    \ \__\ \__\');
@@ -303,7 +302,7 @@ begin
   ConsoleBuildMirrorBuffer.Add('|\   _ \  _   \|\   __  \ InstallAware Multi Platform Compiler (Point Reyes)');
   {$ENDIF}
   {$ENDIF}
-  ConsoleBuildMirrorBuffer.Add('\ \  \\\__\ \  \ \  \|\  \ Copyright(C) 1996-2025 InstallAware Software.');
+  ConsoleBuildMirrorBuffer.Add('\ \  \\\__\ \  \ \  \|\  \ Copyright(C) 1996-2026 InstallAware Software.');
   ConsoleBuildMirrorBuffer.Add(' \ \  \\|__| \  \ \   ____\ All rights reserved.');
   ConsoleBuildMirrorBuffer.Add('  \ \  \    \ \  \ \  \___|');
   ConsoleBuildMirrorBuffer.Add('   \ \__\    \ \__\ \__\');

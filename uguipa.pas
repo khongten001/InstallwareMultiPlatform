@@ -26,7 +26,6 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       Future US, Inc.
                       L3Harris Technologies, Inc.
                       Unisys Corporation
-                      Veradigm LLC
                       Wolters Kluwer N.V.
 
                       This includes any individuals, organizations, or
@@ -52,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-10-27
+Change Date:          2029-12-31
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -534,7 +533,7 @@ begin
     
     EmitAddCommand('Comment', '" _____ ______   ________"');
     EmitAddCommand('Comment', '"|\   _ \  _   \|\   __  \ PackageAware Multi Platform Captured Setup Project"');
-    EmitAddCommand('Comment', '"\ \  \\\__\ \  \ \  \|\  \ Copyright© 1996-2025 InstallAware Software"');
+    EmitAddCommand('Comment', '"\ \  \\\__\ \  \ \  \|\  \ Copyright© 1996-2026 InstallAware Software"');
     EmitAddCommand('Comment', '" \ \  \\|__| \  \ \   ____\ All rights reserved"');
     EmitAddCommand('Comment', '"  \ \  \    \ \  \ \  \___|"');
     EmitAddCommand('Comment', '"   \ \__\    \ \__\ \__\"');
