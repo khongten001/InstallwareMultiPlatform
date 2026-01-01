@@ -5,8 +5,8 @@ Parameters
 
 Licensor:             InstallAware Software
 
-Licensed Work:        InstallAware (Multi Platform) 2025
-                      The Licensed Work is (C) 1996-2025 InstallAware Software
+Licensed Work:        InstallAware (Multi Platform) 2026
+                      The Licensed Work is (C) 1996-2026 InstallAware Software
 
 Additional Use Grant: You may make use of the Licensed Work, provided that
                       you may not use the Licensed Work at a Sanctioned Entity.
