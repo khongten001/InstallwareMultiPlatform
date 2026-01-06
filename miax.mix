@@ -1,10 +1,10 @@
-/Users/c/Developer/miamp/iamp/iamp.mprx
+/Users/c/Documents/xtractor/xtractor.mprx
 Debug
 0
-9
+246
 47
-1261
-676
+1024
+537
 "Courier New", 11, [], [clWindowText]
 "Courier New", 11, [Italic], [clGreen]
 "Courier New", 11, [], [clBlack]
@@ -17,7 +17,7 @@ Debug
 "Courier New", 11, [], [clBtnShadow]
 211
 Design
-Visual
+Code
 TRUE
 1
 TRUE

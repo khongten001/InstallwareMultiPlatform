@@ -51,7 +51,7 @@ Additional Use Grant: You may make use of the Licensed Work, provided that
                       public update to the Licensed Work under this License
                       as documented in this Additional Use Grant parameter.
 
-Change Date:          2029-12-31
+Change Date:          2030-01-05
 
 Change License:       GNU Affero General Public License version 3 (AGPLv3)
 
@@ -6272,7 +6272,7 @@ begin
     {$ENDIF}
     SureSetVariable('SUPPORTDIR', CachedSupportDir, 'Initialization'); 
     SureSetVariable('MSIFILE', MSIFile, 'Initialization'); 
-    SureSetVariable('IAX_VERSION', '2.66', 'Initialization'); 
+    SureSetVariable('IAX_VERSION', '2.68', 'Initialization'); 
     
     AllowMissHeader := True;
     
@@ -15075,7 +15075,7 @@ begin
   
   FreeMem(p);
   
-  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.66');
+  EnsureOverriddenConditional(Conditionals, 'IAXVER', '2.68');
   SaveCompilerVariables(Conditionals); 
   
   BackTypes := TStringList.Create;
@@ -15341,7 +15341,8 @@ begin
     FindCloseUTF8(sr);
   
   b := false;
-  i := FindFirstUTF8(PChar(ParentPath + {$IFDEF WINDOWS}'*.*'{$ELSE}'*'{$ENDIF}),
+  
+  i := FindFirstUTF8(PChar(ParentPath + FileSpec),
     {$IFNDEF WINDOWS}faSymLink or {$ENDIF}faAnyFile or faDirectory, sr);
   repeat
     if i = 0 then

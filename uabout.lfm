@@ -52,7 +52,7 @@ object About: TAbout
     Height = 16
     Top = 48
     Width = 121
-    Caption = 'Version 2026 (2.66)'
+    Caption = 'Version 2026 (2.68)'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clMedGray
     Font.Height = -13
